@@ -1,0 +1,355 @@
+package net
+
+import mu.KLogging
+import tools.OpcodeProperties
+
+enum class SendPacketOpcode {
+    LOGIN_STATUS, // 0x00
+    GUEST_ID_LOGIN,
+    ACCOUNT_INFO,
+    SERVERSTATUS,
+    GENDER_DONE,
+    CONFIRM_EULA_RESULT,
+    CHECK_PINCODE,
+    UPDATE_PINCODE,
+
+    VIEW_ALL_CHAR,
+    SELECT_CHARACTER_BY_VAC,
+    PIGMI_REWARD,
+    SERVERLIST, // 0x02
+    CHARLIST, // 0x03
+    SERVER_IP,
+    CHAR_NAME_RESPONSE,
+    ADD_NEW_CHAR_ENTRY,
+    DELETE_CHAR_RESPONSE,
+    CHANGE_CHANNEL,
+    //0x0F = 2차비번 설정성공
+    PING, // 0x0a
+    KOREAN_INTERNET_CAFE_SHIT,
+    CHANNEL_SELECTED,
+    HACKSHIELD_REQUEST,
+    RELOG_RESPONSE,
+    CHECK_CRC_RESULT,
+    LAST_CONNECTED_WORLD,
+    RECOMMENDED_WORLD_MESSAGE,
+    CHECK_SPW_RESULT,
+    CS_USE,
+
+    /*CWvsContext::OnPacket*/
+    INVENTORY_OPERATION,
+    INVENTORY_GROW,
+    STAT_CHANGED,
+    GIVE_BUFF,
+    CANCEL_BUFF,
+    FORCED_STAT_SET,
+    FORCED_STAT_RESET,
+    UPDATE_SKILLS,
+    SKILL_USE_RESULT,
+    FAME_RESPONSE,
+    SHOW_STATUS_INFO,
+    OPEN_FULL_CLIENT_DOWNLOAD_LINK,
+    MEMO_RESULT,
+    MAP_TRANSFER_RESULT,
+    ANTI_MACRO_RESULT,
+    CLAIM_RESULT,
+    CLAIM_AVAILABLE_TIME,
+    CLAIM_STATUS_CHANGED,
+    SET_TAMING_MOB_INFO,
+    QUEST_CLEAR,
+    ENTRUSTED_SHOP_CHECK_RESULT,
+    SKILL_LEARN_ITEM_RESULT,
+    GATHER_ITEM_RESULT,
+    SORT_ITEM_RESULT,
+    SUE_CHARACTER_RESULT,
+    TRADE_MONEY_LIMIT,
+    SET_GENDER,
+    GUILD_BBS_PACKET,
+    CHAR_INFO,
+    PARTY_OPERATION,
+    BUDDYLIST,
+    GUILD_OPERATION,
+    SPAWN_PORTAL,
+    SERVERMESSAGE,
+    INCUBATOR_RESULT,
+    SHOP_SCANNER_RESULT,
+    SHOP_LINK_RESULT,
+
+    MARRIAGE_REQUEST,
+    MARRIAGE_RESULT,
+    WEDDING_GIFT_RESULT,
+    NOTIFY_MARRIED_PARTNER_MAP_TRANSFER,
+
+    CASH_PET_FOOD_RESULT,
+    SET_WEEK_EVENT_MESSAGE,
+    SET_POTION_DISCOUNT_RATE,
+
+    BRIDLE_MOB_CATCH_FAIL,
+    IMITATED_NPC_RESULT,
+    IMITATED_NPC_DATA,
+    LIMITED_NPC_DISABLE_INFO,
+    MONSTER_BOOK_SET_CARD,
+    MONSTER_BOOK_SET_COVER,
+    HOUR_CHANGED,
+    MINIMAP_ON_OFF,
+    CONSULT_AUTHKEY_UPDATE,
+    CLASS_COMPETITION_AUTHKEY_UPDATE,
+    WEB_BOARD_AUTHKEY_UPDATE,
+    SESSION_VALUE,
+    PARTY_VALUE,
+    FIELD_SET_VARIABLE,
+    BONUS_EXP_CHANGED,//pendant of spirit etc (guess, not sure about the opcode in v83)
+
+    FAMILY_CHART_RESULT,
+    FAMILY_INFO_RESULT,
+    FAMILY_RESULT,
+    FAMILY_JOIN_REQUEST,
+    FAMILY_JOIN_REQUEST_RESULT,
+    FAMILY_JOIN_ACCEPTED,
+    FAMILY_PRIVILEGE_LIST,
+    FAMILY_FAMOUS_POINT_INC_RESULT,
+    FAMILY_NOTIFY_LOGIN_OR_LOGOUT, //? is logged in. LOLWUT
+    FAMILY_SET_PRIVILEGE,
+    FAMILY_SUMMON_REQUEST,
+
+    NOTIFY_LEVELUP,
+    NOTIFY_MARRIAGE,
+    NOTIFY_JOB_CHANGE,
+    //SET_BUY_EQUIP_EXT(0x6C),//lol?
+    M_TV_USE_RES, //It's not blank, It's a popup nibs
+    AVATAR_MEGAPHONE_RESULT,//bot useless..
+    SET_AVATAR_MEGAPHONE,
+    CLEAR_AVATAR_MEGAPHONE,
+    CANCEL_NAME_CHANGE_RESULT,
+    CANCEL_TRANSFER_WORLD_RESULT,
+    DESTROY_SHOP_RESULT,
+    FAKE_GM_NOTICE,
+    SUCCESS_IN_USE_GACHAPON_BOX,
+    NEW_YEAR_CARD_RES,
+    RANDOM_MORPH_RES,
+    CANCEL_NAME_CHANGE_BY_OTHER,
+    SET_BUY_EQUIP_EXT,
+    SCRIPT_PROGRESS_MESSAGE,
+    DATA_CRC_CHECK_FAILED,
+    MACRO_SYS_DATA_INIT,
+
+    /*CStage::OnPacket*/
+    SET_FIELD,
+    SET_ITC,
+    SET_CASH_SHOP,
+
+    /*CField::OnPacket*/
+    SET_BACK_EFFECT,
+    SET_MAP_OBJECT_VISIBLE,
+    CLEAR_BACK_EFFECT,
+    BLOCKED_MAP,
+    BLOCKED_SERVER,
+    FORCED_MAP_EQUIP,
+    MULTICHAT,
+    WHISPER,
+    SPOUSE_CHAT,
+    SUMMON_ITEM_INAVAILABLE,
+
+    FIELD_EFFECT,
+    FIELD_OBSTACLE_ONOFF,
+    FIELD_OBSTACLE_ONOFF_STATUS,
+    FIELD_OBSTACLE_ALL_RESET,
+    BLOW_WEATHER,
+    PLAY_JUKEBOX,
+
+    ADMIN_RESULT,
+    OX_QUIZ,
+    GMEVENT_INSTRUCTIONS,
+    CLOCK,
+    CONTI_MOVE,
+    CONTI_STATE,
+    SET_QUEST_CLEAR,
+    SET_QUEST_TIME,
+    WARN_MESSAGE,
+    SET_OBJECT_STATE,
+    STOP_CLOCK,
+    ARIANT_ARENA_SHOW_RESULT,
+    PYRAMID_GAUGE,
+    PYRAMID_SCORE,
+    SPAWN_PLAYER,
+    REMOVE_PLAYER_FROM_MAP,
+    CHATTEXT,
+    CHALKBOARD,
+    UPDATE_CHAR_BOX,
+    SHOW_CONSUME_EFFECT,
+    SHOW_SCROLL_EFFECT,
+
+    SPAWN_PET,
+    MOVE_PET,
+    PET_CHAT,
+    PET_NAMECHANGE,
+    PET_SHOW,
+    PET_COMMAND,
+
+    SPAWN_SPECIAL_MAPOBJECT,
+    REMOVE_SPECIAL_MAPOBJECT,
+    MOVE_SUMMON,
+    SUMMON_ATTACK,
+    DAMAGE_SUMMON,
+    SUMMON_SKILL,
+    MOVE_PLAYER,
+    CLOSE_RANGE_ATTACK,
+    RANGED_ATTACK,
+    MAGIC_ATTACK,
+    ENERGY_ATTACK,
+    SKILL_EFFECT,
+    CANCEL_SKILL_EFFECT,
+    DAMAGE_PLAYER,
+    FACIAL_EXPRESSION,
+    SHOW_ITEM_EFFECT,
+    SHOW_CHAIR,
+    UPDATE_CHAR_LOOK,
+    SHOW_FOREIGN_EFFECT,
+    GIVE_FOREIGN_BUFF,
+    CANCEL_FOREIGN_BUFF,
+    UPDATE_PARTYMEMBER_HP,
+    CANCEL_CHAIR,
+    SHOW_ITEM_GAIN_INCHAT,
+    DOJO_WARP_UP,
+    LUCKSACK_PASS,
+    LUCKSACK_FAIL,
+    MESO_BAG_MESSAGE,
+    UPDATE_QUEST_INFO,
+    PLAYER_HINT,
+    KOREAN_EVENT,
+    OPEN_UI,
+    LOCK_UI,
+    DISABLE_UI,
+    SPAWN_GUIDE,
+    TALK_GUIDE,
+    SHOW_COMBO,
+    COOLDOWN,
+    SPAWN_MONSTER,
+    KILL_MONSTER,
+    SPAWN_MONSTER_CONTROL,
+    MOVE_MONSTER,
+    MOVE_MONSTER_RESPONSE,
+    APPLY_MONSTER_STATUS,
+    CANCEL_MONSTER_STATUS,
+    RESET_MONSTER_ANIMATION,//LOL? o.o
+    //Something with mob, but can't figure out00
+    DAMAGE_MONSTER,
+    ARIANT_THING,
+    SHOW_MONSTER_HP,
+    SHOW_DRAGGED,//CATCH
+    CATCH_MONSTER,
+    SHOW_MAGNET,
+    SPAWN_NPC,
+    REMOVE_NPC,
+    SPAWN_NPC_REQUEST_CONTROLLER,
+    NPC_ACTION,
+    SPAWN_HIRED_MERCHANT,
+    DESTROY_HIRED_MERCHANT,
+    UPDATE_HIRED_MERCHANT,
+    DROP_ITEM_FROM_MAPOBJECT,
+    REMOVE_ITEM_FROM_MAP,
+    KITE_MESSAGE,
+    KITE,
+
+    SPAWN_MIST,
+    REMOVE_MIST,
+    SPAWN_DOOR,
+    REMOVE_DOOR,
+    REACTOR_HIT,
+    REACTOR_SPAWN,
+    REACTOR_DESTROY,
+    SNOWBALL_STATE,
+    HIT_SNOWBALL,
+    SNOWBALL_MESSAGE,
+    LEFT_KNOCK_BACK,
+    COCONUT_HIT,
+    COCONUT_SCORE,
+    GUILD_BOSS_HEALER_MOVE,
+    GUILD_BOSS_PULLEY_STATE_CHANGE,
+
+    MONSTER_CARNIVAL_START,
+    MONSTER_CARNIVAL_OBTAINED_CP,
+    MONSTER_CARNIVAL_PARTY_CP,
+    MONSTER_CARNIVAL_SUMMON,
+    MONSTER_CARNIVAL_MESSAGE,
+    MONSTER_CARNIVAL_DIED,
+    MONSTER_CARNIVAL_LEAVE,
+
+    ARIANT_ARENA_USER_SCORE,
+    SHEEP_RANCH_INFO,
+    SHEEP_RANCH_CLOTHES,
+    ARIANT_SCORE,
+    HORNTAIL_CAVE,
+    ZAKUM_SHRINE,
+    NPC_TALK,
+    OPEN_NPC_SHOP, // 0xE6
+    CONFIRM_SHOP_TRANSACTION,
+    ADMIN_SHOP_MESSAGE,
+    ADMIN_SHOP,
+    STORAGE,
+    FREDRICK_MESSAGE,
+    FREDRICK,
+    RPS_GAME,
+    MESSENGER,
+    PLAYER_INTERACTION,
+
+    TOURNAMENT,
+    TOURNAMENT_MATCH_TABLE,
+    TOURNAMENT_SET_PRIZE,
+    TOURNAMENT_UEW,
+    TOURNAMENT_CHARACTERS,
+
+    WEDDING_PROGRESS,
+    WEDDING_CEREMONY_END,
+
+    PARCEL,
+
+    CHARGE_PARAM_RESULT,
+    QUERY_CASH_RESULT,
+    CASHSHOP_OPERATION,
+
+    KEYMAP,
+    AUTO_HP_POT,
+    AUTO_MP_POT,
+    SEND_TV,
+    REMOVE_TV,
+    ENABLE_TV,
+    MTS_OPERATION2,
+    MTS_OPERATION,
+    VICIOUS_HAMMER;
+
+    var value = -2
+
+    companion object : KLogging() {
+        private var loaded = false
+
+        init { loadOpcode() }
+
+        fun loadOpcode() {
+            if (!loaded) {
+                try {
+                    val prop = OpcodeProperties("sendops.properties")
+                    //val storage = IniFileProcess(File("Opcodes.ini"))
+                    values().forEach {
+                        val code = prop.getString(it.name)?.toInt() ?: -2
+                        //log("Loading Send packet opcode - ${it.value}", "SendPacketOpcode")
+                        if (code == -2) {
+                            logger.debug { "${it.name} is not loaded correctly." }
+                        } else {
+                            logger.trace { "$it - $code is loaded correctly." }
+                            it.value = code
+                        }
+                    }
+                } catch (e: Exception) {
+                    logger.error(e) { "Error caused when trying to load sendops.properties." }
+                } finally {
+                    loaded = true
+                }
+            }
+        }
+
+        fun reloadOpcode() {
+            loaded = false
+            loadOpcode()
+        }
+    }
+}

@@ -1,0 +1,62 @@
+{
+  "host": "127.0.0.1",
+  "bindHost": "0.0.0.0",
+  "bindPort": 8484,
+  "enableGMServer": true,
+  "wzPath": "wz/",
+  "printSendPacket": true,
+  "printReceivePacket": true,
+  "modifiedClient": true,
+  "autoRegister": true,
+  "hashType": {
+    "hashType": "pbkdf2",
+    "shaType": "sha512",
+    "iterationCount": 65535,
+    "keyLength": 256
+  },
+  "database": {
+    "type": "mssql",
+    "host": "database.local",
+    "username": "perry",
+    "password": "perry1234",
+    "database": "perry",
+    "port": 1433,
+    "createTableAtStart": true
+  },
+  "worlds": [
+    {
+      "flag": 0,
+      "serverMessage": "Fun server",
+      "eventMessage": "100/10/10",
+      "recommended": false,
+      "channelCount": 2,
+      "rates": {
+        "exp": 100,
+        "meso": 10,
+        "drop": 10,
+        "bossDrop": 1
+      }
+    },
+    {
+      "flag": 1,
+      "eventMessage": "Event message",
+      "recommended": false,
+      "channelCount": 2,
+      "rates": {
+        "exp": 1,
+        "meso": 1,
+        "drop": 1,
+        "bossDrop": 1
+      }
+    }
+  ],
+  "webApi": {
+    "enable": false,
+    "port": 9090
+  },
+  "logging": {
+    "directory": "./logs",
+    "loggingLevel": "info",
+    "maxDaysToKeep": 30
+  }
+}

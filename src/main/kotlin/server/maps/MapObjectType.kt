@@ -1,0 +1,5 @@
+package server.maps
+
+enum class MapObjectType {
+    NPC, MONSTER, ITEM, PLAYER, DOOR, SUMMON, SHOP, MINI_GAME, MIST, REACTOR, HIRED_MERCHANT, PLAYER_NPC
+}

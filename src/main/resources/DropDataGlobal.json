@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "continent": 0,
+    "dropType": 4,
+    "itemId": 4000047,
+    "minimumQuantity": 1,
+    "maximumQuantity": 1,
+    "questId": 0,
+    "chance": 16000,
+    "comments": "마우스"
+  },
+  {
+    "id": 3,
+    "continent": 0,
+    "dropType": 4,
+    "itemId": 4030012,
+    "minimumQuantity": 1,
+    "maximumQuantity": 1,
+    "questId": 0,
+    "chance": 50000,
+    "comments": "몬스터 카드"
+  },
+  {
+    "id": 4,
+    "continent": 0,
+    "dropType": 0,
+    "itemId": 4001126,
+    "minimumQuantity": 1,
+    "maximumQuantity": 2,
+    "questId": 0,
+    "chance": 400000,
+    "comments": "단풍잎"
+  }
+]

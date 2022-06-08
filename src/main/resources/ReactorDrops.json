@@ -1,0 +1,5840 @@
+[
+  {
+    "reactorDropId": 126,
+    "reactorId": 1022002,
+    "itemId": 4001340,
+    "chance": 1,
+    "questId": 28167
+  },
+  {
+    "reactorDropId": 127,
+    "reactorId": 1202000,
+    "itemId": 4001366,
+    "chance": 1,
+    "questId": 28194
+  },
+  {
+    "reactorDropId": 128,
+    "reactorId": 1202003,
+    "itemId": 4001346,
+    "chance": 1,
+    "questId": 28225
+  },
+  {
+    "reactorDropId": 129,
+    "reactorId": 1202004,
+    "itemId": 4001346,
+    "chance": 1,
+    "questId": 28225
+  },
+  {
+    "reactorDropId": 130,
+    "reactorId": 1032000,
+    "itemId": 4032362,
+    "chance": 1,
+    "questId": 28252
+  },
+  {
+    "reactorDropId": 131,
+    "reactorId": 1032000,
+    "itemId": 4032363,
+    "chance": 1,
+    "questId": 28252
+  },
+  {
+    "reactorDropId": 132,
+    "reactorId": 1202004,
+    "itemId": 4032494,
+    "chance": 1,
+    "questId": 28255
+  },
+  {
+    "reactorDropId": 1,
+    "reactorId": 2000,
+    "itemId": 4031161,
+    "chance": 1,
+    "questId": 1008
+  },
+  {
+    "reactorDropId": 2,
+    "reactorId": 2000,
+    "itemId": 4031162,
+    "chance": 1,
+    "questId": 1008
+  },
+  {
+    "reactorDropId": 3,
+    "reactorId": 2000,
+    "itemId": 2010009,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 4,
+    "reactorId": 2000,
+    "itemId": 2010000,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 5,
+    "reactorId": 2000,
+    "itemId": 2000000,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 6,
+    "reactorId": 2000,
+    "itemId": 2000001,
+    "chance": 7,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 7,
+    "reactorId": 2000,
+    "itemId": 2000002,
+    "chance": 10,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 8,
+    "reactorId": 2000,
+    "itemId": 2000003,
+    "chance": 15,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 9,
+    "reactorId": 1012000,
+    "itemId": 2000000,
+    "chance": 6,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 10,
+    "reactorId": 1012000,
+    "itemId": 4000003,
+    "chance": 6,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 11,
+    "reactorId": 1012000,
+    "itemId": 4031150,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 12,
+    "reactorId": 1072000,
+    "itemId": 4031165,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 13,
+    "reactorId": 1102000,
+    "itemId": 4000136,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 14,
+    "reactorId": 1102001,
+    "itemId": 4000136,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 15,
+    "reactorId": 1102002,
+    "itemId": 4000136,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 16,
+    "reactorId": 2002000,
+    "itemId": 2000002,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 17,
+    "reactorId": 2002000,
+    "itemId": 2000001,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 18,
+    "reactorId": 2002000,
+    "itemId": 4031198,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 19,
+    "reactorId": 2112000,
+    "itemId": 2000004,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 20,
+    "reactorId": 2112001,
+    "itemId": 2020001,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 21,
+    "reactorId": 2112004,
+    "itemId": 4001016,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 22,
+    "reactorId": 2112005,
+    "itemId": 4001015,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 23,
+    "reactorId": 2112003,
+    "itemId": 2000005,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 24,
+    "reactorId": 2112007,
+    "itemId": 2022001,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 25,
+    "reactorId": 2112008,
+    "itemId": 2000004,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 26,
+    "reactorId": 2112009,
+    "itemId": 2020001,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 27,
+    "reactorId": 2112010,
+    "itemId": 2000005,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 28,
+    "reactorId": 2112011,
+    "itemId": 4001016,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 29,
+    "reactorId": 2112012,
+    "itemId": 4001015,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 30,
+    "reactorId": 2112014,
+    "itemId": 4001018,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 31,
+    "reactorId": 2112016,
+    "itemId": 4001113,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 32,
+    "reactorId": 2112017,
+    "itemId": 4001114,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 33,
+    "reactorId": 2202000,
+    "itemId": 4031094,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 34,
+    "reactorId": 2212000,
+    "itemId": 4031142,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 35,
+    "reactorId": 2212000,
+    "itemId": 2000002,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 36,
+    "reactorId": 2212001,
+    "itemId": 2000002,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 37,
+    "reactorId": 2212002,
+    "itemId": 2000002,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 38,
+    "reactorId": 2212001,
+    "itemId": 4031141,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 39,
+    "reactorId": 2212002,
+    "itemId": 4031143,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 40,
+    "reactorId": 2212003,
+    "itemId": 4031107,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 41,
+    "reactorId": 2212004,
+    "itemId": 4031116,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 42,
+    "reactorId": 2212004,
+    "itemId": 2000001,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 43,
+    "reactorId": 2212005,
+    "itemId": 4031136,
+    "chance": 8,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 44,
+    "reactorId": 2222000,
+    "itemId": 4031231,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 45,
+    "reactorId": 2222000,
+    "itemId": 4031258,
+    "chance": 2,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 46,
+    "reactorId": 2222000,
+    "itemId": 2000002,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 47,
+    "reactorId": 2302000,
+    "itemId": 2000001,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 48,
+    "reactorId": 2302000,
+    "itemId": 2022040,
+    "chance": 6,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 49,
+    "reactorId": 2302000,
+    "itemId": 4031274,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 50,
+    "reactorId": 2302000,
+    "itemId": 4031275,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 51,
+    "reactorId": 2302000,
+    "itemId": 4031276,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 52,
+    "reactorId": 2302000,
+    "itemId": 4031277,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 53,
+    "reactorId": 2302000,
+    "itemId": 4031278,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 54,
+    "reactorId": 2302001,
+    "itemId": 2000002,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 55,
+    "reactorId": 2302001,
+    "itemId": 2022040,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 56,
+    "reactorId": 2302002,
+    "itemId": 2000001,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 57,
+    "reactorId": 2302002,
+    "itemId": 2022040,
+    "chance": 8,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 58,
+    "reactorId": 2302003,
+    "itemId": 4161017,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 59,
+    "reactorId": 2302005,
+    "itemId": 4031508,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 60,
+    "reactorId": 2502000,
+    "itemId": 2022116,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 61,
+    "reactorId": 2052001,
+    "itemId": 2022116,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 62,
+    "reactorId": 9202000,
+    "itemId": 1032033,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 63,
+    "reactorId": 9202009,
+    "itemId": 1032033,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 64,
+    "reactorId": 2202001,
+    "itemId": 4031092,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 65,
+    "reactorId": 9202001,
+    "itemId": 4001025,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 66,
+    "reactorId": 9202002,
+    "itemId": 4001037,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 67,
+    "reactorId": 9202003,
+    "itemId": 4001029,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 68,
+    "reactorId": 9202004,
+    "itemId": 4001030,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 69,
+    "reactorId": 9202005,
+    "itemId": 4001031,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 70,
+    "reactorId": 9202006,
+    "itemId": 4001032,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 71,
+    "reactorId": 9202007,
+    "itemId": 4001033,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 72,
+    "reactorId": 9202008,
+    "itemId": 4001034,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 73,
+    "reactorId": 9202012,
+    "itemId": 2020014,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 74,
+    "reactorId": 9202012,
+    "itemId": 2020015,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 75,
+    "reactorId": 9202012,
+    "itemId": 2001001,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 76,
+    "reactorId": 9202012,
+    "itemId": 2000004,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 77,
+    "reactorId": 9202012,
+    "itemId": 2000005,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 78,
+    "reactorId": 9202012,
+    "itemId": 2000001,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 79,
+    "reactorId": 9202012,
+    "itemId": 2000002,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 80,
+    "reactorId": 9202012,
+    "itemId": 2000006,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 81,
+    "reactorId": 9202012,
+    "itemId": 2001002,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 82,
+    "reactorId": 9202012,
+    "itemId": 2040504,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 83,
+    "reactorId": 9202012,
+    "itemId": 2040501,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 84,
+    "reactorId": 9202012,
+    "itemId": 2040513,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 85,
+    "reactorId": 9202012,
+    "itemId": 2040516,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 86,
+    "reactorId": 9202012,
+    "itemId": 2041007,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 87,
+    "reactorId": 9202012,
+    "itemId": 2041010,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 88,
+    "reactorId": 9202012,
+    "itemId": 2041004,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 89,
+    "reactorId": 9202012,
+    "itemId": 2041001,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 90,
+    "reactorId": 9202012,
+    "itemId": 2041019,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 91,
+    "reactorId": 9202012,
+    "itemId": 2041022,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 92,
+    "reactorId": 9202012,
+    "itemId": 2041013,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 93,
+    "reactorId": 9202012,
+    "itemId": 2041016,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 94,
+    "reactorId": 9202012,
+    "itemId": 2040301,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 95,
+    "reactorId": 9202012,
+    "itemId": 2040704,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 96,
+    "reactorId": 9202012,
+    "itemId": 2040707,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 97,
+    "reactorId": 9202012,
+    "itemId": 2040701,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 98,
+    "reactorId": 9202012,
+    "itemId": 2040804,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 99,
+    "reactorId": 9202012,
+    "itemId": 2040801,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 100,
+    "reactorId": 9202012,
+    "itemId": 2040004,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 101,
+    "reactorId": 9202012,
+    "itemId": 2040001,
+    "chance": 40,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 102,
+    "reactorId": 9202012,
+    "itemId": 2290009,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 103,
+    "reactorId": 9202012,
+    "itemId": 2290031,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 104,
+    "reactorId": 9202012,
+    "itemId": 2290039,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 105,
+    "reactorId": 9202012,
+    "itemId": 2290033,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 106,
+    "reactorId": 9202012,
+    "itemId": 2290045,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 107,
+    "reactorId": 9202012,
+    "itemId": 2290081,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 108,
+    "reactorId": 9202012,
+    "itemId": 2290083,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 109,
+    "reactorId": 9202012,
+    "itemId": 2290087,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 110,
+    "reactorId": 9202012,
+    "itemId": 2290060,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 111,
+    "reactorId": 9202012,
+    "itemId": 2290073,
+    "chance": 60,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 112,
+    "reactorId": 9202012,
+    "itemId": 2100000,
+    "chance": 250,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 113,
+    "reactorId": 2612004,
+    "itemId": 4031703,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 114,
+    "reactorId": 1302000,
+    "itemId": 2010000,
+    "chance": 30,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 115,
+    "reactorId": 1302000,
+    "itemId": 2010009,
+    "chance": 30,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 116,
+    "reactorId": 1302000,
+    "itemId": 4032268,
+    "chance": 1,
+    "questId": 20013
+  },
+  {
+    "reactorDropId": 117,
+    "reactorId": 1302000,
+    "itemId": 4032267,
+    "chance": 1,
+    "questId": 20013
+  },
+  {
+    "reactorDropId": 118,
+    "reactorId": 1052000,
+    "itemId": 4031471,
+    "chance": 1,
+    "questId": 6153
+  },
+  {
+    "reactorDropId": 119,
+    "reactorId": 2112015,
+    "itemId": 2280000,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 120,
+    "reactorId": 1022000,
+    "itemId": 4031452,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 121,
+    "reactorId": 2202003,
+    "itemId": 4001022,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 122,
+    "reactorId": 2201001,
+    "itemId": 4001022,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 123,
+    "reactorId": 1402000,
+    "itemId": 4032309,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 124,
+    "reactorId": 1402000,
+    "itemId": 4032310,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 125,
+    "reactorId": 1022001,
+    "itemId": 4032319,
+    "chance": 7,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 133,
+    "reactorId": 1052001,
+    "itemId": 3010126,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 134,
+    "reactorId": 1052002,
+    "itemId": 3010126,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 135,
+    "reactorId": 1052001,
+    "itemId": 1072375,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 136,
+    "reactorId": 1052001,
+    "itemId": 1072376,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 137,
+    "reactorId": 1052001,
+    "itemId": 2049100,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 138,
+    "reactorId": 1052001,
+    "itemId": 2049001,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 139,
+    "reactorId": 1052001,
+    "itemId": 1382068,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 140,
+    "reactorId": 1052001,
+    "itemId": 1402062,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 141,
+    "reactorId": 1052001,
+    "itemId": 1442078,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 142,
+    "reactorId": 1052001,
+    "itemId": 1452071,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 143,
+    "reactorId": 1052001,
+    "itemId": 1472086,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 144,
+    "reactorId": 1052001,
+    "itemId": 1492037,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 145,
+    "reactorId": 1052001,
+    "itemId": 2040728,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 146,
+    "reactorId": 1052001,
+    "itemId": 2040729,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 147,
+    "reactorId": 1052001,
+    "itemId": 2040730,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 148,
+    "reactorId": 1052001,
+    "itemId": 2040731,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 149,
+    "reactorId": 1052001,
+    "itemId": 2040732,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 150,
+    "reactorId": 1052001,
+    "itemId": 2040733,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 151,
+    "reactorId": 1052001,
+    "itemId": 2040734,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 152,
+    "reactorId": 1052001,
+    "itemId": 2040735,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 153,
+    "reactorId": 1052001,
+    "itemId": 2040736,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 154,
+    "reactorId": 1052001,
+    "itemId": 2040737,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 155,
+    "reactorId": 1052001,
+    "itemId": 2040738,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 156,
+    "reactorId": 1052001,
+    "itemId": 2040739,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 157,
+    "reactorId": 1052001,
+    "itemId": 1302112,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 158,
+    "reactorId": 1052001,
+    "itemId": 1302113,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 159,
+    "reactorId": 1052001,
+    "itemId": 1312042,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 160,
+    "reactorId": 1052001,
+    "itemId": 1312043,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 161,
+    "reactorId": 1052001,
+    "itemId": 1322068,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 162,
+    "reactorId": 1052001,
+    "itemId": 1322069,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 163,
+    "reactorId": 1052001,
+    "itemId": 1332084,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 164,
+    "reactorId": 1052001,
+    "itemId": 1332085,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 165,
+    "reactorId": 1052001,
+    "itemId": 1332086,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 166,
+    "reactorId": 1052001,
+    "itemId": 1332087,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 167,
+    "reactorId": 1052001,
+    "itemId": 1342019,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 168,
+    "reactorId": 1052001,
+    "itemId": 1342020,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 169,
+    "reactorId": 1052001,
+    "itemId": 1372050,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 170,
+    "reactorId": 1052001,
+    "itemId": 1372051,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 171,
+    "reactorId": 1052001,
+    "itemId": 1382066,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 172,
+    "reactorId": 1052001,
+    "itemId": 1382067,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 173,
+    "reactorId": 1052001,
+    "itemId": 1402056,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 174,
+    "reactorId": 1052001,
+    "itemId": 1402057,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 175,
+    "reactorId": 1052001,
+    "itemId": 1402058,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 176,
+    "reactorId": 1052001,
+    "itemId": 1402059,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 177,
+    "reactorId": 1052001,
+    "itemId": 1412038,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 178,
+    "reactorId": 1052001,
+    "itemId": 1412039,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 179,
+    "reactorId": 1052001,
+    "itemId": 1422042,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 180,
+    "reactorId": 1052001,
+    "itemId": 1422043,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 181,
+    "reactorId": 1052002,
+    "itemId": 1072375,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 182,
+    "reactorId": 1052002,
+    "itemId": 1072376,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 183,
+    "reactorId": 1052002,
+    "itemId": 2040728,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 184,
+    "reactorId": 1052002,
+    "itemId": 2040729,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 185,
+    "reactorId": 1052002,
+    "itemId": 2040730,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 186,
+    "reactorId": 1052002,
+    "itemId": 2040731,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 187,
+    "reactorId": 1052002,
+    "itemId": 2040732,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 188,
+    "reactorId": 1052002,
+    "itemId": 2040733,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 189,
+    "reactorId": 1052002,
+    "itemId": 2040734,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 190,
+    "reactorId": 1052002,
+    "itemId": 2040735,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 191,
+    "reactorId": 1052002,
+    "itemId": 2040736,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 192,
+    "reactorId": 1052002,
+    "itemId": 2040737,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 193,
+    "reactorId": 1052002,
+    "itemId": 2040738,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 194,
+    "reactorId": 1052002,
+    "itemId": 2040739,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 195,
+    "reactorId": 1052002,
+    "itemId": 1302112,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 196,
+    "reactorId": 1052002,
+    "itemId": 1302113,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 197,
+    "reactorId": 1052002,
+    "itemId": 1312042,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 198,
+    "reactorId": 1052002,
+    "itemId": 1312043,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 199,
+    "reactorId": 1052002,
+    "itemId": 1322068,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 200,
+    "reactorId": 1052002,
+    "itemId": 1322069,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 201,
+    "reactorId": 1052002,
+    "itemId": 1332084,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 202,
+    "reactorId": 1052002,
+    "itemId": 1332085,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 203,
+    "reactorId": 1052002,
+    "itemId": 1332086,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 204,
+    "reactorId": 1052002,
+    "itemId": 1332087,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 205,
+    "reactorId": 1052002,
+    "itemId": 1342019,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 206,
+    "reactorId": 1052002,
+    "itemId": 1342020,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 207,
+    "reactorId": 1052002,
+    "itemId": 1372050,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 208,
+    "reactorId": 1052002,
+    "itemId": 1372051,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 209,
+    "reactorId": 1052002,
+    "itemId": 1382066,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 210,
+    "reactorId": 1052002,
+    "itemId": 1382067,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 211,
+    "reactorId": 1052002,
+    "itemId": 1402056,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 212,
+    "reactorId": 1052002,
+    "itemId": 1402057,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 213,
+    "reactorId": 1052002,
+    "itemId": 1402058,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 214,
+    "reactorId": 1052002,
+    "itemId": 1402059,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 215,
+    "reactorId": 1052002,
+    "itemId": 1412038,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 216,
+    "reactorId": 1052002,
+    "itemId": 1412039,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 217,
+    "reactorId": 1052002,
+    "itemId": 1422042,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 218,
+    "reactorId": 1052002,
+    "itemId": 1422043,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 219,
+    "reactorId": 1002008,
+    "itemId": 4032452,
+    "chance": 1,
+    "questId": 22502
+  },
+  {
+    "reactorDropId": 220,
+    "reactorId": 6102001,
+    "itemId": 4001260,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 221,
+    "reactorId": 6102002,
+    "itemId": 1472051,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 222,
+    "reactorId": 6102002,
+    "itemId": 1442056,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 223,
+    "reactorId": 6102002,
+    "itemId": 1072228,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 224,
+    "reactorId": 6102002,
+    "itemId": 1322062,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 225,
+    "reactorId": 6102002,
+    "itemId": 1092061,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 226,
+    "reactorId": 6102002,
+    "itemId": 1452019,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 227,
+    "reactorId": 6102002,
+    "itemId": 1492012,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 228,
+    "reactorId": 6102002,
+    "itemId": 1092050,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 229,
+    "reactorId": 6102002,
+    "itemId": 1402005,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 230,
+    "reactorId": 6102002,
+    "itemId": 1052131,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 231,
+    "reactorId": 6102002,
+    "itemId": 1462016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 232,
+    "reactorId": 6102002,
+    "itemId": 1332051,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 233,
+    "reactorId": 6102002,
+    "itemId": 1102043,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 234,
+    "reactorId": 6102002,
+    "itemId": 1102206,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 235,
+    "reactorId": 6102002,
+    "itemId": 1102260,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 236,
+    "reactorId": 6102002,
+    "itemId": 3010010,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 237,
+    "reactorId": 6102002,
+    "itemId": 4032015,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 238,
+    "reactorId": 6102002,
+    "itemId": 4032016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 239,
+    "reactorId": 6102002,
+    "itemId": 4032017,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 240,
+    "reactorId": 6102002,
+    "itemId": 4161018,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 241,
+    "reactorId": 6102002,
+    "itemId": 4161021,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 242,
+    "reactorId": 6102002,
+    "itemId": 4001107,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 243,
+    "reactorId": 6102002,
+    "itemId": 4161015,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 244,
+    "reactorId": 6102002,
+    "itemId": 4161016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 245,
+    "reactorId": 6102002,
+    "itemId": 2022121,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 246,
+    "reactorId": 6102002,
+    "itemId": 2044803,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 247,
+    "reactorId": 6102002,
+    "itemId": 2044903,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 248,
+    "reactorId": 6102002,
+    "itemId": 2290071,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 249,
+    "reactorId": 6102002,
+    "itemId": 2290027,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 250,
+    "reactorId": 6102002,
+    "itemId": 2290111,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 251,
+    "reactorId": 6102002,
+    "itemId": 2290118,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 252,
+    "reactorId": 6102002,
+    "itemId": 2290103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 253,
+    "reactorId": 6102002,
+    "itemId": 2290047,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 254,
+    "reactorId": 6102002,
+    "itemId": 2290091,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 255,
+    "reactorId": 6102002,
+    "itemId": 2290053,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 256,
+    "reactorId": 6102002,
+    "itemId": 2290061,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 257,
+    "reactorId": 6102002,
+    "itemId": 2290011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 258,
+    "reactorId": 6102002,
+    "itemId": 2290089,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 259,
+    "reactorId": 6102003,
+    "itemId": 1472051,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 260,
+    "reactorId": 6102003,
+    "itemId": 1442056,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 261,
+    "reactorId": 6102003,
+    "itemId": 1072228,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 262,
+    "reactorId": 6102003,
+    "itemId": 1322062,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 263,
+    "reactorId": 6102003,
+    "itemId": 1092061,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 264,
+    "reactorId": 6102003,
+    "itemId": 1452019,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 265,
+    "reactorId": 6102003,
+    "itemId": 1492012,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 266,
+    "reactorId": 6102003,
+    "itemId": 1092050,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 267,
+    "reactorId": 6102003,
+    "itemId": 1402005,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 268,
+    "reactorId": 6102003,
+    "itemId": 1052131,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 269,
+    "reactorId": 6102003,
+    "itemId": 1462016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 270,
+    "reactorId": 6102003,
+    "itemId": 1332051,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 271,
+    "reactorId": 6102003,
+    "itemId": 1102043,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 272,
+    "reactorId": 6102003,
+    "itemId": 1102206,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 273,
+    "reactorId": 6102003,
+    "itemId": 1102260,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 274,
+    "reactorId": 6102003,
+    "itemId": 3010010,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 275,
+    "reactorId": 6102003,
+    "itemId": 4032015,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 276,
+    "reactorId": 6102003,
+    "itemId": 4032016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 277,
+    "reactorId": 6102003,
+    "itemId": 4032017,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 278,
+    "reactorId": 6102003,
+    "itemId": 4161018,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 279,
+    "reactorId": 6102003,
+    "itemId": 4161021,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 280,
+    "reactorId": 6102003,
+    "itemId": 4001107,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 281,
+    "reactorId": 6102003,
+    "itemId": 4161015,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 282,
+    "reactorId": 6102003,
+    "itemId": 4161016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 283,
+    "reactorId": 6102003,
+    "itemId": 2022121,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 284,
+    "reactorId": 6102003,
+    "itemId": 2044803,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 285,
+    "reactorId": 6102003,
+    "itemId": 2044903,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 286,
+    "reactorId": 6102003,
+    "itemId": 2290071,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 287,
+    "reactorId": 6102003,
+    "itemId": 2290027,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 288,
+    "reactorId": 6102003,
+    "itemId": 2290111,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 289,
+    "reactorId": 6102003,
+    "itemId": 2290118,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 290,
+    "reactorId": 6102003,
+    "itemId": 2290103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 291,
+    "reactorId": 6102003,
+    "itemId": 2290047,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 292,
+    "reactorId": 6102003,
+    "itemId": 2290091,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 293,
+    "reactorId": 6102003,
+    "itemId": 2290053,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 294,
+    "reactorId": 6102003,
+    "itemId": 2290061,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 295,
+    "reactorId": 6102003,
+    "itemId": 2290011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 296,
+    "reactorId": 6102003,
+    "itemId": 2290089,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 297,
+    "reactorId": 6102004,
+    "itemId": 1472051,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 298,
+    "reactorId": 6102004,
+    "itemId": 1442056,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 299,
+    "reactorId": 6102004,
+    "itemId": 1072228,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 300,
+    "reactorId": 6102004,
+    "itemId": 1322062,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 301,
+    "reactorId": 6102004,
+    "itemId": 1092061,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 302,
+    "reactorId": 6102004,
+    "itemId": 1452019,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 303,
+    "reactorId": 6102004,
+    "itemId": 1492012,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 304,
+    "reactorId": 6102004,
+    "itemId": 1092050,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 305,
+    "reactorId": 6102004,
+    "itemId": 1402005,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 306,
+    "reactorId": 6102004,
+    "itemId": 1052131,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 307,
+    "reactorId": 6102004,
+    "itemId": 1462016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 308,
+    "reactorId": 6102004,
+    "itemId": 1332051,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 309,
+    "reactorId": 6102004,
+    "itemId": 1102043,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 310,
+    "reactorId": 6102004,
+    "itemId": 1102206,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 311,
+    "reactorId": 6102004,
+    "itemId": 1102260,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 312,
+    "reactorId": 6102004,
+    "itemId": 3010010,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 313,
+    "reactorId": 6102004,
+    "itemId": 4032015,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 314,
+    "reactorId": 6102004,
+    "itemId": 4032016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 315,
+    "reactorId": 6102004,
+    "itemId": 4032017,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 316,
+    "reactorId": 6102004,
+    "itemId": 4161018,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 317,
+    "reactorId": 6102004,
+    "itemId": 4161021,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 318,
+    "reactorId": 6102004,
+    "itemId": 4001107,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 319,
+    "reactorId": 6102004,
+    "itemId": 4161015,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 320,
+    "reactorId": 6102004,
+    "itemId": 4161016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 321,
+    "reactorId": 6102004,
+    "itemId": 2022121,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 322,
+    "reactorId": 6102004,
+    "itemId": 2044803,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 323,
+    "reactorId": 6102004,
+    "itemId": 2044903,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 324,
+    "reactorId": 6102004,
+    "itemId": 2290071,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 325,
+    "reactorId": 6102004,
+    "itemId": 2290027,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 326,
+    "reactorId": 6102004,
+    "itemId": 2290111,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 327,
+    "reactorId": 6102004,
+    "itemId": 2290118,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 328,
+    "reactorId": 6102004,
+    "itemId": 2290103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 329,
+    "reactorId": 6102004,
+    "itemId": 2290047,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 330,
+    "reactorId": 6102004,
+    "itemId": 2290091,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 331,
+    "reactorId": 6102004,
+    "itemId": 2290053,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 332,
+    "reactorId": 6102004,
+    "itemId": 2290061,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 333,
+    "reactorId": 6102004,
+    "itemId": 2290011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 334,
+    "reactorId": 6102004,
+    "itemId": 2290089,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 335,
+    "reactorId": 6102005,
+    "itemId": 1472051,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 336,
+    "reactorId": 6102005,
+    "itemId": 1442056,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 337,
+    "reactorId": 6102005,
+    "itemId": 1072228,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 338,
+    "reactorId": 6102005,
+    "itemId": 1322062,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 339,
+    "reactorId": 6102005,
+    "itemId": 1092061,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 340,
+    "reactorId": 6102005,
+    "itemId": 1452019,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 341,
+    "reactorId": 6102005,
+    "itemId": 1492012,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 342,
+    "reactorId": 6102005,
+    "itemId": 1092050,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 343,
+    "reactorId": 6102005,
+    "itemId": 1402005,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 344,
+    "reactorId": 6102005,
+    "itemId": 1052131,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 345,
+    "reactorId": 6102005,
+    "itemId": 1462016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 346,
+    "reactorId": 6102005,
+    "itemId": 1332051,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 347,
+    "reactorId": 6102005,
+    "itemId": 1102043,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 348,
+    "reactorId": 6102005,
+    "itemId": 1102206,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 349,
+    "reactorId": 6102005,
+    "itemId": 1102260,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 350,
+    "reactorId": 6102005,
+    "itemId": 3010010,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 351,
+    "reactorId": 6102005,
+    "itemId": 4032015,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 352,
+    "reactorId": 6102005,
+    "itemId": 4032016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 353,
+    "reactorId": 6102005,
+    "itemId": 4032017,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 354,
+    "reactorId": 6102005,
+    "itemId": 4161018,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 355,
+    "reactorId": 6102005,
+    "itemId": 4161021,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 356,
+    "reactorId": 6102005,
+    "itemId": 4001107,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 357,
+    "reactorId": 6102005,
+    "itemId": 4161015,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 358,
+    "reactorId": 6102005,
+    "itemId": 4161016,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 359,
+    "reactorId": 6102005,
+    "itemId": 2022121,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 360,
+    "reactorId": 6102005,
+    "itemId": 2044803,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 361,
+    "reactorId": 6102005,
+    "itemId": 2044903,
+    "chance": 25,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 362,
+    "reactorId": 6102005,
+    "itemId": 2290071,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 363,
+    "reactorId": 6102005,
+    "itemId": 2290027,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 364,
+    "reactorId": 6102005,
+    "itemId": 2290111,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 365,
+    "reactorId": 6102005,
+    "itemId": 2290118,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 366,
+    "reactorId": 6102005,
+    "itemId": 2290103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 367,
+    "reactorId": 6102005,
+    "itemId": 2290047,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 368,
+    "reactorId": 6102005,
+    "itemId": 2290091,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 369,
+    "reactorId": 6102005,
+    "itemId": 2290053,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 370,
+    "reactorId": 6102005,
+    "itemId": 2290061,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 371,
+    "reactorId": 6102005,
+    "itemId": 2290011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 372,
+    "reactorId": 6102005,
+    "itemId": 2290089,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 373,
+    "reactorId": 3002000,
+    "itemId": 4001162,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 374,
+    "reactorId": 3002001,
+    "itemId": 4001163,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 375,
+    "reactorId": 6702000,
+    "itemId": 4031595,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 376,
+    "reactorId": 6702003,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 377,
+    "reactorId": 6702003,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 378,
+    "reactorId": 6702003,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 379,
+    "reactorId": 6702003,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 380,
+    "reactorId": 6702003,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 381,
+    "reactorId": 6702003,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 382,
+    "reactorId": 6702003,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 383,
+    "reactorId": 6702003,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 384,
+    "reactorId": 6702003,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 385,
+    "reactorId": 6702003,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 386,
+    "reactorId": 6702003,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 387,
+    "reactorId": 6702003,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 388,
+    "reactorId": 6702003,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 389,
+    "reactorId": 6702003,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 390,
+    "reactorId": 6702003,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 391,
+    "reactorId": 6702003,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 392,
+    "reactorId": 6702003,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 393,
+    "reactorId": 6702003,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 394,
+    "reactorId": 6702003,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 395,
+    "reactorId": 6702003,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 396,
+    "reactorId": 6702003,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 397,
+    "reactorId": 6702003,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 398,
+    "reactorId": 6702003,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 399,
+    "reactorId": 6702003,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 400,
+    "reactorId": 6702003,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 401,
+    "reactorId": 6702003,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 402,
+    "reactorId": 6702003,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 403,
+    "reactorId": 6702003,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 404,
+    "reactorId": 6702003,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 405,
+    "reactorId": 6702003,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 406,
+    "reactorId": 6702003,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 407,
+    "reactorId": 6702003,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 408,
+    "reactorId": 6702004,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 409,
+    "reactorId": 6702004,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 410,
+    "reactorId": 6702004,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 411,
+    "reactorId": 6702004,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 412,
+    "reactorId": 6702004,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 413,
+    "reactorId": 6702004,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 414,
+    "reactorId": 6702004,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 415,
+    "reactorId": 6702004,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 416,
+    "reactorId": 6702004,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 417,
+    "reactorId": 6702004,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 418,
+    "reactorId": 6702004,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 419,
+    "reactorId": 6702004,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 420,
+    "reactorId": 6702004,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 421,
+    "reactorId": 6702004,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 422,
+    "reactorId": 6702004,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 423,
+    "reactorId": 6702004,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 424,
+    "reactorId": 6702004,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 425,
+    "reactorId": 6702004,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 426,
+    "reactorId": 6702004,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 427,
+    "reactorId": 6702004,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 428,
+    "reactorId": 6702004,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 429,
+    "reactorId": 6702004,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 430,
+    "reactorId": 6702004,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 431,
+    "reactorId": 6702004,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 432,
+    "reactorId": 6702004,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 433,
+    "reactorId": 6702004,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 434,
+    "reactorId": 6702004,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 435,
+    "reactorId": 6702004,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 436,
+    "reactorId": 6702004,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 437,
+    "reactorId": 6702004,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 438,
+    "reactorId": 6702004,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 439,
+    "reactorId": 6702004,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 440,
+    "reactorId": 6702005,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 441,
+    "reactorId": 6702005,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 442,
+    "reactorId": 6702005,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 443,
+    "reactorId": 6702005,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 444,
+    "reactorId": 6702005,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 445,
+    "reactorId": 6702005,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 446,
+    "reactorId": 6702005,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 447,
+    "reactorId": 6702005,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 448,
+    "reactorId": 6702005,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 449,
+    "reactorId": 6702005,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 450,
+    "reactorId": 6702005,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 451,
+    "reactorId": 6702005,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 452,
+    "reactorId": 6702005,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 453,
+    "reactorId": 6702005,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 454,
+    "reactorId": 6702005,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 455,
+    "reactorId": 6702005,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 456,
+    "reactorId": 6702005,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 457,
+    "reactorId": 6702005,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 458,
+    "reactorId": 6702005,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 459,
+    "reactorId": 6702005,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 460,
+    "reactorId": 6702005,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 461,
+    "reactorId": 6702005,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 462,
+    "reactorId": 6702005,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 463,
+    "reactorId": 6702005,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 464,
+    "reactorId": 6702005,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 465,
+    "reactorId": 6702005,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 466,
+    "reactorId": 6702005,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 467,
+    "reactorId": 6702005,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 468,
+    "reactorId": 6702005,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 469,
+    "reactorId": 6702005,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 470,
+    "reactorId": 6702005,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 471,
+    "reactorId": 6702005,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 472,
+    "reactorId": 6702006,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 473,
+    "reactorId": 6702006,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 474,
+    "reactorId": 6702006,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 475,
+    "reactorId": 6702006,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 476,
+    "reactorId": 6702006,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 477,
+    "reactorId": 6702006,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 478,
+    "reactorId": 6702006,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 479,
+    "reactorId": 6702006,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 480,
+    "reactorId": 6702006,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 481,
+    "reactorId": 6702006,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 482,
+    "reactorId": 6702006,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 483,
+    "reactorId": 6702006,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 484,
+    "reactorId": 6702006,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 485,
+    "reactorId": 6702006,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 486,
+    "reactorId": 6702006,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 487,
+    "reactorId": 6702006,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 488,
+    "reactorId": 6702006,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 489,
+    "reactorId": 6702006,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 490,
+    "reactorId": 6702006,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 491,
+    "reactorId": 6702006,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 492,
+    "reactorId": 6702006,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 493,
+    "reactorId": 6702006,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 494,
+    "reactorId": 6702006,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 495,
+    "reactorId": 6702006,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 496,
+    "reactorId": 6702006,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 497,
+    "reactorId": 6702006,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 498,
+    "reactorId": 6702006,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 499,
+    "reactorId": 6702006,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 500,
+    "reactorId": 6702006,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 501,
+    "reactorId": 6702006,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 502,
+    "reactorId": 6702006,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 503,
+    "reactorId": 6702006,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 504,
+    "reactorId": 6702007,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 505,
+    "reactorId": 6702007,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 506,
+    "reactorId": 6702007,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 507,
+    "reactorId": 6702007,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 508,
+    "reactorId": 6702007,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 509,
+    "reactorId": 6702007,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 510,
+    "reactorId": 6702007,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 511,
+    "reactorId": 6702007,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 512,
+    "reactorId": 6702007,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 513,
+    "reactorId": 6702007,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 514,
+    "reactorId": 6702007,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 515,
+    "reactorId": 6702007,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 516,
+    "reactorId": 6702007,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 517,
+    "reactorId": 6702007,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 518,
+    "reactorId": 6702007,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 519,
+    "reactorId": 6702007,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 520,
+    "reactorId": 6702007,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 521,
+    "reactorId": 6702007,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 522,
+    "reactorId": 6702007,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 523,
+    "reactorId": 6702007,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 524,
+    "reactorId": 6702007,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 525,
+    "reactorId": 6702007,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 526,
+    "reactorId": 6702007,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 527,
+    "reactorId": 6702007,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 528,
+    "reactorId": 6702007,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 529,
+    "reactorId": 6702007,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 530,
+    "reactorId": 6702007,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 531,
+    "reactorId": 6702007,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 532,
+    "reactorId": 6702007,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 533,
+    "reactorId": 6702007,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 534,
+    "reactorId": 6702007,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 535,
+    "reactorId": 6702007,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 536,
+    "reactorId": 6702008,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 537,
+    "reactorId": 6702008,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 538,
+    "reactorId": 6702008,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 539,
+    "reactorId": 6702008,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 540,
+    "reactorId": 6702008,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 541,
+    "reactorId": 6702008,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 542,
+    "reactorId": 6702008,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 543,
+    "reactorId": 6702008,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 544,
+    "reactorId": 6702008,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 545,
+    "reactorId": 6702008,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 546,
+    "reactorId": 6702008,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 547,
+    "reactorId": 6702008,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 548,
+    "reactorId": 6702008,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 549,
+    "reactorId": 6702008,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 550,
+    "reactorId": 6702008,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 551,
+    "reactorId": 6702008,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 552,
+    "reactorId": 6702008,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 553,
+    "reactorId": 6702008,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 554,
+    "reactorId": 6702008,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 555,
+    "reactorId": 6702008,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 556,
+    "reactorId": 6702008,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 557,
+    "reactorId": 6702008,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 558,
+    "reactorId": 6702008,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 559,
+    "reactorId": 6702008,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 560,
+    "reactorId": 6702008,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 561,
+    "reactorId": 6702008,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 562,
+    "reactorId": 6702008,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 563,
+    "reactorId": 6702008,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 564,
+    "reactorId": 6702008,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 565,
+    "reactorId": 6702008,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 566,
+    "reactorId": 6702008,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 567,
+    "reactorId": 6702008,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 568,
+    "reactorId": 6702009,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 569,
+    "reactorId": 6702009,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 570,
+    "reactorId": 6702009,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 571,
+    "reactorId": 6702009,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 572,
+    "reactorId": 6702009,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 573,
+    "reactorId": 6702009,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 574,
+    "reactorId": 6702009,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 575,
+    "reactorId": 6702009,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 576,
+    "reactorId": 6702009,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 577,
+    "reactorId": 6702009,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 578,
+    "reactorId": 6702009,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 579,
+    "reactorId": 6702009,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 580,
+    "reactorId": 6702009,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 581,
+    "reactorId": 6702009,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 582,
+    "reactorId": 6702009,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 583,
+    "reactorId": 6702009,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 584,
+    "reactorId": 6702009,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 585,
+    "reactorId": 6702009,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 586,
+    "reactorId": 6702009,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 587,
+    "reactorId": 6702009,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 588,
+    "reactorId": 6702009,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 589,
+    "reactorId": 6702009,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 590,
+    "reactorId": 6702009,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 591,
+    "reactorId": 6702009,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 592,
+    "reactorId": 6702009,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 593,
+    "reactorId": 6702009,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 594,
+    "reactorId": 6702009,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 595,
+    "reactorId": 6702009,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 596,
+    "reactorId": 6702009,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 597,
+    "reactorId": 6702009,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 598,
+    "reactorId": 6702009,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 599,
+    "reactorId": 6702009,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 600,
+    "reactorId": 6702010,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 601,
+    "reactorId": 6702010,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 602,
+    "reactorId": 6702010,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 603,
+    "reactorId": 6702010,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 604,
+    "reactorId": 6702010,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 605,
+    "reactorId": 6702010,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 606,
+    "reactorId": 6702010,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 607,
+    "reactorId": 6702010,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 608,
+    "reactorId": 6702010,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 609,
+    "reactorId": 6702010,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 610,
+    "reactorId": 6702010,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 611,
+    "reactorId": 6702010,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 612,
+    "reactorId": 6702010,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 613,
+    "reactorId": 6702010,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 614,
+    "reactorId": 6702010,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 615,
+    "reactorId": 6702010,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 616,
+    "reactorId": 6702010,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 617,
+    "reactorId": 6702010,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 618,
+    "reactorId": 6702010,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 619,
+    "reactorId": 6702010,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 620,
+    "reactorId": 6702010,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 621,
+    "reactorId": 6702010,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 622,
+    "reactorId": 6702010,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 623,
+    "reactorId": 6702010,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 624,
+    "reactorId": 6702010,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 625,
+    "reactorId": 6702010,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 626,
+    "reactorId": 6702010,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 627,
+    "reactorId": 6702010,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 628,
+    "reactorId": 6702010,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 629,
+    "reactorId": 6702010,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 630,
+    "reactorId": 6702010,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 631,
+    "reactorId": 6702010,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 632,
+    "reactorId": 6702011,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 633,
+    "reactorId": 6702011,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 634,
+    "reactorId": 6702011,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 635,
+    "reactorId": 6702011,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 636,
+    "reactorId": 6702011,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 637,
+    "reactorId": 6702011,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 638,
+    "reactorId": 6702011,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 639,
+    "reactorId": 6702011,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 640,
+    "reactorId": 6702011,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 641,
+    "reactorId": 6702011,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 642,
+    "reactorId": 6702011,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 643,
+    "reactorId": 6702011,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 644,
+    "reactorId": 6702011,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 645,
+    "reactorId": 6702011,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 646,
+    "reactorId": 6702011,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 647,
+    "reactorId": 6702011,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 648,
+    "reactorId": 6702011,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 649,
+    "reactorId": 6702011,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 650,
+    "reactorId": 6702011,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 651,
+    "reactorId": 6702011,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 652,
+    "reactorId": 6702011,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 653,
+    "reactorId": 6702011,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 654,
+    "reactorId": 6702011,
+    "itemId": 2022179,
+    "chance": 4,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 655,
+    "reactorId": 6702011,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 656,
+    "reactorId": 6702011,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 657,
+    "reactorId": 6702011,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 658,
+    "reactorId": 6702011,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 659,
+    "reactorId": 6702011,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 660,
+    "reactorId": 6702011,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 661,
+    "reactorId": 6702011,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 662,
+    "reactorId": 6702011,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 663,
+    "reactorId": 6702011,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 664,
+    "reactorId": 6702012,
+    "itemId": 1032043,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 665,
+    "reactorId": 6702012,
+    "itemId": 1032044,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 666,
+    "reactorId": 6702012,
+    "itemId": 1032045,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 667,
+    "reactorId": 6702012,
+    "itemId": 1102099,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 668,
+    "reactorId": 6702012,
+    "itemId": 1102100,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 669,
+    "reactorId": 6702012,
+    "itemId": 1102101,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 670,
+    "reactorId": 6702012,
+    "itemId": 1102102,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 671,
+    "reactorId": 6702012,
+    "itemId": 1102103,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 672,
+    "reactorId": 6702012,
+    "itemId": 1102104,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 673,
+    "reactorId": 6702012,
+    "itemId": 1102105,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 674,
+    "reactorId": 6702012,
+    "itemId": 1102106,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 675,
+    "reactorId": 6702012,
+    "itemId": 4021007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 676,
+    "reactorId": 6702012,
+    "itemId": 4021008,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 677,
+    "reactorId": 6702012,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 678,
+    "reactorId": 6702012,
+    "itemId": 4020007,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 679,
+    "reactorId": 6702012,
+    "itemId": 4011006,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 680,
+    "reactorId": 6702012,
+    "itemId": 2040759,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 681,
+    "reactorId": 6702012,
+    "itemId": 2041035,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 682,
+    "reactorId": 6702012,
+    "itemId": 2041037,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 683,
+    "reactorId": 6702012,
+    "itemId": 2041039,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 684,
+    "reactorId": 6702012,
+    "itemId": 2041041,
+    "chance": 20,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 685,
+    "reactorId": 6702012,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 686,
+    "reactorId": 6702012,
+    "itemId": 2022179,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 687,
+    "reactorId": 6702012,
+    "itemId": 2022180,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 688,
+    "reactorId": 6702012,
+    "itemId": 2022181,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 689,
+    "reactorId": 6702012,
+    "itemId": 2022182,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 690,
+    "reactorId": 6702012,
+    "itemId": 2000005,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 691,
+    "reactorId": 6702012,
+    "itemId": 2020010,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 692,
+    "reactorId": 6702012,
+    "itemId": 2020013,
+    "chance": 5,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 693,
+    "reactorId": 6702012,
+    "itemId": 3010011,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 694,
+    "reactorId": 6702012,
+    "itemId": 3012000,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 695,
+    "reactorId": 6702012,
+    "itemId": 3012005,
+    "chance": 100,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 696,
+    "reactorId": 1032000,
+    "itemId": 4001363,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 697,
+    "reactorId": 1032000,
+    "itemId": 4001362,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 698,
+    "reactorId": 2512000,
+    "itemId": 2022131,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 699,
+    "reactorId": 2512000,
+    "itemId": 2022132,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 700,
+    "reactorId": 2612002,
+    "itemId": 4001134,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 701,
+    "reactorId": 2612001,
+    "itemId": 4001135,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 754,
+    "reactorId": 200002,
+    "itemId": 4010001,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 753,
+    "reactorId": 200001,
+    "itemId": 4020001,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 704,
+    "reactorId": 9102003,
+    "itemId": 4001095,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 705,
+    "reactorId": 9102003,
+    "itemId": 4001096,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 706,
+    "reactorId": 9102004,
+    "itemId": 4001096,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 707,
+    "reactorId": 9102004,
+    "itemId": 4001097,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 708,
+    "reactorId": 9102005,
+    "itemId": 4001097,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 709,
+    "reactorId": 9102005,
+    "itemId": 4001098,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 710,
+    "reactorId": 9102006,
+    "itemId": 4001098,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 711,
+    "reactorId": 9102006,
+    "itemId": 4001099,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 712,
+    "reactorId": 9102007,
+    "itemId": 4001099,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 713,
+    "reactorId": 9102007,
+    "itemId": 4001100,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 714,
+    "reactorId": 2002001,
+    "itemId": 4001063,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 715,
+    "reactorId": 2002002,
+    "itemId": 4001052,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 716,
+    "reactorId": 2002003,
+    "itemId": 4001055,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 717,
+    "reactorId": 2002004,
+    "itemId": 4001056,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 718,
+    "reactorId": 2002005,
+    "itemId": 4001057,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 719,
+    "reactorId": 2002006,
+    "itemId": 4001058,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 720,
+    "reactorId": 2002007,
+    "itemId": 4001059,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 721,
+    "reactorId": 2002008,
+    "itemId": 4001060,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 722,
+    "reactorId": 2002009,
+    "itemId": 4001061,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 723,
+    "reactorId": 2002010,
+    "itemId": 4001062,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 724,
+    "reactorId": 2002011,
+    "itemId": 4001046,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 725,
+    "reactorId": 2002012,
+    "itemId": 4001047,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 726,
+    "reactorId": 2002013,
+    "itemId": 4001049,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 727,
+    "reactorId": 2002017,
+    "itemId": 4001158,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 728,
+    "reactorId": 2002018,
+    "itemId": 4001158,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 729,
+    "reactorId": 3102000,
+    "itemId": 4000276,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 730,
+    "reactorId": 6102002,
+    "itemId": 1382060,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 731,
+    "reactorId": 6102003,
+    "itemId": 1382060,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 732,
+    "reactorId": 6102004,
+    "itemId": 1382060,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 733,
+    "reactorId": 6102005,
+    "itemId": 1382060,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 734,
+    "reactorId": 6102002,
+    "itemId": 1442068,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 735,
+    "reactorId": 6102003,
+    "itemId": 1442068,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 736,
+    "reactorId": 6102004,
+    "itemId": 1442068,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 737,
+    "reactorId": 6102005,
+    "itemId": 1442068,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 738,
+    "reactorId": 6102002,
+    "itemId": 1452060,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 739,
+    "reactorId": 6102003,
+    "itemId": 1452060,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 740,
+    "reactorId": 6102004,
+    "itemId": 1452060,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 741,
+    "reactorId": 6102005,
+    "itemId": 1452060,
+    "chance": 50,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 742,
+    "reactorId": 3102000,
+    "itemId": 2022712,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 743,
+    "reactorId": 2502002,
+    "itemId": 2022252,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 744,
+    "reactorId": 1202002,
+    "itemId": 4031843,
+    "chance": 1,
+    "questId": 2169
+  },
+  {
+    "reactorDropId": 752,
+    "reactorId": 200001,
+    "itemId": 4010005,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 751,
+    "reactorId": 200000,
+    "itemId": 4020004,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 750,
+    "reactorId": 200000,
+    "itemId": 4010004,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 749,
+    "reactorId": 9102002,
+    "itemId": 4001453,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 755,
+    "reactorId": 200002,
+    "itemId": 4020005,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 756,
+    "reactorId": 200003,
+    "itemId": 4010000,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 757,
+    "reactorId": 200003,
+    "itemId": 4010003,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 758,
+    "reactorId": 200004,
+    "itemId": 4004002,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 759,
+    "reactorId": 200004,
+    "itemId": 4010002,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 760,
+    "reactorId": 200004,
+    "itemId": 4020003,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 761,
+    "reactorId": 200005,
+    "itemId": 4010006,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 762,
+    "reactorId": 200005,
+    "itemId": 4020006,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 763,
+    "reactorId": 200006,
+    "itemId": 4020002,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 764,
+    "reactorId": 200006,
+    "itemId": 4020007,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 765,
+    "reactorId": 200007,
+    "itemId": 4004000,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 766,
+    "reactorId": 200007,
+    "itemId": 4020000,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 767,
+    "reactorId": 200008,
+    "itemId": 4004004,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 768,
+    "reactorId": 200008,
+    "itemId": 4020008,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 769,
+    "reactorId": 200009,
+    "itemId": 4004001,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 770,
+    "reactorId": 200009,
+    "itemId": 4004003,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 771,
+    "reactorId": 200009,
+    "itemId": 4010008,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 772,
+    "reactorId": 200010,
+    "itemId": 4010008,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 773,
+    "reactorId": 200000,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 774,
+    "reactorId": 200001,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 775,
+    "reactorId": 200002,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 776,
+    "reactorId": 200003,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 777,
+    "reactorId": 200004,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 778,
+    "reactorId": 200005,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 779,
+    "reactorId": 200006,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 780,
+    "reactorId": 200007,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 781,
+    "reactorId": 200008,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 782,
+    "reactorId": 200009,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 783,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 784,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 785,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 786,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 787,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 788,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 789,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 790,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 791,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 792,
+    "reactorId": 200011,
+    "itemId": 4010010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 793,
+    "reactorId": 100000,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 794,
+    "reactorId": 100001,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 795,
+    "reactorId": 100002,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 796,
+    "reactorId": 100003,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 797,
+    "reactorId": 100004,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 798,
+    "reactorId": 100005,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 799,
+    "reactorId": 100006,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 800,
+    "reactorId": 100007,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 801,
+    "reactorId": 100008,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 802,
+    "reactorId": 100009,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 803,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 804,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 805,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 806,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 807,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 808,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 809,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 810,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 811,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 812,
+    "reactorId": 100011,
+    "itemId": 4022023,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 813,
+    "reactorId": 100000,
+    "itemId": 4022000,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 814,
+    "reactorId": 100000,
+    "itemId": 4022001,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 815,
+    "reactorId": 100001,
+    "itemId": 4022002,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 816,
+    "reactorId": 100001,
+    "itemId": 4022003,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 817,
+    "reactorId": 100002,
+    "itemId": 4022004,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 818,
+    "reactorId": 100002,
+    "itemId": 4022005,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 819,
+    "reactorId": 100003,
+    "itemId": 4022006,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 820,
+    "reactorId": 100003,
+    "itemId": 4022007,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 821,
+    "reactorId": 100004,
+    "itemId": 4022008,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 822,
+    "reactorId": 100004,
+    "itemId": 4022009,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 823,
+    "reactorId": 100005,
+    "itemId": 4022010,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 824,
+    "reactorId": 100005,
+    "itemId": 4022011,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 825,
+    "reactorId": 100006,
+    "itemId": 4022012,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 826,
+    "reactorId": 100006,
+    "itemId": 4022013,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 827,
+    "reactorId": 100007,
+    "itemId": 4022014,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 828,
+    "reactorId": 100007,
+    "itemId": 4022015,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 829,
+    "reactorId": 100008,
+    "itemId": 4022016,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 830,
+    "reactorId": 100008,
+    "itemId": 4022017,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 831,
+    "reactorId": 100009,
+    "itemId": 4022018,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 832,
+    "reactorId": 100009,
+    "itemId": 4022019,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 833,
+    "reactorId": 100009,
+    "itemId": 4022020,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 834,
+    "reactorId": 100009,
+    "itemId": 4022021,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 835,
+    "reactorId": 100010,
+    "itemId": 4022022,
+    "chance": 1,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 836,
+    "reactorId": 1002009,
+    "itemId": 4031161,
+    "chance": 1,
+    "questId": 1008
+  },
+  {
+    "reactorDropId": 837,
+    "reactorId": 1002009,
+    "itemId": 4031162,
+    "chance": 1,
+    "questId": 1008
+  },
+  {
+    "reactorDropId": 838,
+    "reactorId": 1209001,
+    "itemId": 4032980,
+    "chance": 1,
+    "questId": 2565
+  },
+  {
+    "reactorDropId": 839,
+    "reactorId": 1052001,
+    "itemId": 1532022,
+    "chance": 3,
+    "questId": -1
+  },
+  {
+    "reactorDropId": 840,
+    "reactorId": 1052001,
+    "itemId": 1532023,
+    "chance": 3,
+    "questId": -1
+  }
+]
