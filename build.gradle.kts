@@ -23,7 +23,7 @@ repositories {
 val exposedVersion: String by project
 val ktorVersion = "1.6.7"
 dependencies {
-    implementation("io.netty:netty-all:4.1.75.Final")
+    implementation("io.netty:netty-all:4.1.77.Final")
     implementation("mysql", "mysql-connector-java", "8.0.25")
     implementation("org.graalvm.js", "js-scriptengine", "21.2.0")
     implementation("org.graalvm.js", "js", "21.2.0")
