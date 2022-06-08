@@ -57,7 +57,7 @@ $ ./gradlew DokkaHtml
  - [ ] Separation of Login-World-Channel servers (To make run separately)
  - [ ] More is coming...
 ## Download
- - Nightly (or SNAPSHOT) build download [here](https://nightly.link/andrewcell/Perry/workflows/gradle/master).
+ - Nightly (or SNAPSHOT) build download [here](https://nightly.link/andrewcell/Perry/workflows/gradle/main).
 ## Tested Environments
 #### JVM
  - AdoptOpenJDK 11 (OpenJ9)
