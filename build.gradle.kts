@@ -36,7 +36,7 @@ dependencies {
     implementation("com.microsoft.sqlserver", "mssql-jdbc", "9.2.1.jre11")
     implementation("org.postgresql:postgresql:42.3.3")
     implementation("org.xerial:sqlite-jdbc:3.36.0.3")
-    implementation("com.h2database:h2:2.1.210")
+    implementation("com.h2database:h2:2.1.212")
     implementation("com.beust", "klaxon", "5.5")
     implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.236-kotlin-1.5.30")
     implementation("ch.qos.logback:logback-classic:1.2.11")
