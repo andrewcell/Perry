@@ -2233,6 +2233,10 @@ class Character(
         }
     }
 
+    fun updateSingleStat(stat: CharacterStat, newVal: Int) {
+        announce(CharacterPacket.updatePlayerStats(listOf(Pair(stat, newVal)), itemReaction = false))
+    }
+
     fun updateSingleStat(stat: CharacterStat, newVal: Int, itemReaction: Boolean = false) {
         announce(CharacterPacket.updatePlayerStats(listOf(Pair(stat, newVal)), itemReaction))
     }
