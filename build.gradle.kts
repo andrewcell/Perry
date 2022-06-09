@@ -45,7 +45,7 @@ dependencies {
     implementation("io.ktor:ktor-server-auth:2.0.2")
     implementation("io.ktor:ktor-server-core-jvm:2.0.2")
     implementation("io.ktor:ktor-server-netty-jvm:2.0.1")
-    implementation("io.ktor:ktor-server-html-builder-jvm:2.0.1")
+    implementation("io.ktor:ktor-server-html-builder-jvm:2.0.2")
     implementation("io.ktor:ktor-server-sessions-jvm:2.0.1")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:2.0.1")
     dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.6.20")
