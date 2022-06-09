@@ -33,6 +33,7 @@ import kotlin.random.Random
 
 open class NPCConversationManager(c: Client, val npc: Int) : AbstractPlayerInteraction(c) {
     var getText = ""
+    var pendingDisposal = false
 
     private fun addRandomItem(id: Int) {
         addFromDrop(c, ItemInformationProvider.randomizeStats(getEquipById(id) as Equip), true)
@@ -298,6 +299,10 @@ open class NPCConversationManager(c: Client, val npc: Int) : AbstractPlayerInter
             // if (id == 925020100) it.dojoParty = true
             it.changeMap(getWarpMap(id), null)
         }
+    }
+
+    fun safeDispose() {
+        pendingDisposal = true
     }
 
     companion object : KLogging() {

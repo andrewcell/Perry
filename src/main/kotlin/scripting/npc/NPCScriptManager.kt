@@ -56,10 +56,14 @@ object NPCScriptManager : AbstractScriptManager(), KLoggable {
     fun action(c: Client, mode: Byte, type: Byte, selection: Int) {
         val iv = scripts[c]
         if (iv != null) {
+            val cm = getCM(c)
             try {
-                iv.invokeFunction("action", mode, type, selection)
+                if (cm?.pendingDisposal == true) {
+                    dispose(c)
+                } else {
+                    iv.invokeFunction("action", mode, type, selection)
+                }
             } catch (e: Exception) {
-                val cm = getCM(c)
                 if (cm != null) {
                     logger.error(e) { "Error caused in NPC action. ${cm.npc}" }
                     notice(c, cm.npc)
