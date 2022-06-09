@@ -135,6 +135,7 @@ object Server : Runnable, KLoggable {
                 "mssql" -> {
                     Database.connect(
                         "jdbc:sqlserver://$host:$port;databaseName=$database",
+                        driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver",
                         user = username,
                         password = password
                     )
