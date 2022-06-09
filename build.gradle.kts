@@ -49,7 +49,7 @@ dependencies {
     implementation("io.ktor:ktor-server-sessions-jvm:2.0.1")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:2.0.1")
     dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.6.20")
-    dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.6.20")
+    dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.6.21")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.21")
 }
 
