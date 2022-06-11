@@ -6,7 +6,7 @@ import net.SendPacketOpcode
 import net.server.channel.Channel
 import tools.HexTool
 import tools.PacketCreator
-import tools.data.output.PacketLittleEndianWriter
+import tools.PacketCreator.Companion.packetWriter
 import java.net.InetAddress
 
 class LoginPacket {
@@ -19,13 +19,12 @@ class LoginPacket {
          * @return The server IP packet.
          */
         fun getChannelChange(inetAddress: InetAddress, port: Int): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.CHANGE_CHANNEL.value)
-            lew.write(1)
-            val address = inetAddress.address
-            lew.write(address)
-            lew.writeShort(port)
-            return lew.getPacket()
+            return packetWriter {
+                opcode(SendPacketOpcode.CHANGE_CHANNEL)
+                byte(1)
+                byte(inetAddress.address)
+                short(port)
+            }
         }
 
         /**
@@ -33,11 +32,9 @@ class LoginPacket {
          *
          * @return The end of server list packet.
          */
-        fun getEndOfServerList(): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SERVERLIST.value)
-            lew.write(0xFF)
-            return lew.getPacket()
+        fun getEndOfServerList() = packetWriter {
+            opcode(SendPacketOpcode.SERVERLIST)
+            byte(0xFF)
         }
 
         /**
@@ -49,20 +46,20 @@ class LoginPacket {
          * @return
          */
         fun getHello(gameVersion: Short, sendIv: ByteArray, receiveIv: ByteArray): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            var ret = 0
-            ret = ret xor (gameVersion.toInt() and 0x7FFF)
-            ret = ret xor (0x01 shl 15)
-            ret = ret xor (ServerConstants.patchVersion.toInt() and 0xFF shl 16)
-            val version = ret.toString()
-            val packetSize = 13 + version.length
-            lew.writeShort(packetSize)
-            lew.writeShort(291) //KMS Static
-            lew.writeGameASCIIString(version)
-            lew.write(receiveIv)
-            lew.write(sendIv)
-            lew.write(1) // 1 = KMS, 2 = KMST, 7 = MSEA, 8 = GlobalMS, 5 = Test Server
-            return lew.getPacket()
+            return packetWriter {
+                var ret = 0
+                ret = ret xor (gameVersion.toInt() and 0x7FFF)
+                ret = ret xor (0x01 shl 15)
+                ret = ret xor (ServerConstants.patchVersion.toInt() and 0xFF shl 16)
+                val version = ret.toString()
+                val packetSize = 13 + version.length
+                short(packetSize)
+                short(291) // KMS Static
+                gameASCIIString(version)
+                byte(receiveIv)
+                byte(sendIv)
+                byte(1) // 1 = KMS, 2 = KMST, 7 = MSEA, 8 = GlobalMS, 5 = Test Server
+            }
         }
 
         /**
@@ -70,21 +67,19 @@ class LoginPacket {
          *
          * @return The PIN request packet.
          */
-        fun getAuthSuccess(c: Client): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.LOGIN_STATUS.value)
-            lew.write(0)
-            lew.writeInt(c.accountId)
-            lew.write(c.gender)
-            lew.writeBool(c.gmLevel > 0)
-            //lew.write(0);
-            lew.writeGameASCIIString("nxid") // NX ID
-            lew.writeInt(0) //v70
-            lew.writeShort(0) //value
-            lew.write(0) //a2
-            lew.write(HexTool.getByteArrayFromHexString("28 26 45 2A B2 9D 01")) //really create date v57
-            lew.writeInt(0) //??
-            return lew.getPacket()
+        fun getAuthSuccess(c: Client) = packetWriter {
+            opcode(SendPacketOpcode.LOGIN_STATUS)
+            byte(0)
+            int(c.accountId)
+            byte(c.gender)
+            bool(c.gmLevel > 0)
+            //lew.byte(0);
+            gameASCIIString("nxid") // NX ID
+            int(0) //v70
+            short(0) //value
+            byte(0) //a2
+            byte(HexTool.getByteArrayFromHexString("28 26 45 2A B2 9D 01")) //really create date v57
+            int(0) //??
         }
 
         /**
@@ -107,13 +102,11 @@ class LoginPacket {
          * @param reason The reason logging in failed.
          * @return The login failed packet.
          */
-        fun getLoginFailed(reason: Int): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.LOGIN_STATUS.value)
-            lew.write(reason)
-            lew.write(0)
-            lew.writeInt(0)
-            return lew.getPacket()
+        fun getLoginFailed(reason: Int) = packetWriter {
+            opcode(SendPacketOpcode.LOGIN_STATUS)
+            byte(reason)
+            byte(0)
+            int(0)
         }
 
         /**
@@ -138,22 +131,18 @@ class LoginPacket {
          * @param reason The reason logging in failed.
          * @return The login failed packet.
          */
-        fun getAfterLoginError(reason: Int): ByteArray { //same as above o.o
-            val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SELECT_CHARACTER_BY_VAC.value)
-            lew.writeShort(reason) //using other types then stated above = CRASH
-            return lew.getPacket()
+        fun getAfterLoginError(reason: Int) = packetWriter { //same as above o.o
+            opcode(SendPacketOpcode.SELECT_CHARACTER_BY_VAC)
+            short(reason) //using other types then stated above = CRASH
         }
 
-        fun getPermBan(reason: Byte): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.LOGIN_STATUS.value)
-            lew.write(2) // Account is banned
-            lew.write(0)
-            lew.writeInt(0)
-            lew.write(0)
-            lew.writeLong(PacketCreator.getTime(-1))
-            return lew.getPacket()
+        fun getPermBan(reason: Byte) = packetWriter {
+            opcode(SendPacketOpcode.LOGIN_STATUS)
+            byte(2) // Account is banned
+            byte(0)
+            int(0)
+            byte(0)
+            long(PacketCreator.getTime(-1))
         }
 
         /**
@@ -161,10 +150,8 @@ class LoginPacket {
          *
          * @return The packet.
          */
-        fun getPing(): ByteArray {
-            val plew = PacketLittleEndianWriter()
-            plew.write(SendPacketOpcode.PING.value)
-            return plew.getPacket()
+        fun getPing() = packetWriter {
+            byte(SendPacketOpcode.PING.value)
         }
 
         /**
@@ -175,16 +162,13 @@ class LoginPacket {
          * @param clientId The ID of the client.
          * @return The server IP packet.
          */
-        fun getServerIP(inetAddress: InetAddress, port: Int, clientId: Int): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SERVER_IP.value)
-            lew.writeShort(0)
-            val address = inetAddress.address
-            lew.write(address)
-            lew.writeShort(port)
-            lew.writeInt(clientId)
-            lew.skip(5)
-            return lew.getPacket()
+        fun getServerIP(inetAddress: InetAddress, port: Int, clientId: Int) = packetWriter {
+            opcode(SendPacketOpcode.SERVER_IP)
+            short(0)
+            byte(inetAddress.address)
+            short(port)
+            int(clientId)
+            skip(5)
         }
 
         /**
@@ -201,35 +185,31 @@ class LoginPacket {
             flag: Int,
             eventMessage: String,
             channelLoad: List<Channel>
-        ): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SERVERLIST.value)
-            lew.write(serverId)
-            lew.writeGameASCIIString(serverName)
-            lew.write(flag)
-            lew.writeGameASCIIString(eventMessage)
-            lew.writeShort(100)
-            lew.writeShort(100)
-            lew.write(channelLoad.size)
+        ) = packetWriter {
+            opcode(SendPacketOpcode.SERVERLIST)
+            byte(serverId)
+            gameASCIIString(serverName)
+            byte(flag)
+            gameASCIIString(eventMessage)
+            short(100)
+            short(100)
+            byte(channelLoad.size)
             for (ch in channelLoad) {
-                lew.writeGameASCIIString("${serverName}-${ch.channelId}")
-                lew.writeInt(ch.getConnectedClients() * 1000 / ServerConstants.channelLoad)
-                lew.write(1)
-                lew.writeShort(ch.channelId - 1)
+                gameASCIIString("${serverName}-${ch.channelId}")
+                int(ch.getConnectedClients() * 1000 / ServerConstants.channelLoad)
+                byte(1)
+                short(ch.channelId - 1)
             }
-            lew.writeShort(0)
-            return lew.getPacket()
+            short(0)
         }
 
-        fun getTempBan(timestampTill: Long, reason: Byte): ByteArray {
-            val lew = PacketLittleEndianWriter(17)
-            lew.write(SendPacketOpcode.LOGIN_STATUS.value)
-            lew.write(2)
-            lew.write(0)
-            lew.writeInt(0)
-            lew.write(reason)
-            lew.writeLong(PacketCreator.getTime(timestampTill)) // Tempban date is handled as a 64-bit long, number of 100NS intervals since 1/1/1601. Lulz.
-            return lew.getPacket()
+        fun getTempBan(timestampTill: Long, reason: Byte) = packetWriter {
+            opcode(SendPacketOpcode.LOGIN_STATUS)
+            byte(2)
+            byte(0)
+            int(0)
+            byte(reason)
+            long(PacketCreator.getTime(timestampTill)) // Tempban date is handled as a 64-bit long, number of 100NS intervals since 1/1/1601. Lulz.
         }
     }
 }

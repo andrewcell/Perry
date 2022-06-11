@@ -14,24 +14,24 @@ class NpcPacket {
     companion object {
         fun getNpcShop(c: Client, sid: Int, items: List<ShopItem>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.OPEN_NPC_SHOP.value)
-            lew.writeInt(sid)
-            //lew.writeShort(items.size() - 27); // 0x26
-            lew.writeShort(items.size) // 0x26
+            lew.byte(SendPacketOpcode.OPEN_NPC_SHOP.value)
+            lew.int(sid)
+            //lew.short(items.size() - 27); // 0x26
+            lew.short(items.size) // 0x26
             for ((buyable, itemId, price) in items) {
                 /*if(ItemConstants.isRechargable(item.getItemId())) {
                 continue;
             }*/
-                lew.writeInt(itemId)
-                lew.writeInt(price)
+                lew.int(itemId)
+                lew.int(price)
                 if (!ItemConstants.isRechargeable(itemId)) {
-                    lew.writeShort(buyable.toInt())
+                    lew.short(buyable.toInt())
                 } else {
-                    //lew.writeShort(0);
-                    lew.writeInt(0)
-                    lew.writeShort(0)
-                    lew.writeShort(PacketCreator.doubleToShortBits(ItemInformationProvider.getPrice(itemId)))
-                    lew.writeShort(ItemInformationProvider.getSlotMax(c, itemId).toInt())
+                    //lew.short(0);
+                    lew.int(0)
+                    lew.short(0)
+                    lew.short(PacketCreator.doubleToShortBits(ItemInformationProvider.getPrice(itemId)))
+                    lew.short(ItemInformationProvider.getSlotMax(c, itemId).toInt())
                 }
             }
             return lew.getPacket()
@@ -50,63 +50,63 @@ class NpcPacket {
          */
         fun getNpcTalk(npc: Int, msgType: Byte, talk: String, endBytes: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.NPC_TALK.value)
-            lew.write(4) // ?
-            lew.writeInt(npc)
-            lew.write(msgType)
-            lew.writeGameASCIIString(talk)
-            lew.write(HexTool.getByteArrayFromHexString(endBytes))
+            lew.byte(SendPacketOpcode.NPC_TALK.value)
+            lew.byte(4) // ?
+            lew.int(npc)
+            lew.byte(msgType)
+            lew.gameASCIIString(talk)
+            lew.byte(HexTool.getByteArrayFromHexString(endBytes))
             return lew.getPacket()
         }
 
         fun getNpcTalkNum(npc: Int, talk: String, def: Int, min: Int, max: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.NPC_TALK.value)
-            lew.write(4) // ?
-            lew.writeInt(npc)
-            lew.write(3)
-            //lew.write(0); //speaker
-            lew.writeGameASCIIString(talk)
-            lew.writeInt(def)
-            lew.writeInt(min)
-            lew.writeInt(max)
-            lew.writeInt(0)
+            lew.byte(SendPacketOpcode.NPC_TALK.value)
+            lew.byte(4) // ?
+            lew.int(npc)
+            lew.byte(3)
+            //lew.byte(0); //speaker
+            lew.gameASCIIString(talk)
+            lew.int(def)
+            lew.int(min)
+            lew.int(max)
+            lew.int(0)
             return lew.getPacket()
         }
 
         fun getNpcTalkStyle(npc: Int, talk: String, styles: Array<Int>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.NPC_TALK.value)
-            lew.write(4) // ?
-            lew.writeInt(npc)
-            lew.write(5)
-            //lew.write(0); //speaker
-            lew.writeGameASCIIString(talk)
-            lew.write(styles.size)
+            lew.byte(SendPacketOpcode.NPC_TALK.value)
+            lew.byte(4) // ?
+            lew.int(npc)
+            lew.byte(5)
+            //lew.byte(0); //speaker
+            lew.gameASCIIString(talk)
+            lew.byte(styles.size)
             for (i in styles.indices) {
-                lew.writeInt(styles[i])
+                lew.int(styles[i])
             }
             return lew.getPacket()
         }
 
         fun getNpcTalkText(npc: Int, talk: String, def: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.NPC_TALK.value)
-            lew.write(4) // Doesn't matter
-            lew.writeInt(npc)
-            lew.write(2)
-            //lew.write(0); //speaker
-            lew.writeGameASCIIString(talk)
-            lew.writeGameASCIIString(def) //:D
-            lew.writeInt(0)
+            lew.byte(SendPacketOpcode.NPC_TALK.value)
+            lew.byte(4) // Doesn't matter
+            lew.int(npc)
+            lew.byte(2)
+            //lew.byte(0); //speaker
+            lew.gameASCIIString(talk)
+            lew.gameASCIIString(def) //:D
+            lew.int(0)
             return lew.getPacket()
         }
 
         fun removeNpc(oid: Int): ByteArray { //Make npc's invisible
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_NPC_REQUEST_CONTROLLER.value)
-            lew.write(0)
-            lew.writeInt(oid)
+            lew.byte(SendPacketOpcode.SPAWN_NPC_REQUEST_CONTROLLER.value)
+            lew.byte(0)
+            lew.int(oid)
             return lew.getPacket()
         }
 
@@ -123,47 +123,47 @@ class NpcPacket {
          */
         fun shopTransaction(code: Byte): ByteArray {
             val lew = PacketLittleEndianWriter(3)
-            lew.write(SendPacketOpcode.CONFIRM_SHOP_TRANSACTION.value)
-            lew.write(code)
+            lew.byte(SendPacketOpcode.CONFIRM_SHOP_TRANSACTION.value)
+            lew.byte(code)
             return lew.getPacket()
         }
 
         fun spawnNpc(life: Npc): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_NPC.value)
-            lew.writeInt(life.objectId)
-            lew.writeInt(life.id)
-            lew.writeShort(life.position.x)
-            lew.writeShort(life.cy)
+            lew.byte(SendPacketOpcode.SPAWN_NPC.value)
+            lew.int(life.objectId)
+            lew.int(life.id)
+            lew.short(life.position.x)
+            lew.short(life.cy)
             if (life.f == 1) {
-                lew.write(0)
+                lew.byte(0)
             } else {
-                lew.write(1)
+                lew.byte(1)
             }
-            lew.writeShort(life.fh ?: 0)
-            lew.writeShort(life.rx0)
-            lew.writeShort(life.rx1)
-            lew.write(1)
+            lew.short(life.fh ?: 0)
+            lew.short(life.rx0)
+            lew.short(life.rx1)
+            lew.byte(1)
             return lew.getPacket()
         }
 
         fun spawnNpcRequestController(life: Npc): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_NPC_REQUEST_CONTROLLER.value)
-            lew.write(1)
-            lew.writeInt(life.objectId)
-            lew.writeInt(life.id)
-            lew.writeShort(life.position.x)
-            lew.writeShort(life.cy)
+            lew.byte(SendPacketOpcode.SPAWN_NPC_REQUEST_CONTROLLER.value)
+            lew.byte(1)
+            lew.int(life.objectId)
+            lew.int(life.id)
+            lew.short(life.position.x)
+            lew.short(life.cy)
             if (life.f == 1) {
-                lew.write(0)
+                lew.byte(0)
             } else {
-                lew.write(1)
+                lew.byte(1)
             }
-            lew.writeShort(life.fh!!)
-            lew.writeShort(life.rx0)
-            lew.writeShort(life.rx1)
-            lew.write(1)
+            lew.short(life.fh!!)
+            lew.short(life.rx0)
+            lew.short(life.rx1)
+            lew.byte(1)
             return lew.getPacket()
         }
     }

@@ -5,8 +5,8 @@ import java.awt.Point
 
 class ChangeEquip(private val wui: Int) : LifeMovementFragment{
     override fun serialize(lew: LittleEndianWriter) {
-        lew.write(10)
-        lew.write(wui)
+        lew.byte(10)
+        lew.byte(wui)
     }
 
     override val position = Point(0, 0)

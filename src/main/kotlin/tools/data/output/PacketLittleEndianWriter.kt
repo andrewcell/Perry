@@ -1,6 +1,7 @@
 package tools.data.output
 
 import mu.KLogging
+import net.SendPacketOpcode
 import tools.HexTool
 import tools.ServerJSON
 import java.io.ByteArrayOutputStream
@@ -14,6 +15,8 @@ class PacketLittleEndianWriter(val size: Int = 32) : GenericLittleEndianWriter()
     init {
         bos = BAOSByteOutputStream(baos)
     }
+
+    fun opcode(sendPacketOpcode: SendPacketOpcode) = byte(sendPacketOpcode.value)
 
     fun getPacket(): ByteArray {
         if (ServerJSON.settings.printSendPacket) {

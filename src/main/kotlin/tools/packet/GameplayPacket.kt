@@ -22,66 +22,66 @@ import java.awt.Point
 class GameplayPacket {
     companion object {
         fun addQuestInfo(lew: PacketLittleEndianWriter, chr: Character) {
-            lew.writeShort(chr.getStartedQuestsSize())
+            lew.short(chr.getStartedQuestsSize())
             chr.getStartedQuests().forEach {
-                lew.writeShort(it.quest.id.toInt())
-                lew.writeGameASCIIString(it.getQuestData())
+                lew.short(it.quest.id.toInt())
+                lew.gameASCIIString(it.getQuestData())
                 if (it.quest.infoNumber > 0) {
-                    lew.writeShort(it.quest.infoNumber.toInt())
-                    lew.writeGameASCIIString(it.medalProgress.toString())
+                    lew.short(it.quest.infoNumber.toInt())
+                    lew.gameASCIIString(it.medalProgress.toString())
                 }
             }
             val completed = chr.getCompletedQuests()
-            lew.writeShort(completed.size)
+            lew.short(completed.size)
             completed.forEach {
-                lew.writeShort(it.quest.id.toInt())
-                lew.writeLong(PacketCreator.getTime(it.completionTime))
+                lew.short(it.quest.id.toInt())
+                lew.long(PacketCreator.getTime(it.completionTime))
             }
         }
 
         fun addQuestTimeLimit(quest: Short, time: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.UPDATE_QUEST_INFO.value)
-            lew.write(6)
-            lew.writeShort(1) //Size but meh, when will there be 2 at the same time? And it won't even replace the old one :)
-            lew.writeShort(quest.toInt())
-            lew.writeInt(time)
+            lew.byte(SendPacketOpcode.UPDATE_QUEST_INFO.value)
+            lew.byte(6)
+            lew.short(1) //Size but meh, when will there be 2 at the same time? And it won't even replace the old one :)
+            lew.short(quest.toInt())
+            lew.int(time)
             return lew.getPacket()
         }
 
         fun applyMonsterStatus(oid: Int, mse: MonsterStatusEffect): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.APPLY_MONSTER_STATUS.value)
-            lew.writeInt(oid)
+            lew.byte(SendPacketOpcode.APPLY_MONSTER_STATUS.value)
+            lew.int(oid)
             PacketCreator.writeIntMask(lew, mse.stati)
             for ((_, value) in mse.stati) {
-                lew.writeShort(value)
+                lew.short(value)
                 if (mse.monsterSkill) {
-                    mse.mobSkill?.skillId?.let { lew.writeShort(it) }
-                    mse.mobSkill?.skillLevel?.let { lew.writeShort(it) }
+                    mse.mobSkill?.skillId?.let { lew.short(it) }
+                    mse.mobSkill?.skillLevel?.let { lew.short(it) }
                 } else {
-                    lew.writeInt(mse.skill?.id ?: -1)
+                    lew.int(mse.skill?.id ?: -1)
                 }
-                lew.writeShort(0)
+                lew.short(0)
             }
-            lew.writeShort(900)
-            lew.write(1)
+            lew.short(900)
+            lew.byte(1)
             return lew.getPacket()
         }
 
         fun cancelMonsterStatus(oid: Int, stats: Map<MonsterStatus, Int?>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.CANCEL_MONSTER_STATUS.value)
-            lew.writeInt(oid)
-            // lew.writeLong(0);
-            lew.writeInt(0)
+            lew.byte(SendPacketOpcode.CANCEL_MONSTER_STATUS.value)
+            lew.int(oid)
+            // lew.long(0);
+            lew.int(0)
             var mask = 0
             for (stat in stats.keys) {
                 mask = mask or stat.value
             }
-            lew.writeInt(mask)
-            lew.writeInt(0)
-            //lew.write(0);
+            lew.int(mask)
+            lew.int(0)
+            //lew.byte(0);
             return lew.getPacket()
         }
 
@@ -91,11 +91,11 @@ class GameplayPacket {
          */
         fun completeQuest(quest: Short, time: Long): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_STATUS_INFO.value)
-            lew.write(1)
-            lew.writeShort(quest.toInt())
-            lew.write(2)
-            lew.writeLong(PacketCreator.getTime(time))
+            lew.byte(SendPacketOpcode.SHOW_STATUS_INFO.value)
+            lew.byte(1)
+            lew.short(quest.toInt())
+            lew.byte(2)
+            lew.long(PacketCreator.getTime(time))
             return lew.getPacket()
         }
 
@@ -113,13 +113,13 @@ class GameplayPacket {
 
         fun damageMonster(oid: Int, damage: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.DAMAGE_MONSTER.value)
-            lew.writeInt(oid)
-            lew.write(0)
-            lew.writeInt(damage)
-            lew.write(0)
-            lew.write(0)
-            lew.write(0)
+            lew.byte(SendPacketOpcode.DAMAGE_MONSTER.value)
+            lew.int(oid)
+            lew.byte(0)
+            lew.int(damage)
+            lew.byte(0)
+            lew.byte(0)
+            lew.byte(0)
             return lew.getPacket()
         }
 
@@ -138,57 +138,57 @@ class GameplayPacket {
             posY: Int
         ): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.DAMAGE_PLAYER.value)
-            lew.writeInt(cid)
-            lew.writeInt(0)
-            lew.write(monsterIdFrom)
-            lew.writeInt(damage)
-            lew.write(direction)
+            lew.byte(SendPacketOpcode.DAMAGE_PLAYER.value)
+            lew.int(cid)
+            lew.int(0)
+            lew.byte(monsterIdFrom)
+            lew.int(damage)
+            lew.byte(direction)
             if (pgmr) {
-                lew.write(pgmr1)
-                lew.write(if (isPg) 1 else 0)
-                lew.writeInt(oid)
-                lew.write(6)
-                lew.writeShort(posX)
-                lew.writeShort(posY)
-                lew.write(0)
+                lew.byte(pgmr1)
+                lew.byte(if (isPg) 1 else 0)
+                lew.int(oid)
+                lew.byte(6)
+                lew.short(posX)
+                lew.short(posY)
+                lew.byte(0)
             } else {
-                lew.write(0)
+                lew.byte(0)
             }
-            lew.writeInt(damage)
+            lew.int(damage)
             if (fake > 0) {
-                lew.writeInt(fake)
+                lew.int(fake)
             }
             return lew.getPacket()
         }
 
         fun damageSummon(cid: Int, summonSkillId: Int, damage: Int, unkByte: Int, monsterIdFrom: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.DAMAGE_SUMMON.value)
-            lew.writeInt(cid)
-            lew.writeInt(summonSkillId)
-            lew.write(unkByte)
-            lew.writeInt(damage)
-            lew.writeInt(monsterIdFrom)
-            lew.write(0)
+            lew.byte(SendPacketOpcode.DAMAGE_SUMMON.value)
+            lew.int(cid)
+            lew.int(summonSkillId)
+            lew.byte(unkByte)
+            lew.int(damage)
+            lew.int(monsterIdFrom)
+            lew.byte(0)
             return lew.getPacket()
         }
 
         fun destroyReactor(reactor: Reactor): ByteArray {
             val lew = PacketLittleEndianWriter()
             val pos = reactor.position
-            lew.write(SendPacketOpcode.REACTOR_DESTROY.value)
-            lew.writeInt(reactor.objectId)
-            lew.write(reactor.state)
-            lew.writePos(pos)
+            lew.byte(SendPacketOpcode.REACTOR_DESTROY.value)
+            lew.int(reactor.objectId)
+            lew.byte(reactor.state)
+            lew.pos(pos)
             return lew.getPacket()
         }
 
         fun environmentChange(env: String, mode: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.FIELD_EFFECT.value)
-            lew.write(mode)
-            lew.writeGameASCIIString(env)
+            lew.byte(SendPacketOpcode.FIELD_EFFECT.value)
+            lew.byte(mode)
+            lew.gameASCIIString(env)
             return lew.getPacket()
         }
 
@@ -198,11 +198,11 @@ class GameplayPacket {
          */
         fun forfeitQuest(quest: Short): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_STATUS_INFO.value)
-            lew.write(1)
-            lew.writeShort(quest.toInt())
-            lew.writeShort(0)
-            lew.write(0)
+            lew.byte(SendPacketOpcode.SHOW_STATUS_INFO.value)
+            lew.byte(1)
+            lew.short(quest.toInt())
+            lew.short(0)
+            lew.byte(0)
             return lew.getPacket()
         }
 
@@ -214,9 +214,9 @@ class GameplayPacket {
          */
         fun getShowFameGain(gain: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_STATUS_INFO.value)
-            lew.write(4)
-            lew.writeInt(gain)
+            lew.byte(SendPacketOpcode.SHOW_STATUS_INFO.value)
+            lew.byte(4)
+            lew.int(gain)
             return lew.getPacket()
         }
 
@@ -233,9 +233,9 @@ class GameplayPacket {
          */
         fun killMonster(oid: Int, animation: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.KILL_MONSTER.value)
-            lew.writeInt(oid)
-            lew.write(animation)
+            lew.byte(SendPacketOpcode.KILL_MONSTER.value)
+            lew.int(oid)
+            lew.byte(animation)
             return lew.getPacket()
         }
 
@@ -263,50 +263,50 @@ class GameplayPacket {
          */
         fun makeMonsterReal(life: Monster): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_MONSTER.value)
-            lew.writeInt(life.objectId)
-            lew.write(5)
-            lew.writeInt(life.id)
-            lew.writeInt(0)
-            lew.writePos(life.position)
-            lew.write(life.stance)
-            lew.writeShort(0) //life.getStartFh()
-            lew.writeShort(life.fh ?: 0)
-            lew.writeShort(-1)
-            lew.writeInt(0)
+            lew.byte(SendPacketOpcode.SPAWN_MONSTER.value)
+            lew.int(life.objectId)
+            lew.byte(5)
+            lew.int(life.id)
+            lew.int(0)
+            lew.pos(life.position)
+            lew.byte(life.stance)
+            lew.short(0) //life.getStartFh()
+            lew.short(life.fh ?: 0)
+            lew.short(-1)
+            lew.int(0)
             return lew.getPacket()
         }
 
         fun mapEffect(path: String?): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.FIELD_EFFECT.value)
-            lew.write(3)
-            lew.writeGameASCIIString(path!!)
+            lew.byte(SendPacketOpcode.FIELD_EFFECT.value)
+            lew.byte(3)
+            lew.gameASCIIString(path!!)
             return lew.getPacket()
         }
 
         fun mapSound(path: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.FIELD_EFFECT.value)
-            lew.write(4)
-            lew.writeGameASCIIString(path)
+            lew.byte(SendPacketOpcode.FIELD_EFFECT.value)
+            lew.byte(4)
+            lew.gameASCIIString(path)
             return lew.getPacket()
         }
 
         fun mobDamageMobFriendly(mob: Monster, damage: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.DAMAGE_MONSTER.value)
-            lew.writeInt(mob.objectId)
-            lew.write(1) // direction ?
-            lew.writeInt(damage)
+            lew.byte(SendPacketOpcode.DAMAGE_MONSTER.value)
+            lew.int(mob.objectId)
+            lew.byte(1) // direction ?
+            lew.int(damage)
             var remainingHp = mob.hp - damage
             if (remainingHp <= 0) {
                 remainingHp = 0
                 mob.map?.removeMapObject(mob)
             }
             mob.hp = remainingHp
-            lew.writeInt(remainingHp)
-            lew.writeInt(mob.stats.hp)
+            lew.int(remainingHp)
+            lew.int(mob.stats.hp)
             return lew.getPacket()
         }
 
@@ -322,15 +322,15 @@ class GameplayPacket {
             moves: List<LifeMovementFragment>
         ): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.MOVE_MONSTER.value)
-            lew.writeInt(oid)
-            lew.write(useSkill)
-            lew.write(skill)
-            lew.write(skill1)
-            lew.write(skill2)
-            lew.write(skill3)
-            lew.write(skill4)
-            lew.writePos(startPos)
+            lew.byte(SendPacketOpcode.MOVE_MONSTER.value)
+            lew.int(oid)
+            lew.byte(useSkill)
+            lew.byte(skill)
+            lew.byte(skill1)
+            lew.byte(skill2)
+            lew.byte(skill3)
+            lew.byte(skill4)
+            lew.pos(startPos)
             serializeMovementList(lew, moves)
             return lew.getPacket()
         }
@@ -355,41 +355,41 @@ class GameplayPacket {
             skillLevel: Int = 0
         ): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.MOVE_MONSTER_RESPONSE.value)
-            lew.writeInt(objectId)
-            lew.writeShort(moveId.toInt())
-            lew.writeBool(useSkills)
-            lew.writeShort(currentMp)
-            lew.write(skillId)
-            lew.write(skillLevel)
+            lew.byte(SendPacketOpcode.MOVE_MONSTER_RESPONSE.value)
+            lew.int(objectId)
+            lew.short(moveId.toInt())
+            lew.bool(useSkills)
+            lew.short(currentMp)
+            lew.byte(skillId)
+            lew.byte(skillLevel)
             return lew.getPacket()
         }
 
         fun movePet(cid: Int, pid: Int, moves: List<LifeMovementFragment>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.MOVE_PET.value)
-            lew.writeInt(cid)
-            //lew.write(slot);
-            lew.writeInt(pid)
+            lew.byte(SendPacketOpcode.MOVE_PET.value)
+            lew.int(cid)
+            //lew.byte(slot);
+            lew.int(pid)
             serializeMovementList(lew, moves)
             return lew.getPacket()
         }
 
         fun movePlayer(cid: Int, moves: List<LifeMovementFragment>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.MOVE_PLAYER.value)
-            lew.writeInt(cid)
-            lew.writeInt(0)
+            lew.byte(SendPacketOpcode.MOVE_PLAYER.value)
+            lew.int(cid)
+            lew.int(0)
             serializeMovementList(lew, moves)
             return lew.getPacket()
         }
 
         fun moveSummon(cid: Int, summonSkill: Int, startPos: Point, moves: List<LifeMovementFragment>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.MOVE_SUMMON.value)
-            lew.writeInt(cid)
-            lew.writeInt(summonSkill)
-            lew.writePos(startPos)
+            lew.byte(SendPacketOpcode.MOVE_SUMMON.value)
+            lew.int(cid)
+            lew.int(summonSkill)
+            lew.pos(startPos)
             serializeMovementList(lew, moves)
             return lew.getPacket()
         }
@@ -402,19 +402,19 @@ class GameplayPacket {
 
         fun questExpire(quest: Short): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.UPDATE_QUEST_INFO.value)
-            lew.write(0x0F)
-            lew.writeShort(quest.toInt())
+            lew.byte(SendPacketOpcode.UPDATE_QUEST_INFO.value)
+            lew.byte(0x0F)
+            lew.short(quest.toInt())
             return lew.getPacket()
         }
 
         fun questProgress(id: Short, process: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_STATUS_INFO.value)
-            lew.write(1)
-            lew.writeShort(id.toInt())
-            lew.write(1)
-            lew.writeGameASCIIString(process)
+            lew.byte(SendPacketOpcode.SHOW_STATUS_INFO.value)
+            lew.byte(1)
+            lew.short(id.toInt())
+            lew.byte(1)
+            lew.gameASCIIString(process)
             return lew.getPacket()
         }
 
@@ -428,13 +428,13 @@ class GameplayPacket {
         fun removeDoor(oid: Int, town: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter()
             if (town) {
-                lew.write(SendPacketOpcode.SPAWN_PORTAL.value)
-                lew.writeInt(999999999)
-                lew.writeInt(999999999)
+                lew.byte(SendPacketOpcode.SPAWN_PORTAL.value)
+                lew.int(999999999)
+                lew.int(999999999)
             } else {
-                lew.write(SendPacketOpcode.REMOVE_DOOR.value)
-                lew.write(0)
-                lew.writeInt(oid)
+                lew.byte(SendPacketOpcode.REMOVE_DOOR.value)
+                lew.byte(0)
+                lew.int(oid)
             }
             return lew.getPacket()
         }
@@ -453,44 +453,44 @@ class GameplayPacket {
          */
         fun removeItemFromMap(oid: Int, animation: Int, cid: Int, pet: Boolean = false, slot: Int = 0): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.REMOVE_ITEM_FROM_MAP.value)
-            lew.write(animation) // expire
-            lew.writeInt(oid)
+            lew.byte(SendPacketOpcode.REMOVE_ITEM_FROM_MAP.value)
+            lew.byte(animation) // expire
+            lew.int(oid)
             if (animation >= 2) {
-                lew.writeInt(cid)
-                if (pet) lew.write(slot)
+                lew.int(cid)
+                if (pet) lew.byte(slot)
             }
             return lew.getPacket()
         }
 
         fun removeMapEffect(): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.BLOW_WEATHER.value)
-            lew.write(0)
-            lew.writeInt(0)
+            lew.byte(SendPacketOpcode.BLOW_WEATHER.value)
+            lew.byte(0)
+            lew.int(0)
             return lew.getPacket()
         }
 
         fun removeMist(oid: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.REMOVE_MIST.value)
-            lew.writeInt(oid)
+            lew.byte(SendPacketOpcode.REMOVE_MIST.value)
+            lew.int(oid)
             return lew.getPacket()
         }
 
         fun removePlayerFromMap(cid: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.REMOVE_PLAYER_FROM_MAP.value)
-            lew.writeInt(cid)
+            lew.byte(SendPacketOpcode.REMOVE_PLAYER_FROM_MAP.value)
+            lew.int(cid)
             return lew.getPacket()
         }
 
         fun removeQuestTimeLimit(quest: Short): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.UPDATE_QUEST_INFO.value)
-            lew.write(7)
-            lew.writeShort(1) //Position
-            lew.writeShort(quest.toInt())
+            lew.byte(SendPacketOpcode.UPDATE_QUEST_INFO.value)
+            lew.byte(7)
+            lew.short(1) //Position
+            lew.short(quest.toInt())
             return lew.getPacket()
         }
 
@@ -503,15 +503,15 @@ class GameplayPacket {
          */
         fun removeSummon(summon: Summon, animated: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.REMOVE_SPECIAL_MAPOBJECT.value)
-            lew.writeInt(summon.owner.id)
-            lew.writeInt(summon.skill)
-            lew.write(if (animated) 4 else 1) // ?
+            lew.byte(SendPacketOpcode.REMOVE_SPECIAL_MAPOBJECT.value)
+            lew.int(summon.owner.id)
+            lew.int(summon.skill)
+            lew.byte(if (animated) 4 else 1) // ?
             return lew.getPacket()
         }
 
         fun serializeMovementList(lew: LittleEndianWriter, moves: List<LifeMovementFragment>) {
-            lew.write(moves.size)
+            lew.byte(moves.size)
             for (move in moves) {
                 move.serialize(lew)
             }
@@ -521,35 +521,35 @@ class GameplayPacket {
 
         fun showForcedEquip(team: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.FORCED_MAP_EQUIP.value)
+            lew.byte(SendPacketOpcode.FORCED_MAP_EQUIP.value)
             if (team > -1) {
-                lew.write(team) // 00 = red, 01 = blue
+                lew.byte(team) // 00 = red, 01 = blue
             }
             return lew.getPacket()
         }
 
         fun showInfo(path: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
-            lew.write(0x17)
-            lew.writeGameASCIIString(path)
-            lew.writeInt(1)
+            lew.byte(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
+            lew.byte(0x17)
+            lew.gameASCIIString(path)
+            lew.int(1)
             return lew.getPacket()
         }
 
         fun showInfoText(text: String?): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_STATUS_INFO.value)
-            lew.write(9)
-            lew.writeGameASCIIString(text!!)
+            lew.byte(SendPacketOpcode.SHOW_STATUS_INFO.value)
+            lew.byte(9)
+            lew.gameASCIIString(text!!)
             return lew.getPacket()
         }
 
         fun showIntro(path: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
-            lew.write(0x12)
-            lew.writeGameASCIIString(path)
+            lew.byte(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
+            lew.byte(0x12)
+            lew.gameASCIIString(path)
             return lew.getPacket()
         }
 
@@ -560,17 +560,17 @@ class GameplayPacket {
          */
         fun showMonsterHP(oid: Int, remHpPercentage: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_MONSTER_HP.value)
-            lew.writeInt(oid)
-            lew.write(remHpPercentage)
+            lew.byte(SendPacketOpcode.SHOW_MONSTER_HP.value)
+            lew.int(oid)
+            lew.byte(remHpPercentage)
             return lew.getPacket()
         }
 
         fun showWheelsLeft(left: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
-            lew.write(0x15)
-            lew.write(left)
+            lew.byte(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
+            lew.byte(0x15)
+            lew.byte(left)
             return lew.getPacket()
         }
 
@@ -584,10 +584,10 @@ class GameplayPacket {
          */
         fun spawnDoor(oid: Int, pos: Point?, town: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter(11)
-            lew.write(SendPacketOpcode.SPAWN_DOOR.value)
-            lew.writeBool(town)
-            lew.writeInt(oid)
-            lew.writePos(pos!!)
+            lew.byte(SendPacketOpcode.SPAWN_DOOR.value)
+            lew.bool(town)
+            lew.int(oid)
+            lew.pos(pos!!)
             return lew.getPacket()
         }
 
@@ -600,46 +600,46 @@ class GameplayPacket {
          */
         fun spawnFakeMonster(life: Monster, effect: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_MONSTER_CONTROL.value)
-            lew.write(1)
-            lew.writeInt(life.objectId)
-            lew.write(5)
-            lew.writeInt(life.id) ///setlocal
-            lew.writeInt(0)
-            lew.writePos(life.position)
-            lew.write(life.stance)
-            lew.writeShort(0) //life.getStartFh()
-            lew.writeShort(life.fh ?: 0)
+            lew.byte(SendPacketOpcode.SPAWN_MONSTER_CONTROL.value)
+            lew.byte(1)
+            lew.int(life.objectId)
+            lew.byte(5)
+            lew.int(life.id) ///setlocal
+            lew.int(0)
+            lew.pos(life.position)
+            lew.byte(life.stance)
+            lew.short(0) //life.getStartFh()
+            lew.short(life.fh ?: 0)
             if (effect > 0) {
-                lew.write(effect)
-                lew.write(0)
-                lew.writeShort(0)
+                lew.byte(effect)
+                lew.byte(0)
+                lew.short(0)
             }
-            lew.writeShort(-2)
-            lew.writeInt(0)
+            lew.short(-2)
+            lew.int(0)
             return lew.getPacket()
         }
 
         fun spawnGuide(spawn: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter(3)
-            lew.write(SendPacketOpcode.SPAWN_GUIDE.value)
-            lew.write(if (spawn) 1 else 0)
+            lew.byte(SendPacketOpcode.SPAWN_GUIDE.value)
+            lew.byte(if (spawn) 1 else 0)
             return lew.getPacket()
         }
 
         fun spawnMist(oid: Int, ownerCid: Int, skill: Int, level: Int, mist: Mist): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_MIST.value)
-            lew.writeInt(oid)
-            lew.write(if (mist.isMobMist) 1 else if (mist.isPoisonMist) 0 else 2)
-            lew.writeInt(skill)
-            lew.write(level)
-            lew.writeShort(mist.skillDelay) // Skill delay
-            lew.writeInt(mist.mistPosition.x)
-            lew.writeInt(mist.mistPosition.y)
-            lew.writeInt(mist.mistPosition.x + mist.mistPosition.width)
-            lew.writeInt(mist.mistPosition.y + mist.mistPosition.height)
-            lew.writeInt(0)
+            lew.byte(SendPacketOpcode.SPAWN_MIST.value)
+            lew.int(oid)
+            lew.byte(if (mist.isMobMist) 1 else if (mist.isPoisonMist) 0 else 2)
+            lew.int(skill)
+            lew.byte(level)
+            lew.short(mist.skillDelay) // Skill delay
+            lew.int(mist.mistPosition.x)
+            lew.int(mist.mistPosition.y)
+            lew.int(mist.mistPosition.x + mist.mistPosition.width)
+            lew.int(mist.mistPosition.y + mist.mistPosition.height)
+            lew.int(0)
             return lew.getPacket()
         }
 
@@ -686,52 +686,52 @@ class GameplayPacket {
         ): ByteArray {
             val lew = PacketLittleEndianWriter()
             if (makeInvisible) {
-                lew.write(SendPacketOpcode.SPAWN_MONSTER_CONTROL.value)
-                lew.write(0)
-                lew.writeInt(life.objectId)
+                lew.byte(SendPacketOpcode.SPAWN_MONSTER_CONTROL.value)
+                lew.byte(0)
+                lew.int(life.objectId)
                 return lew.getPacket()
             }
             if (requestController) {
-                lew.write(SendPacketOpcode.SPAWN_MONSTER_CONTROL.value)
-                lew.write(if (aggro) 2 else 1)
+                lew.byte(SendPacketOpcode.SPAWN_MONSTER_CONTROL.value)
+                lew.byte(if (aggro) 2 else 1)
             } else {
-                lew.write(SendPacketOpcode.SPAWN_MONSTER.value)
+                lew.byte(SendPacketOpcode.SPAWN_MONSTER.value)
             }
-            lew.writeInt(life.objectId) //v7
-            lew.write(if (life.controller == null) 5 else 1)
-            lew.writeInt(life.id) //v4
-            lew.writeInt(0)
-            lew.writePos(life.position)
-            lew.write(life.stance)
-            lew.writeShort(0) //Origin FH //life.getStartFh()
-            lew.writeShort(life.fh ?: 0)
+            lew.int(life.objectId) //v7
+            lew.byte(if (life.controller == null) 5 else 1)
+            lew.int(life.id) //v4
+            lew.int(0)
+            lew.pos(life.position)
+            lew.byte(life.stance)
+            lew.short(0) //Origin FH //life.getStartFh()
+            lew.short(life.fh ?: 0)
             if (effect > 0) {
-                lew.write(effect)
-                lew.write(0)
-                lew.writeShort(0)
+                lew.byte(effect)
+                lew.byte(0)
+                lew.short(0)
                 if (effect == 15) {
-                    lew.write(0)
+                    lew.byte(0)
                 }
             }
-            lew.writeShort(if (newSpawn) -2 else -1)
-            lew.writeInt(0)
+            lew.short(if (newSpawn) -2 else -1)
+            lew.int(0)
             return lew.getPacket()
         }
 
 
         fun spawnPlayerNpc(npc: PlayerNPCs): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_NPC_REQUEST_CONTROLLER.value)
-            lew.write(1)
-            lew.writeInt(npc.objectId)
-            lew.writeInt(npc.npcId)
-            lew.writeShort(npc.position.x)
-            lew.writeShort(npc.cy)
-            lew.write(1)
-            lew.writeShort(npc.fh)
-            lew.writeShort(npc.rx0)
-            lew.writeShort(npc.rx1)
-            lew.write(1)
+            lew.byte(SendPacketOpcode.SPAWN_NPC_REQUEST_CONTROLLER.value)
+            lew.byte(1)
+            lew.int(npc.objectId)
+            lew.int(npc.npcId)
+            lew.short(npc.position.x)
+            lew.short(npc.cy)
+            lew.byte(1)
+            lew.short(npc.fh)
+            lew.short(npc.rx0)
+            lew.short(npc.rx1)
+            lew.byte(1)
             return lew.getPacket()
         }
 
@@ -743,24 +743,24 @@ class GameplayPacket {
          */
         fun spawnPlayerMapObject(chr: Character): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_PLAYER.value)
-            lew.writeInt(chr.id)
-            //lew.write(chr.getLevel());
-            lew.writeGameASCIIString(chr.name)
+            lew.byte(SendPacketOpcode.SPAWN_PLAYER.value)
+            lew.int(chr.id)
+            //lew.byte(chr.getLevel());
+            lew.gameASCIIString(chr.name)
             if (chr.guildId < 1) {
-                lew.writeGameASCIIString("")
-                lew.write(ByteArray(6))
+                lew.gameASCIIString("")
+                lew.byte(ByteArray(6))
             } else {
                 val gs = chr.client.getWorldServer().getGuildSummary(chr.guildId)
                 if (gs != null) {
-                    lew.writeGameASCIIString(gs.name)
-                    lew.writeShort(gs.logoBG.toInt())
-                    lew.write(gs.logoBGColor)
-                    lew.writeShort(gs.logo.toInt())
-                    lew.write(gs.logoColor)
+                    lew.gameASCIIString(gs.name)
+                    lew.short(gs.logoBG.toInt())
+                    lew.byte(gs.logoBGColor)
+                    lew.short(gs.logo.toInt())
+                    lew.byte(gs.logoColor)
                 } else {
-                    lew.writeGameASCIIString("")
-                    lew.write(ByteArray(6))
+                    lew.gameASCIIString("")
+                    lew.byte(ByteArray(6))
                 }
             }
             var buffMask: Long = 0
@@ -773,19 +773,19 @@ class GameplayPacket {
             if (chr.getBuffedValue(BuffStat.SHADOWPARTNER) != null) {
                 buffMask = buffMask or BuffStat.SHADOWPARTNER.value
             }
-            lew.writeLong(buffMask)
+            lew.long(buffMask)
             CharacterPacket.addCharLook(lew, chr, false)
-            lew.writeInt(chr.getInventory(InventoryType.CASH)?.countById(5110000) ?: 0)
-            lew.writeInt(chr.itemEffect)
-            lew.writeInt(if (ItemConstants.getInventoryType(chr.chair) == InventoryType.SETUP) chr.chair else 0)
-            lew.writePos(chr.position)
-            lew.write(chr.stance)
-            lew.writeShort(0)
+            lew.int(chr.getInventory(InventoryType.CASH)?.countById(5110000) ?: 0)
+            lew.int(chr.itemEffect)
+            lew.int(if (ItemConstants.getInventoryType(chr.chair) == InventoryType.SETUP) chr.chair else 0)
+            lew.pos(chr.position)
+            lew.byte(chr.stance)
+            lew.short(0)
             if (chr.pet != null) {
                 CashPacket.addPetInfo(lew, chr.pet)
-                lew.writeInt(0)
+                lew.int(0)
             } else {
-                lew.write(0)
+                lew.byte(0)
             }
             if (chr.playerShop != null && chr.playerShop?.isOwner(chr) == true) {
                 if (chr.playerShop?.hasFreeSlot() == true) {
@@ -802,19 +802,19 @@ class GameplayPacket {
                     PacketCreator.addAnnounceBox(lew, chr.miniGame, gameType, chr.miniGame?.locker, 0, 2, 1)
                 }
             } else {
-                lew.write(0)
+                lew.byte(0)
             }
             /*if (chr.getChalkboard() != null) {
-                lew.write(1);
+                lew.byte(1);
                 lew.writeAsciiString(chr.getChalkboard());
             } else {
-                lew.write(0);
+                lew.byte(0);
             }*/
             ItemPacket.addRingLook(lew, chr, true)
             ItemPacket.addRingLook(lew, chr, false)
             //addMarriageRingLook(lew, chr);
-            //lew.write(0); // ??
-            lew.write(chr.eventTeam) //only needed in specific fields
+            //lew.byte(0); // ??
+            lew.byte(chr.eventTeam) //only needed in specific fields
             return lew.getPacket()
         }
 
@@ -828,11 +828,11 @@ class GameplayPacket {
          */
         fun spawnPortal(townId: Int, targetId: Int, pos: Point?): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_PORTAL.value)
-            lew.writeInt(townId)
-            lew.writeInt(targetId)
+            lew.byte(SendPacketOpcode.SPAWN_PORTAL.value)
+            lew.int(townId)
+            lew.int(targetId)
             if (pos != null) {
-                lew.writePos(pos)
+                lew.pos(pos)
             }
             return lew.getPacket()
         }
@@ -841,13 +841,13 @@ class GameplayPacket {
         fun spawnReactor(reactor: Reactor): ByteArray {
             val lew = PacketLittleEndianWriter()
             val pos = reactor.position
-            lew.write(SendPacketOpcode.REACTOR_SPAWN.value)
-            lew.writeInt(reactor.objectId)
-            lew.writeInt(reactor.rid)
-            lew.write(reactor.state)
-            lew.writePos(pos)
-            //lew.writeShort(0);
-            lew.write(0)
+            lew.byte(SendPacketOpcode.REACTOR_SPAWN.value)
+            lew.int(reactor.objectId)
+            lew.int(reactor.rid)
+            lew.byte(reactor.state)
+            lew.pos(pos)
+            //lew.short(0);
+            lew.byte(0)
             return lew.getPacket()
         }
 
@@ -860,26 +860,26 @@ class GameplayPacket {
          */
         fun spawnSummon(summon: Summon, animated: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_SPECIAL_MAPOBJECT.value)
-            lew.writeInt(summon.owner.id)
-            lew.writeInt(summon.skill)
-            lew.write(summon.skillLevel)
-            lew.writePos(summon.position)
-            lew.write(4)
-            lew.writeShort(0)
-            lew.write(summon.movementType.value) // 0 = don't move, 1 = follow (4th mage summons?), 2/4 = only tele follow, 3 = bird follow
-            lew.write(if (summon.isPuppet()) 0 else 1) // 0 and the summon can't attack - but puppets don't attack with 1 either ^.-
-            lew.write(if (animated) 0 else 1)
+            lew.byte(SendPacketOpcode.SPAWN_SPECIAL_MAPOBJECT.value)
+            lew.int(summon.owner.id)
+            lew.int(summon.skill)
+            lew.byte(summon.skillLevel)
+            lew.pos(summon.position)
+            lew.byte(4)
+            lew.short(0)
+            lew.byte(summon.movementType.value) // 0 = don't move, 1 = follow (4th mage summons?), 2/4 = only tele follow, 3 = bird follow
+            lew.byte(if (summon.isPuppet()) 0 else 1) // 0 and the summon can't attack - but puppets don't attack with 1 either ^.-
+            lew.byte(if (animated) 0 else 1)
             return lew.getPacket()
         }
 
         fun startMapEffect(msg: String, itemId: Int, active: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.BLOW_WEATHER.value)
-            // lew.write(active ? 0 : 1);
-            lew.writeInt(itemId)
+            lew.byte(SendPacketOpcode.BLOW_WEATHER.value)
+            // lew.byte(active ? 0 : 1);
+            lew.int(itemId)
             if (active) {
-                lew.writeGameASCIIString(msg)
+                lew.gameASCIIString(msg)
             }
             return lew.getPacket()
         }
@@ -892,42 +892,42 @@ class GameplayPacket {
          */
         fun stopControllingMonster(oid: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SPAWN_MONSTER_CONTROL.value)
-            lew.write(0)
-            lew.writeInt(oid)
+            lew.byte(SendPacketOpcode.SPAWN_MONSTER_CONTROL.value)
+            lew.byte(0)
+            lew.int(oid)
             return lew.getPacket()
         }
 
         fun triggerReactor(reactor: Reactor, stance: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
             val pos = reactor.position
-            lew.write(SendPacketOpcode.REACTOR_HIT.value)
-            lew.writeInt(reactor.objectId)
-            lew.write(reactor.state)
-            lew.writePos(pos)
-            lew.writeShort(stance)
-            lew.write(0)
-            lew.write(5) // frame delay, set to 5 since there doesn't appear to be a fixed formula for it
+            lew.byte(SendPacketOpcode.REACTOR_HIT.value)
+            lew.int(reactor.objectId)
+            lew.byte(reactor.state)
+            lew.pos(pos)
+            lew.short(stance)
+            lew.byte(0)
+            lew.byte(5) // frame delay, set to 5 since there doesn't appear to be a fixed formula for it
             return lew.getPacket()
         }
 
         fun updateQuest(quest: Short, status: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_STATUS_INFO.value)
-            lew.write(1)
-            lew.writeShort(quest.toInt())
-            lew.write(1)
-            lew.writeGameASCIIString(status)
+            lew.byte(SendPacketOpcode.SHOW_STATUS_INFO.value)
+            lew.byte(1)
+            lew.short(quest.toInt())
+            lew.byte(1)
+            lew.gameASCIIString(status)
             return lew.getPacket()
         }
 
         fun updateQuestFinish(quest: Short, npc: Int, nextQuest: Short): ByteArray { //Check
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.UPDATE_QUEST_INFO.value) //0xF2 in v95
-            lew.write(8) //0x0A in v95
-            lew.writeShort(quest.toInt())
-            lew.writeInt(npc)
-            lew.writeShort(nextQuest.toInt())
+            lew.byte(SendPacketOpcode.UPDATE_QUEST_INFO.value) //0xF2 in v95
+            lew.byte(8) //0x0A in v95
+            lew.short(quest.toInt())
+            lew.int(npc)
+            lew.short(nextQuest.toInt())
             return lew.getPacket()
         }
     }

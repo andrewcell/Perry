@@ -11,7 +11,7 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param b The bytes to write.
      */
-    override fun write(b: ByteArray) {
+    override fun byte(b: ByteArray) {
         for (x in b.indices) {
             bos?.writeByte(b[x])
         }
@@ -22,7 +22,7 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param b The byte to write.
      */
-    override fun write(b: Byte) {
+    override fun byte(b: Byte) {
         bos?.writeByte(b)
     }
 
@@ -31,12 +31,12 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param b The byte as an <code>Integer</code> to write.
      */
-    override fun write(b: Int) {
+    override fun byte(b: Int) {
         bos?.writeByte(b.toByte())
     }
 
     override fun skip(b: Int) {
-        write(ByteArray(b))
+        byte(ByteArray(b))
     }
 
     /**
@@ -44,7 +44,7 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param s The short integer to write.
      */
-    override fun writeShort(s: Int) {
+    override fun short(s: Int) {
         bos?.writeByte((s and 0xFF).toByte())
         bos?.writeByte((s ushr 8 and 0xFF).toByte())
     }
@@ -54,7 +54,7 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param i The integer to write.
      */
-    override fun writeInt(i: Int) {
+    override fun int(i: Int) {
         bos?.writeByte((i and 0xFF).toByte())
         bos?.writeByte((i ushr 8 and 0xFF).toByte())
         bos?.writeByte((i ushr 16 and 0xFF).toByte())
@@ -66,14 +66,14 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param s The ASCII string to write.
      */
-    override fun writeASCIIString(s: String) {
-        write(s.toByteArray(MS949))
+    override fun ASCIIString(s: String) {
+        byte(s.toByteArray(MS949))
     }
 
-    override fun writeASCIIString(s: String, max: Int) {
-        write(s.toByteArray(MS949))
+    override fun ASCIIString(s: String, max: Int) {
+        byte(s.toByteArray(MS949))
         for (i in s.toByteArray(MS949).size until max) {
-            write(0)
+            byte(0)
         }
     }
 
@@ -82,9 +82,9 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param s The ASCII string to use game-convention to write.
      */
-    override fun writeGameASCIIString(s: String) {
-        writeShort(s.toByteArray(MS949).size.toShort().toInt())
-        writeASCIIString(s)
+    override fun gameASCIIString(s: String) {
+        short(s.toByteArray(MS949).size.toShort().toInt())
+        ASCIIString(s)
     }
 
     /**
@@ -92,16 +92,16 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param s The ASCII string to write.
      */
-    override fun writeNullTerminatedASCIIString(s: String) {
-        writeASCIIString(s)
-        write(0)
+    override fun nullTerminatedASCIIString(s: String) {
+        ASCIIString(s)
+        byte(0)
     }
 
     /**
      * Write a long integer to the stream.
      * @param l The long integer to write.
      */
-    override fun writeLong(l: Long) {
+    override fun long(l: Long) {
         bos?.writeByte((l and 0xFF).toByte())
         bos?.writeByte((l ushr 8 and 0xFF).toByte())
         bos?.writeByte((l ushr 16 and 0xFF).toByte())
@@ -117,9 +117,9 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param s The Point position to write.
      */
-    override fun writePos(s: Point) {
-        writeShort(s.x)
-        writeShort(s.y)
+    override fun pos(s: Point) {
+        short(s.x)
+        short(s.y)
     }
 
     /**
@@ -127,8 +127,8 @@ open class GenericLittleEndianWriter : LittleEndianWriter {
      *
      * @param b The boolean to write.
      */
-    override fun writeBool(b: Boolean) {
-        write(if (b) 1 else 0)
+    override fun bool(b: Boolean) {
+        byte(if (b) 1 else 0)
     }
 
     companion object {

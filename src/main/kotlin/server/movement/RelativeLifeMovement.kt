@@ -5,10 +5,10 @@ import java.awt.Point
 
 class RelativeLifeMovement(type: Byte, position: Point, duration: Int, override val newState: Byte) : AbstractLifeMovement(type, position, duration, newState) {
     override fun serialize(lew: LittleEndianWriter) {
-        lew.write(type)
-        lew.writeShort(position.x)
-        lew.writeShort(position.y)
-        lew.write(newState)
-        lew.writeShort(duration)
+        lew.byte(type)
+        lew.short(position.x)
+        lew.short(position.y)
+        lew.byte(newState)
+        lew.short(duration)
     }
 }

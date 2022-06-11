@@ -25,8 +25,8 @@ class PacketCreator {
         const val ZERO_TIME = 94354848000000000L //00 40 E0 FD 3B 37 4F 01
         private const val PERMANENT = 150841440000000000L // 00 C0 9B 90 7D E5 17 02
 
-        fun create(packets: (PacketLittleEndianWriter) -> Unit): (PacketLittleEndianWriter) -> Unit {
-            return packets
+        fun packetWriter(lew: PacketLittleEndianWriter.() -> Unit): ByteArray {
+            return PacketLittleEndianWriter().apply(lew).getPacket()
         }
 
         fun addAnnounceBox(
@@ -39,14 +39,14 @@ class PacketCreator {
             joinable: Int
         ) {
             if (game == null) return
-            lew.write(gameType)
-            lew.writeInt(game.objectId) // gameid/shopid
-            lew.writeGameASCIIString(game.description) // desc
-            lew.write(locker ?: 0)
-            lew.write(type)
-            lew.write(amMount)
-            lew.write(2)
-            lew.write(joinable)
+            lew.byte(gameType)
+            lew.int(game.objectId) // gameid/shopid
+            lew.gameASCIIString(game.description) // desc
+            lew.byte(locker ?: 0)
+            lew.byte(type)
+            lew.byte(amMount)
+            lew.byte(2)
+            lew.byte(joinable)
         }
 
         /**
@@ -58,17 +58,15 @@ class PacketCreator {
          */
         fun addAnnounceBox(lew: PacketLittleEndianWriter, shop: PlayerShop?, availability: Int) {
             if (shop == null) return
-            lew.write(4)
-            lew.writeInt(shop.objectId)
-            lew.writeGameASCIIString(shop.description)
-            lew.write(0)
-            lew.write(0)
-            lew.write(1)
-            lew.write(availability)
-            lew.write(0)
+            lew.byte(4)
+            lew.int(shop.objectId)
+            lew.gameASCIIString(shop.description)
+            lew.byte(0)
+            lew.byte(0)
+            lew.byte(1)
+            lew.byte(availability)
+            lew.byte(0)
         }
-
-
 
 
         /**
@@ -88,52 +86,52 @@ class PacketCreator {
          */
         fun blockedMessage(type: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.BLOCKED_MAP.value)
-            lew.write(type)
+            lew.byte(SendPacketOpcode.BLOCKED_MAP.value)
+            lew.byte(type)
             return lew.getPacket()
         }
 
         fun boatPacket(type: Boolean): ByteArray { //don't think this is correct…
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.CONTI_MOVE.value)
-            lew.write(if (type) 1 else 2)
-            lew.write(0)
+            lew.byte(SendPacketOpcode.CONTI_MOVE.value)
+            lew.byte(if (type) 1 else 2)
+            lew.byte(0)
             return lew.getPacket()
         }
 
         fun catchMessage(message: Int): ByteArray { // not done, I guess
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.BRIDLE_MOB_CATCH_FAIL.value)
-            lew.write(message) // 1 = too strong, 2 = Elemental Rock
-            lew.writeInt(0) //Maybe itemid?
-            lew.writeInt(0)
+            lew.byte(SendPacketOpcode.BRIDLE_MOB_CATCH_FAIL.value)
+            lew.byte(message) // 1 = too strong, 2 = Elemental Rock
+            lew.int(0) //Maybe itemid?
+            lew.int(0)
             return lew.getPacket()
         }
 
         fun customPacket(packet: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(getByteArrayFromHexString(packet))
+            lew.byte(getByteArrayFromHexString(packet))
             return lew.getPacket()
         }
 
         fun customPacket(packet: ByteArray): ByteArray {
             val lew = PacketLittleEndianWriter(packet.size)
-            lew.write(packet)
+            lew.byte(packet)
             return lew.getPacket()
         }
 
 
         fun disableMinimap(): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.ADMIN_RESULT.value)
-            lew.writeShort(0x1C)
+            lew.byte(SendPacketOpcode.ADMIN_RESULT.value)
+            lew.short(0x1C)
             return lew.getPacket()
         }
 
         fun disableUI(enable: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.DISABLE_UI.value)
-            lew.write(if (enable) 1 else 0)
+            lew.byte(SendPacketOpcode.DISABLE_UI.value)
+            lew.byte(if (enable) 1 else 0)
             return lew.getPacket()
         }
 
@@ -141,8 +139,8 @@ class PacketCreator {
 
         fun earnTitleMessage(msg: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SCRIPT_PROGRESS_MESSAGE.value)
-            lew.writeGameASCIIString(msg)
+            lew.byte(SendPacketOpcode.SCRIPT_PROGRESS_MESSAGE.value)
+            lew.gameASCIIString(msg)
             return lew.getPacket()
         }
 
@@ -153,43 +151,43 @@ class PacketCreator {
          */
         fun enableActions(): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.STAT_CHANGED.value)
-            lew.write(1)
-            lew.writeInt(0)
-            lew.write(0)
+            lew.byte(SendPacketOpcode.STAT_CHANGED.value)
+            lew.byte(1)
+            lew.int(0)
+            lew.byte(0)
             return lew.getPacket() //return updatePlayerStats(EMPTY_STATUPDATE, true);
         }
 
         fun enableReport(): ByteArray {
             val lew = PacketLittleEndianWriter(3)
-            lew.write(SendPacketOpcode.CLAIM_STATUS_CHANGED.value)
-            lew.write(1)
+            lew.byte(SendPacketOpcode.CLAIM_STATUS_CHANGED.value)
+            lew.byte(1)
             return lew.getPacket()
         }
 
         fun enableTV(): ByteArray {
             val lew = PacketLittleEndianWriter(7)
-            lew.write(SendPacketOpcode.ENABLE_TV.value)
-            lew.writeInt(0)
-            lew.write(0)
+            lew.byte(SendPacketOpcode.ENABLE_TV.value)
+            lew.int(0)
+            lew.byte(0)
             return lew.getPacket()
         }
 
         fun getClock(time: Int): ByteArray { // time in seconds
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.CLOCK.value)
-            lew.write(2) // clock type. if you send 3 here you have to send another byte (which does not matter at all) before the timestamp
-            lew.writeInt(time)
+            lew.byte(SendPacketOpcode.CLOCK.value)
+            lew.byte(2) // clock type. if you send 3 here you have to send another byte (which does not matter at all) before the timestamp
+            lew.int(time)
             return lew.getPacket()
         }
 
         fun getClockTime(hour: Int, min: Int, sec: Int): ByteArray { // Current Time
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.CLOCK.value)
-            lew.write(1) //Clock-Type
-            lew.write(hour)
-            lew.write(min)
-            lew.write(sec)
+            lew.byte(SendPacketOpcode.CLOCK.value)
+            lew.byte(1) //Clock-Type
+            lew.byte(hour)
+            lew.byte(min)
+            lew.byte(sec)
             return lew.getPacket()
         }
 
@@ -212,24 +210,24 @@ class PacketCreator {
          */
         fun getGMEffect(type: Int, mode: Byte): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.ADMIN_RESULT.value)
-            lew.write(type)
-            lew.write(mode)
+            lew.byte(SendPacketOpcode.ADMIN_RESULT.value)
+            lew.byte(type)
+            lew.byte(mode)
             return lew.getPacket()
         }
 
         fun getKeyMap(keybindings: Map<Int, KeyBinding>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.KEYMAP.value)
-            lew.write(0)
+            lew.byte(SendPacketOpcode.KEYMAP.value)
+            lew.byte(0)
             for (x in 0..89) {
                 val binding = keybindings[Integer.valueOf(x)]
                 if (binding != null) {
-                    lew.write(binding.type)
-                    lew.writeInt(binding.action)
+                    lew.byte(binding.type)
+                    lew.int(binding.action)
                 } else {
-                    lew.write(0)
-                    lew.writeInt(0)
+                    lew.byte(0)
+                    lew.int(0)
                 }
             }
             return lew.getPacket()
@@ -245,15 +243,15 @@ class PacketCreator {
 
         fun getPlayerNpc(npc: PlayerNPCs): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.IMITATED_NPC_RESULT.value)
-            lew.write(0x01)
-            lew.writeInt(npc.npcId)
-            lew.writeGameASCIIString(npc.name)
-            lew.write(0) // direction
-            lew.write(npc.skin)
-            lew.writeInt(npc.face)
-            lew.write(0)
-            lew.writeInt(npc.hair)
+            lew.byte(SendPacketOpcode.IMITATED_NPC_RESULT.value)
+            lew.byte(0x01)
+            lew.int(npc.npcId)
+            lew.gameASCIIString(npc.name)
+            lew.byte(0) // direction
+            lew.byte(npc.skin)
+            lew.int(npc.face)
+            lew.byte(0)
+            lew.int(npc.hair)
             val equip = npc.equips
             val myEquip: MutableMap<Byte, Int?> = mutableMapOf()
             for (position in equip.keys) {
@@ -268,18 +266,18 @@ class PacketCreator {
                 }
             }
             for ((key, value) in myEquip) {
-                lew.write(key)
-                lew.writeInt(value ?: 0)
+                lew.byte(key)
+                lew.int(value ?: 0)
             }
-            lew.writeShort(-1)
+            lew.short(-1)
             val cWeapon = equip[(-111).toByte()]
             if (cWeapon != null) {
-                lew.writeInt(cWeapon)
+                lew.int(cWeapon)
             } else {
-                lew.writeInt(0)
+                lew.int(0)
             }
             for (i in 0..11) {
-                lew.write(0)
+                lew.byte(0)
             }
             return lew.getPacket()
         }
@@ -291,8 +289,8 @@ class PacketCreator {
          */
         fun getRelogResponse(): ByteArray {
             val lew = PacketLittleEndianWriter(3)
-            lew.write(SendPacketOpcode.RELOG_RESPONSE.value)
-            lew.write(1) //1 O.O Must be more types ):
+            lew.byte(SendPacketOpcode.RELOG_RESPONSE.value)
+            lew.byte(1) //1 O.O Must be more types ):
             return lew.getPacket()
         }
 
@@ -316,37 +314,37 @@ class PacketCreator {
          */
         fun getWarpToMap(to: GameMap, spawnPoint: Int, chr: Character): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SET_FIELD.value)
-            lew.writeInt(chr.client.channel - 1)
-            lew.write(2) // 맵이동 횟수
-            lew.write(0)
-            lew.writeInt(to.mapId)
-            lew.write(spawnPoint)
-            lew.writeShort(chr.hp)
-            lew.write(0)
-            lew.writeLong(getTime(System.currentTimeMillis()))
+            lew.byte(SendPacketOpcode.SET_FIELD.value)
+            lew.int(chr.client.channel - 1)
+            lew.byte(2) // 맵이동 횟수
+            lew.byte(0)
+            lew.int(to.mapId)
+            lew.byte(spawnPoint)
+            lew.short(chr.hp)
+            lew.byte(0)
+            lew.long(getTime(System.currentTimeMillis()))
             return lew.getPacket()
         }
 
         fun guideHint(hint: Int): ByteArray {
             val lew = PacketLittleEndianWriter(11)
-            lew.write(SendPacketOpcode.TALK_GUIDE.value)
-            lew.write(1)
-            lew.writeInt(hint)
-            lew.writeInt(7000)
+            lew.byte(SendPacketOpcode.TALK_GUIDE.value)
+            lew.byte(1)
+            lew.int(hint)
+            lew.int(7000)
             return lew.getPacket()
         }
 
         fun leftKnockBack(): ByteArray {
             val lew = PacketLittleEndianWriter(2)
-            lew.write(SendPacketOpcode.LEFT_KNOCK_BACK.value)
+            lew.byte(SendPacketOpcode.LEFT_KNOCK_BACK.value)
             return lew.getPacket()
         }
 
         fun lockUI(enable: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter(3)
-            lew.write(SendPacketOpcode.LOCK_UI.value)
-            lew.write(if (enable) 1 else 0)
+            lew.byte(SendPacketOpcode.LOCK_UI.value)
+            lew.byte(if (enable) 1 else 0)
             return lew.getPacket()
         }
 
@@ -365,17 +363,17 @@ class PacketCreator {
          */
         fun openUI(ui: Byte): ByteArray {
             val lew = PacketLittleEndianWriter(3)
-            lew.write(SendPacketOpcode.OPEN_UI.value)
-            lew.write(ui)
+            lew.byte(SendPacketOpcode.OPEN_UI.value)
+            lew.byte(ui)
             return lew.getPacket()
         }
 
         fun remoteChannelChange(ch: Byte): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.ENTRUSTED_SHOP_CHECK_RESULT.value) // header.
-            lew.write(0x10)
-            lew.writeInt(0) //No idea yet
-            lew.write(ch)
+            lew.byte(SendPacketOpcode.ENTRUSTED_SHOP_CHECK_RESULT.value) // header.
+            lew.byte(0x10)
+            lew.int(0) //No idea yet
+            lew.byte(ch)
             return lew.getPacket()
         }
 
@@ -386,7 +384,7 @@ class PacketCreator {
          */
         fun removeTV(): ByteArray {
             val lew = PacketLittleEndianWriter(2)
-            lew.write(SendPacketOpcode.REMOVE_TV.value)
+            lew.byte(SendPacketOpcode.REMOVE_TV.value)
             return lew.getPacket()
         }
 
@@ -406,55 +404,55 @@ class PacketCreator {
          */
         fun reportResponse(mode: Byte): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SUE_CHARACTER_RESULT.value)
-            lew.write(mode)
+            lew.byte(SendPacketOpcode.SUE_CHARACTER_RESULT.value)
+            lew.byte(mode)
             return lew.getPacket()
         }
 
         fun resetForcedStats(): ByteArray {
             val lew = PacketLittleEndianWriter(2)
-            lew.write(SendPacketOpcode.FORCED_STAT_RESET.value)
+            lew.byte(SendPacketOpcode.FORCED_STAT_RESET.value)
             return lew.getPacket()
         }
 
         fun retrieveFirstMessage(): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.ENTRUSTED_SHOP_CHECK_RESULT.value) // header.
-            lew.write(0x08)
+            lew.byte(SendPacketOpcode.ENTRUSTED_SHOP_CHECK_RESULT.value) // header.
+            lew.byte(0x08)
             return lew.getPacket()
         }
 
         fun sendDuey(operation: Byte, packages: List<DueyPackages>? = null): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.PARCEL.value)
-            lew.write(operation)
+            lew.byte(SendPacketOpcode.PARCEL.value)
+            lew.byte(operation)
             if (operation.toInt() == 8) {
-                lew.write(0)
-                lew.write(packages?.size ?: 0)
+                lew.byte(0)
+                lew.byte(packages?.size ?: 0)
                 if (packages != null) {
                     for (dp in packages) {
-                        lew.writeInt(dp.packageId)
-                        lew.writeASCIIString(dp.sender)
+                        lew.int(dp.packageId)
+                        lew.ASCIIString(dp.sender)
                         for (i in dp.sender.length..12) {
-                            lew.write(0)
+                            lew.byte(0)
                         }
-                        lew.writeInt(dp.mesos)
-                        lew.writeLong(getTime(dp.sentTimeInMilliseconds()))
-                        lew.writeLong(0) // Contains message o____o.
+                        lew.int(dp.mesos)
+                        lew.long(getTime(dp.sentTimeInMilliseconds()))
+                        lew.long(0) // Contains message o____o.
                         for (i in 0..47) {
-                            lew.writeInt(Random.nextInt(Int.MAX_VALUE))
+                            lew.int(Random.nextInt(Int.MAX_VALUE))
                         }
-                        lew.writeInt(0)
-                        lew.write(0)
+                        lew.int(0)
+                        lew.byte(0)
                         if (dp.item != null) {
-                            lew.write(1)
+                            lew.byte(1)
                             addItemInfo(lew, dp.item, zeroPosition = true, leaveOut = true)
                         } else {
-                            lew.write(0)
+                            lew.byte(0)
                         }
                     }
                 }
-                lew.write(0)
+                lew.byte(0)
             }
             return lew.getPacket()
         }
@@ -480,17 +478,17 @@ class PacketCreator {
                 height = 5
             }
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.PLAYER_HINT.value)
-            lew.writeGameASCIIString(hint)
-            lew.writeShort(width)
-            lew.writeShort(height)
-            lew.write(1)
+            lew.byte(SendPacketOpcode.PLAYER_HINT.value)
+            lew.gameASCIIString(hint)
+            lew.short(width)
+            lew.short(height)
+            lew.byte(1)
             return lew.getPacket()
         }
 
         fun sendMesoLimit(): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.TRADE_MONEY_LIMIT.value) //Players under level 15 can only trade 1m per day
+            lew.byte(SendPacketOpcode.TRADE_MONEY_LIMIT.value) //Players under level 15 can only trade 1m per day
             return lew.getPacket()
         }
 
@@ -505,24 +503,24 @@ class PacketCreator {
          */
         fun sendTV(chr: Character, messages: List<String>, type: Int, partner: Character?): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SEND_TV.value)
-            lew.write(if (partner != null) 3 else 1)
-            lew.write(type) //Heart = 2  Star = 1  Normal = 0
+            lew.byte(SendPacketOpcode.SEND_TV.value)
+            lew.byte(if (partner != null) 3 else 1)
+            lew.byte(type) //Heart = 2  Star = 1  Normal = 0
             CharacterPacket.addCharLook(lew, chr, false)
-            lew.writeGameASCIIString(chr.name)
+            lew.gameASCIIString(chr.name)
             if (partner != null) {
-                lew.writeGameASCIIString(partner.name)
+                lew.gameASCIIString(partner.name)
             } else {
-                lew.writeShort(0)
+                lew.short(0)
             }
             for (i in messages.indices) {
                 if (i == 4 && messages[4].length > 15) {
-                    lew.writeGameASCIIString(messages[4].substring(0, 15))
+                    lew.gameASCIIString(messages[4].substring(0, 15))
                 } else {
-                    lew.writeGameASCIIString(messages[i])
+                    lew.gameASCIIString(messages[i])
                 }
             }
-            lew.writeInt(1337) // time limit
+            lew.int(1337) // time limit
             if (partner != null) {
                 CharacterPacket.addCharLook(lew, partner, false)
             }
@@ -531,52 +529,52 @@ class PacketCreator {
 
         fun sendYellowTip(tip: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SET_WEEK_EVENT_MESSAGE.value)
-            lew.write(0xFF)
-            lew.writeGameASCIIString(tip)
-            lew.writeShort(0)
+            lew.byte(SendPacketOpcode.SET_WEEK_EVENT_MESSAGE.value)
+            lew.byte(0xFF)
+            lew.gameASCIIString(tip)
+            lew.short(0)
             return lew.getPacket()
         }
 
         fun showBerserk(cid: Int, skillLevel: Int, berserk: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_FOREIGN_EFFECT.value)
-            lew.writeInt(cid)
-            lew.write(1)
-            lew.writeInt(1320006)
-            lew.write(0xA9)
-            lew.write(skillLevel)
-            lew.write(if (berserk) 1 else 0)
+            lew.byte(SendPacketOpcode.SHOW_FOREIGN_EFFECT.value)
+            lew.int(cid)
+            lew.byte(1)
+            lew.int(1320006)
+            lew.byte(0xA9)
+            lew.byte(skillLevel)
+            lew.byte(if (berserk) 1 else 0)
             return lew.getPacket()
         }
 
         fun showBossHP(oid: Int, currHP: Int, maxHP: Int, tagColor: Byte, tagBgColor: Byte): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.FIELD_EFFECT.value)
-            lew.write(5)
-            lew.writeInt(oid)
-            lew.writeInt(currHP)
-            lew.writeInt(maxHP)
-            lew.write(tagColor)
-            lew.write(tagBgColor)
+            lew.byte(SendPacketOpcode.FIELD_EFFECT.value)
+            lew.byte(5)
+            lew.int(oid)
+            lew.int(currHP)
+            lew.int(maxHP)
+            lew.byte(tagColor)
+            lew.byte(tagBgColor)
             return lew.getPacket()
         }
 
         fun showBuffEffect(cid: Int, skillId: Int, effectId: Int, direction: Byte = 3): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_FOREIGN_EFFECT.value)
-            lew.writeInt(cid)
-            lew.write(effectId) //buff level
-            lew.writeInt(skillId)
-            lew.write(1)
+            lew.byte(SendPacketOpcode.SHOW_FOREIGN_EFFECT.value)
+            lew.int(cid)
+            lew.byte(effectId) //buff level
+            lew.int(skillId)
+            lew.byte(1)
             return lew.getPacket()
         }
 
         fun showChair(characterId: Int, itemId: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_CHAIR.value)
-            lew.writeInt(characterId)
-            lew.writeInt(itemId)
+            lew.byte(SendPacketOpcode.SHOW_CHAIR.value)
+            lew.int(characterId)
+            lew.int(itemId)
             return lew.getPacket()
         }
 
@@ -590,15 +588,15 @@ class PacketCreator {
         @Throws(SQLException::class)
         fun showNotes(list: List<Character.Companion.Note>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.MEMO_RESULT.value)
-            lew.write(3)
-            lew.write(list.size)
+            lew.byte(SendPacketOpcode.MEMO_RESULT.value)
+            lew.byte(3)
+            lew.byte(list.size)
             for ((id, from, message, timestamp, fame) in list) {
-                lew.writeInt(id)
-                lew.writeGameASCIIString("$from ")
-                lew.writeGameASCIIString(message)
-                lew.writeLong(getTime(timestamp))
-                lew.write(fame)
+                lew.int(id)
+                lew.gameASCIIString("$from ")
+                lew.gameASCIIString(message)
+                lew.long(getTime(timestamp))
+                lew.byte(fame)
             }
             return lew.getPacket()
         }
@@ -613,26 +611,26 @@ class PacketCreator {
          */
         fun showSpecialEffect(effect: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
-            lew.write(effect)
+            lew.byte(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
+            lew.byte(effect)
             return lew.getPacket()
         }
 
         fun talkGuide(talk: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.TALK_GUIDE.value)
-            lew.write(0)
-            lew.writeGameASCIIString(talk)
-            lew.write(byteArrayOf(0xC8.toByte(), 0, 0, 0, 0xA0.toByte(), 0x0F.toByte(), 0, 0))
+            lew.byte(SendPacketOpcode.TALK_GUIDE.value)
+            lew.byte(0)
+            lew.gameASCIIString(talk)
+            lew.byte(byteArrayOf(0xC8.toByte(), 0, 0, 0, 0xA0.toByte(), 0x0F.toByte(), 0, 0))
             return lew.getPacket()
         }
 
         fun updateAreaInfo(area: Int, info: String?): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.SHOW_STATUS_INFO.value)
-            lew.write(0x0A) //0x0B in v95
-            lew.writeShort(area) //infoNumber
-            lew.writeGameASCIIString(info!!)
+            lew.byte(SendPacketOpcode.SHOW_STATUS_INFO.value)
+            lew.byte(0x0A) //0x0B in v95
+            lew.short(area) //infoNumber
+            lew.gameASCIIString(info!!)
             return lew.getPacket()
         }
 
@@ -652,19 +650,19 @@ class PacketCreator {
                 secondmask = secondmask or stat.value
                 //}
             }
-            //lew.writeInt(firstmask);
-            lew.writeInt(secondmask)
+            //lew.int(firstmask);
+            lew.int(secondmask)
         }
 
-        fun writeLongMask(lew: PacketLittleEndianWriter, statUps: List<Pair<BuffStat, Int>>) {
+        fun longMask(lew: PacketLittleEndianWriter, statUps: List<Pair<BuffStat, Int>>) {
             var mask: Long = 0
             for ((first) in statUps) {
                 mask = mask or first.value
             }
-            lew.writeLong(mask)
+            lew.long(mask)
         }
 
-        fun writeLongMaskFromList(lew: PacketLittleEndianWriter, statUps: List<BuffStat>) {
+        fun longMaskFromList(lew: PacketLittleEndianWriter, statUps: List<BuffStat>) {
             var firstmask: Long = 0
             var secondmask: Long = 0
             for (statup in statUps) {
@@ -674,8 +672,8 @@ class PacketCreator {
                     secondmask = secondmask or statup.value
                 }
             }
-            //lew.writeLong(firstmask);
-            lew.writeLong(secondmask)
+            //lew.long(firstmask);
+            lew.long(secondmask)
         }
     }
 }

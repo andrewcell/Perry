@@ -26,39 +26,39 @@ class GuildPacket {
         @Throws(SQLException::class)
         fun addThread(lew: PacketLittleEndianWriter, rs: ResultRow?) {
             if (rs == null) return
-            lew.writeInt(rs[localThreadId])
-            lew.writeInt(rs[posterCid])
-            lew.writeGameASCIIString(rs[name])
-            lew.writeLong(PacketCreator.getTime(rs[timestamp].toEpochMilli()))
-            lew.writeInt(rs[icon].toInt())
-            lew.writeInt(rs[replyCount].toInt())
+            lew.int(rs[localThreadId])
+            lew.int(rs[posterCid])
+            lew.gameASCIIString(rs[name])
+            lew.long(PacketCreator.getTime(rs[timestamp].toEpochMilli()))
+            lew.int(rs[icon].toInt())
+            lew.int(rs[replyCount].toInt())
         }
 
         @Throws(SQLException::class)
         fun guildBBSThreadList(rs: List<ResultRow?>, startNumber: Int): ByteArray {
             var start = startNumber
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_BBS_PACKET.value)
-            lew.write(0x06)
+            lew.byte(SendPacketOpcode.GUILD_BBS_PACKET.value)
+            lew.byte(0x06)
             if (rs.isEmpty()) {
-                lew.write(0)
-                lew.writeInt(0)
-                lew.writeInt(0)
+                lew.byte(0)
+                lew.int(0)
+                lew.int(0)
                 return lew.getPacket()
             }
             var threadCount = rs.size
             if ((rs[rs.size - 1]?.get(localThreadId)) == 0) { //has a notice
-                lew.write(1)
+                lew.byte(1)
                 addThread(lew, rs[rs.size - 1])
                 threadCount-- //one thread didn't count (because it's a notice)
             } else {
-                lew.write(0)
+                lew.byte(0)
             }
             if (rs[start + 1] == null) {
                 start = 0
             }
-            lew.writeInt(threadCount)
-            lew.writeInt(min(10, threadCount - start))
+            lew.int(threadCount)
+            lew.int(min(10, threadCount - start))
             for (i in 0 until min(10, threadCount - start)) {
                 addThread(lew, rs[i])
             }
@@ -68,82 +68,82 @@ class GuildPacket {
         //rank change
         fun guildCapacityChange(gid: Int, capacity: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x3A)
-            lew.writeInt(gid)
-            lew.write(capacity)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x3A)
+            lew.int(gid)
+            lew.byte(capacity)
             return lew.getPacket()
         }
 
         fun guildDisband(gid: Int): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x32)
-            lew.writeInt(gid)
-            lew.write(1)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x32)
+            lew.int(gid)
+            lew.byte(1)
             return lew.getPacket()
         }
 
         fun guildEmblemChange(gid: Int, bg: Short, bgColor: Byte, logo: Short, logoColor: Byte): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x42)
-            lew.writeInt(gid)
-            lew.writeShort(bg.toInt())
-            lew.write(bgColor)
-            lew.writeShort(logo.toInt())
-            lew.write(logoColor)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x42)
+            lew.int(gid)
+            lew.short(bg.toInt())
+            lew.byte(bgColor)
+            lew.short(logo.toInt())
+            lew.byte(logoColor)
             return lew.getPacket()
         }
 
         fun guildInvite(gid: Int, charName: String?): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x05)
-            lew.writeInt(gid)
-            lew.writeGameASCIIString(charName!!)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x05)
+            lew.int(gid)
+            lew.gameASCIIString(charName!!)
             return lew.getPacket()
         }
 
         fun guildNotice(gid: Int, notice: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x44)
-            lew.writeInt(gid)
-            lew.writeGameASCIIString(notice)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x44)
+            lew.int(gid)
+            lew.gameASCIIString(notice)
             return lew.getPacket()
         }
 
         //someone leaving, mode == 0x2c for leaving, 0x2f for expelled
         fun guildMemberLeft(mgc: GuildCharacter, bExpelled: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(if (bExpelled) 0x2f else 0x2c)
-            lew.writeInt(mgc.guildId)
-            lew.writeInt(mgc.id)
-            lew.writeGameASCIIString(mgc.name)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(if (bExpelled) 0x2f else 0x2c)
+            lew.int(mgc.guildId)
+            lew.int(mgc.id)
+            lew.gameASCIIString(mgc.name)
             return lew.getPacket()
         }
 
         //rank change
         fun guildMemberLevelJobUpdate(mgc: GuildCharacter): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x3C)
-            lew.writeInt(mgc.guildId)
-            lew.writeInt(mgc.id)
-            lew.writeInt(mgc.level)
-            lew.writeInt(mgc.jobId)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x3C)
+            lew.int(mgc.guildId)
+            lew.int(mgc.id)
+            lew.int(mgc.level)
+            lew.int(mgc.jobId)
             return lew.getPacket()
         }
 
         fun guildMemberOnline(gid: Int, cid: Int, bOnline: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x3d)
-            lew.writeInt(gid)
-            lew.writeInt(cid)
-            lew.write(if (bOnline) 1 else 0)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x3d)
+            lew.int(gid)
+            lew.int(cid)
+            lew.byte(if (bOnline) 1 else 0)
             return lew.getPacket()
         }
 
@@ -160,10 +160,10 @@ class GuildPacket {
          */
         fun jobMessageToGuild(type: Int, job: Int, charName: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.NOTIFY_JOB_CHANGE.value)
-            lew.write(type)
-            lew.writeInt(job)
-            lew.writeGameASCIIString("> $charName")
+            lew.byte(SendPacketOpcode.NOTIFY_JOB_CHANGE.value)
+            lew.byte(type)
+            lew.int(job)
+            lew.gameASCIIString("> $charName")
             return lew.getPacket()
         }
 
@@ -181,103 +181,103 @@ class GuildPacket {
         </Guild></Family></Family> */
         fun levelUpMessageToGuild(type: Int, level: Int, charName: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.NOTIFY_LEVELUP.value)
-            lew.write(type)
-            lew.writeInt(level)
-            lew.writeGameASCIIString(charName)
+            lew.byte(SendPacketOpcode.NOTIFY_LEVELUP.value)
+            lew.byte(type)
+            lew.int(level)
+            lew.gameASCIIString(charName)
             return lew.getPacket()
         }
 
         fun newGuildMember(mgc: GuildCharacter): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x27)
-            lew.writeInt(mgc.guildId)
-            lew.writeInt(mgc.id)
-            lew.writeASCIIString(mgc.name, 13)
-            lew.writeInt(mgc.jobId)
-            lew.writeInt(mgc.level)
-            lew.writeInt(mgc.guildRank) //should be always 5 but whatevs
-            lew.writeInt(if (mgc.online) 1 else 0) //should always be 1 too
-            lew.writeInt(1) //? could be guild signature, but doesn't seem to matter
-            lew.writeInt(3)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x27)
+            lew.int(mgc.guildId)
+            lew.int(mgc.id)
+            lew.ASCIIString(mgc.name, 13)
+            lew.int(mgc.jobId)
+            lew.int(mgc.level)
+            lew.int(mgc.guildRank) //should be always 5 but whatevs
+            lew.int(if (mgc.online) 1 else 0) //should always be 1 too
+            lew.int(1) //? could be guild signature, but doesn't seem to matter
+            lew.int(3)
             return lew.getPacket()
         }
 
         //rank change
         fun rankTitleChange(gid: Int, ranks: Array<String>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x3E)
-            lew.writeInt(gid)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x3E)
+            lew.int(gid)
             for (i in 0..4) {
-                lew.writeGameASCIIString(ranks[i])
+                lew.gameASCIIString(ranks[i])
             }
             return lew.getPacket()
         }
 
         fun showGuildInfo(c: Character?): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x1A) //signature for showing guild info
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x1A) //signature for showing guild info
             if (c == null) { //show empty guild (used for leaving, expelled)
-                lew.write(0)
+                lew.byte(0)
                 return lew.getPacket()
             }
             val g = c.client.getWorldServer().getGuild(c.mgc)
             if (g == null) { //failed to read from DB - don't show a guild
-                lew.write(0)
+                lew.byte(0)
                 return lew.getPacket()
             } else {
                 c.guildRank = c.guildRank
             }
-            lew.write(1) //bInGuild
-            lew.writeInt(g.id)
-            lew.writeGameASCIIString(g.name)
+            lew.byte(1) //bInGuild
+            lew.int(g.id)
+            lew.gameASCIIString(g.name)
             for (i in 1..5) {
-                lew.writeGameASCIIString(g.getRankTitle(i))
+                lew.gameASCIIString(g.getRankTitle(i))
             }
             val members: Collection<GuildCharacter> = g.members
-            lew.write(members.size) //then it is the size of all the members
+            lew.byte(members.size) //then it is the size of all the members
             for (mgc in members) { //and each of their character ids o_O
-                lew.writeInt(mgc.id)
+                lew.int(mgc.id)
             }
             for (mgc in members) {
-                lew.writeASCIIString(mgc.name, 13)
-                lew.writeInt(mgc.jobId)
-                lew.writeInt(mgc.level)
-                lew.writeInt(mgc.guildRank)
-                lew.writeInt(if (mgc.online) 1 else 0)
-                lew.writeInt(g.signature)
+                lew.ASCIIString(mgc.name, 13)
+                lew.int(mgc.jobId)
+                lew.int(mgc.level)
+                lew.int(mgc.guildRank)
+                lew.int(if (mgc.online) 1 else 0)
+                lew.int(g.signature)
             }
-            lew.writeInt(g.capacity)
-            lew.writeShort(g.logoBG.toInt())
-            lew.write(g.logoBGColor)
-            lew.writeShort(g.logo.toInt())
-            lew.write(g.logoColor)
-            lew.writeGameASCIIString(g.notice)
-            lew.writeInt(g.gp)
+            lew.int(g.capacity)
+            lew.short(g.logoBG.toInt())
+            lew.byte(g.logoBGColor)
+            lew.short(g.logo.toInt())
+            lew.byte(g.logoColor)
+            lew.gameASCIIString(g.notice)
+            lew.int(g.gp)
             return lew.getPacket()
         }
 
         @Throws(SQLException::class)
         fun showGuildRanks(npcId: Int, rs: List<ResultRow>): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x49)
-            lew.writeInt(npcId)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x49)
+            lew.int(npcId)
             if (rs.isEmpty()) { //no guilds
-                lew.writeInt(0)
+                lew.int(0)
                 return lew.getPacket()
             }
-            lew.writeInt(rs.size) //number of entries
+            lew.int(rs.size) //number of entries
             for (row in rs) {
-                lew.writeGameASCIIString(row[Guilds.name])
-                lew.writeInt(row[Guilds.GP])
-                lew.writeInt(row[Guilds.logo])
-                lew.writeInt(row[Guilds.logoColor].toInt())
-                lew.writeInt(row[Guilds.logoBG])
-                lew.writeInt(row[Guilds.logoBGColor].toInt())
+                lew.gameASCIIString(row[Guilds.name])
+                lew.int(row[Guilds.GP])
+                lew.int(row[Guilds.logo])
+                lew.int(row[Guilds.logoColor].toInt())
+                lew.int(row[Guilds.logoBG])
+                lew.int(row[Guilds.logoBGColor].toInt())
             }
             return lew.getPacket()
         }
@@ -285,41 +285,41 @@ class GuildPacket {
         @Throws(SQLException::class, RuntimeException::class)
         fun showThread(localThreadId: Int, threadRS: ResultRow, repliesRS: List<ResultRow>?): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_BBS_PACKET.value)
-            lew.write(0x07)
-            lew.writeInt(localThreadId)
-            lew.writeInt(threadRS[posterCid])
-            lew.writeLong(PacketCreator.getTime(threadRS[timestamp].toEpochMilli()))
-            lew.writeGameASCIIString(threadRS[name])
-            lew.writeGameASCIIString(threadRS[startPost])
-            lew.writeInt(threadRS[icon].toInt())
+            lew.byte(SendPacketOpcode.GUILD_BBS_PACKET.value)
+            lew.byte(0x07)
+            lew.int(localThreadId)
+            lew.int(threadRS[posterCid])
+            lew.long(PacketCreator.getTime(threadRS[timestamp].toEpochMilli()))
+            lew.gameASCIIString(threadRS[name])
+            lew.gameASCIIString(threadRS[startPost])
+            lew.int(threadRS[icon].toInt())
             if (repliesRS != null) {
                 val replyCount = threadRS[replyCount].toInt()
-                lew.writeInt(replyCount)
+                lew.int(replyCount)
                 var i = 0
                 while (i < replyCount) {
-                    lew.writeInt(repliesRS[i][replyId])
-                    lew.writeInt(repliesRS[i][BBSReplies.posterCid])
-                    lew.writeLong(PacketCreator.getTime(repliesRS[i][BBSReplies.timestamp].toEpochMilli()))
-                    lew.writeGameASCIIString(repliesRS[i][content])
+                    lew.int(repliesRS[i][replyId])
+                    lew.int(repliesRS[i][BBSReplies.posterCid])
+                    lew.long(PacketCreator.getTime(repliesRS[i][BBSReplies.timestamp].toEpochMilli()))
+                    lew.gameASCIIString(repliesRS[i][content])
                     i++
                 }
                 /*if (i != replyCount || repliesRS.next()) {
                 throw new RuntimeException(String.valueOf(threadRS.getInt("threadid")));
             }*/
             } else {
-                lew.writeInt(0)
+                lew.int(0)
             }
             return lew.getPacket()
         }
 
         fun changeGuildRank(mgc: GuildCharacter): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x40)
-            lew.writeInt(mgc.guildId)
-            lew.writeInt(mgc.id)
-            lew.write(mgc.guildRank)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x40)
+            lew.int(mgc.guildId)
+            lew.int(mgc.id)
+            lew.byte(mgc.guildRank)
             return lew.getPacket()
         }
 
@@ -331,45 +331,45 @@ class GuildPacket {
          */
         fun denyGuildInvitation(charName: String): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(0x37)
-            lew.writeGameASCIIString(charName)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(0x37)
+            lew.gameASCIIString(charName)
             return lew.getPacket()
         }
 
         fun genericGuildMessage(code: Byte): ByteArray {
             val lew = PacketLittleEndianWriter()
-            lew.write(SendPacketOpcode.GUILD_OPERATION.value)
-            lew.write(code)
+            lew.byte(SendPacketOpcode.GUILD_OPERATION.value)
+            lew.byte(code)
             return lew.getPacket()
         }
 
         private fun getGuildInfo(lew: PacketLittleEndianWriter, guild: Guild) {
-            lew.writeInt(guild.id)
-            lew.writeGameASCIIString(guild.name)
+            lew.int(guild.id)
+            lew.gameASCIIString(guild.name)
             for (i in 1..5) {
-                lew.writeGameASCIIString(guild.getRankTitle(i))
+                lew.gameASCIIString(guild.getRankTitle(i))
             }
             val members = guild.members
-            lew.write(members.size)
+            lew.byte(members.size)
             for (mgc in members) {
-                lew.writeInt(mgc.id)
+                lew.int(mgc.id)
             }
             for (mgc in members) {
-                lew.writeASCIIString(mgc.name, 13)
-                lew.writeInt(mgc.jobId)
-                lew.writeInt(mgc.level)
-                lew.writeInt(mgc.guildRank)
-                lew.writeInt(if (mgc.online) 1 else 0)
-                lew.writeInt(guild.signature)
+                lew.ASCIIString(mgc.name, 13)
+                lew.int(mgc.jobId)
+                lew.int(mgc.level)
+                lew.int(mgc.guildRank)
+                lew.int(if (mgc.online) 1 else 0)
+                lew.int(guild.signature)
             }
-            lew.writeInt(guild.capacity)
-            lew.writeShort(guild.logoBG.toInt())
-            lew.write(guild.logoBGColor.toInt())
-            lew.writeShort(guild.logo.toInt())
-            lew.write(guild.logoColor.toInt())
-            lew.writeGameASCIIString(guild.notice)
-            lew.writeInt(guild.gp)
+            lew.int(guild.capacity)
+            lew.short(guild.logoBG.toInt())
+            lew.byte(guild.logoBGColor.toInt())
+            lew.short(guild.logo.toInt())
+            lew.byte(guild.logoColor.toInt())
+            lew.gameASCIIString(guild.notice)
+            lew.int(guild.gp)
         }
     }
 }

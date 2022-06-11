@@ -11,14 +11,14 @@ class NPCAnimation : AbstractPacketHandler() {
         val lew = PacketLittleEndianWriter()
         val length = slea.available().toInt()
         if (length == 6) { // NPC talk
-            lew.write(SendPacketOpcode.NPC_ACTION.value)
-            lew.writeInt(slea.readInt())
-            lew.writeShort(slea.readShort().toInt())
+            lew.byte(SendPacketOpcode.NPC_ACTION.value)
+            lew.int(slea.readInt())
+            lew.short(slea.readShort().toInt())
             c.announce(lew.getPacket())
         } else if (length > 6) { // NPC Move
             val bytes = slea.read(length - 9)
-            lew.write(SendPacketOpcode.NPC_ACTION.value)
-            lew.write(bytes)
+            lew.byte(SendPacketOpcode.NPC_ACTION.value)
+            lew.byte(bytes)
             c.announce(lew.getPacket())
         }
     }

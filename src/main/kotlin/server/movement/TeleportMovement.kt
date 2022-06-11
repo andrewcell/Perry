@@ -5,11 +5,11 @@ import java.awt.Point
 
 class TeleportMovement(pixelsPerSecond: Point, type: Byte, position: Point, newState: Byte) : AbsoluteLifeMovement(0, pixelsPerSecond, type, position, 0, newState) {
     override fun serialize(lew: LittleEndianWriter) {
-        lew.write(type)
-        lew.writeShort(position.x)
-        lew.writeShort(position.y)
-        lew.writeShort(pixelsPerSecond.x)
-        lew.writeShort(pixelsPerSecond.y)
-        lew.write(newState)
+        lew.byte(type)
+        lew.short(position.x)
+        lew.short(position.y)
+        lew.short(pixelsPerSecond.x)
+        lew.short(pixelsPerSecond.y)
+        lew.byte(newState)
     }
 }

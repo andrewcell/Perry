@@ -8,44 +8,44 @@ import tools.data.output.PacketLittleEndianWriter
 class MonsterBookPacket {
     companion object {
         fun addMonsterBookInfo(lew: PacketLittleEndianWriter, chr: Character) {
-            lew.writeInt(chr.bookCover)
-            lew.write(0)
+            lew.int(chr.bookCover)
+            lew.byte(0)
             val cards = chr.monsterBook.cards
-            lew.writeShort(cards.size)
+            lew.short(cards.size)
             cards.forEach { (id, lv) ->
-                lew.writeShort(id % 10000)
-                lew.write(lv)
+                lew.short(id % 10000)
+                lew.byte(lv)
             }
         }
 
         fun addCard(full: Boolean, cardId: Int, level: Int): ByteArray {
             val lew = PacketLittleEndianWriter(11)
-            lew.write(SendPacketOpcode.MONSTER_BOOK_SET_CARD.value)
-            lew.write(if (full) 0 else 1)
-            lew.writeInt(cardId)
-            lew.writeInt(level)
+            lew.byte(SendPacketOpcode.MONSTER_BOOK_SET_CARD.value)
+            lew.byte(if (full) 0 else 1)
+            lew.int(cardId)
+            lew.int(level)
             return lew.getPacket()
         }
 
         fun changeCover(cardId: Int): ByteArray {
             val lew = PacketLittleEndianWriter(6)
-            lew.write(SendPacketOpcode.MONSTER_BOOK_SET_COVER.value)
-            lew.writeInt(cardId)
+            lew.byte(SendPacketOpcode.MONSTER_BOOK_SET_COVER.value)
+            lew.int(cardId)
             return lew.getPacket()
         }
 
         fun showForeignCardEffect(id: Int): ByteArray {
             val lew = PacketLittleEndianWriter(7)
-            lew.write(SendPacketOpcode.SHOW_FOREIGN_EFFECT.value)
-            lew.writeInt(id)
-            lew.write(0x0D)
+            lew.byte(SendPacketOpcode.SHOW_FOREIGN_EFFECT.value)
+            lew.int(id)
+            lew.byte(0x0D)
             return lew.getPacket()
         }
 
         fun showGainCard(): ByteArray {
             val lew = PacketLittleEndianWriter(3)
-            lew.write(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
-            lew.write(0x0D)
+            lew.byte(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
+            lew.byte(0x0D)
             return lew.getPacket()
         }
 
