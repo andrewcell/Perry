@@ -32,7 +32,7 @@ dependencies {
     implementation("com.microsoft.sqlserver:mssql-jdbc:10.2.1.jre11")
     implementation("org.postgresql:postgresql:42.4.0")
     implementation("org.xerial:sqlite-jdbc:3.36.0.3")
-    implementation("com.h2database:h2:2.1.212")
+    implementation("com.h2database:h2:2.1.214")
     implementation("com.beust", "klaxon", "5.6")
     implementation("ch.qos.logback:logback-classic:1.2.11")
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")
