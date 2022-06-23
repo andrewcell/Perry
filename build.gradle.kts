@@ -29,7 +29,7 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-java-time", exposedVersion)
     implementation("io.github.microutils", "kotlin-logging", "2.1.23")
     //implementation("org.slf4j:slf4j-simple:1.7.26")
-    implementation("com.microsoft.sqlserver:mssql-jdbc:10.2.1.jre11")
+    implementation("com.microsoft.sqlserver:mssql-jdbc:11.1.2.jre11-preview")
     implementation("org.postgresql:postgresql:42.4.0")
     implementation("org.xerial:sqlite-jdbc:3.36.0.3")
     implementation("com.h2database:h2:2.1.214")
