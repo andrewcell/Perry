@@ -30,6 +30,7 @@ import server.maps.MapFactory
 import tools.CoroutineManager
 import tools.ServerJSON.settings
 import tools.packet.InteractPacket
+import webapi.WebApiApplication
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -196,7 +197,7 @@ object Server : Runnable, KLoggable {
                 }
             }
             Runtime.getRuntime().addShutdownHook(Thread(shutdown(false)))
-            //if (settings.webApi.enable) webApi.main()
+            if (settings.webApi.enable) WebApiApplication.main()
             try {
                 Accounts.update { it[loggedIn] = 0 }
                 Characters.update { it[hasMerchant] = false }
