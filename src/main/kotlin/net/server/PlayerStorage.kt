@@ -74,4 +74,6 @@ class PlayerStorage {
             wLock.unlock()
         }
     }
+
+    fun getCount() = storage.size
 }
