@@ -8,7 +8,7 @@ import java.time.LocalDate
 
 object Accounts : Table() {
     val id = integer("id").autoIncrement()
-    val name = varchar("name", 50).default("")
+    val name = varchar("name", 50).default("").uniqueIndex("name")
     val password = varchar("password", 128).default("")
     val salt = varchar("salt", 128).nullable()
     val loggedIn = integer("loggedIn").default(0)

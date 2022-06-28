@@ -38,7 +38,7 @@ class LoginPasswordHandler : PacketHandler, KLoggable {
             when (val checkId = AutoRegister.checkAccount(c, email, password)) {
                 0, 1, 2, 6 -> {
                     val female = emailValue[0] == '3'
-                    if (checkId == 0) AutoRegister.registerAccount(c, email, password, female)
+                    if (checkId == 0) AutoRegister.registerAccount(c.getSessionIPAddress(), email, password, female)
                     val message = when (checkId) {
                         0 -> "회원 가입이 완료되었습니다.\r\n주민등록번호는 1234567 입니다."
                         1 -> "해당하는 계정이 사이트에 없습니다. 먼저 회원가입을 해주시기 바랍니다."
