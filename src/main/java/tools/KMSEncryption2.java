@@ -1,7 +1,7 @@
 package tools;
 
 /**
- * @author ì´ì¬ì™•<selina7992 @ naver.com>
+ * @author ÀÌÀç¿Õ<selina7992 @ naver.com>
  */
 public class KMSEncryption2 implements PacketEncryption {
     private static final byte[] ivkeys = new byte[]{(byte) 0xEC, (byte) 0x30, (byte) 0x76, (byte) 0x01, (byte) 0x45, (byte) 0xD0, (byte) 0x72, (byte) 0xBF, (byte) 0xB7, (byte) 0x98, (byte) 0x20, (byte) 0xFC,
