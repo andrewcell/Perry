@@ -39,7 +39,7 @@ dependencies {
     implementation("org.mariadb.jdbc:mariadb-java-client:3.0.5")
     implementation("io.ktor:ktor-server-content-negotiation:2.0.3")
     implementation("io.ktor:ktor-server-auth:2.0.2")
-    implementation("io.ktor:ktor-server-core-jvm:2.0.2")
+    implementation("io.ktor:ktor-server-core-jvm:2.0.3")
     implementation("io.ktor:ktor-server-netty-jvm:2.0.3")
     implementation("io.ktor:ktor-server-html-builder-jvm:2.0.3")
     implementation("io.ktor:ktor-server-sessions-jvm:2.0.2")
