@@ -42,7 +42,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core-jvm:2.0.3")
     implementation("io.ktor:ktor-server-netty-jvm:2.0.3")
     implementation("io.ktor:ktor-server-html-builder-jvm:2.0.3")
-    implementation("io.ktor:ktor-server-sessions-jvm:2.0.2")
+    implementation("io.ktor:ktor-server-sessions-jvm:2.0.3")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:2.0.2")
     implementation("io.ktor:ktor-server-call-logging-jvm:2.0.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:2.0.3")
