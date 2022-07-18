@@ -37,9 +37,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.11")
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.0.5")
-    implementation("io.ktor:ktor-server-content-negotiation:2.0.2")
+    implementation("io.ktor:ktor-server-content-negotiation:2.0.3")
     implementation("io.ktor:ktor-server-auth:2.0.2")
-    implementation("io.ktor:ktor-server-core-jvm:2.0.2")
+    implementation("io.ktor:ktor-server-core-jvm:2.0.3")
     implementation("io.ktor:ktor-server-netty-jvm:2.0.3")
     implementation("io.ktor:ktor-server-html-builder-jvm:2.0.3")
     implementation("io.ktor:ktor-server-sessions-jvm:2.0.2")
@@ -49,7 +49,7 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages:2.0.3")
     dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.7.0")
     dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.10")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.10")
 }
 
 tasks.test {
