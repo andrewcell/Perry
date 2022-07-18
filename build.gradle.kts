@@ -19,7 +19,7 @@ repositories {
 val exposedVersion: String by project
 
 dependencies {
-    implementation("io.netty:netty-all:4.1.78.Final")
+    implementation("io.netty:netty-all:4.1.79.Final")
     implementation("mysql", "mysql-connector-java", "8.0.29")
     implementation("org.graalvm.js", "js-scriptengine", "22.1.0.1")
     implementation("org.graalvm.js", "js", "22.1.0.1")
