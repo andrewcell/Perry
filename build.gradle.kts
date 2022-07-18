@@ -37,7 +37,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.11")
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.0.5")
-    implementation("io.ktor:ktor-server-content-negotiation:2.0.2")
+    implementation("io.ktor:ktor-server-content-negotiation:2.0.3")
     implementation("io.ktor:ktor-server-auth:2.0.2")
     implementation("io.ktor:ktor-server-core-jvm:2.0.2")
     implementation("io.ktor:ktor-server-netty-jvm:2.0.3")
