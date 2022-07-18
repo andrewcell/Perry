@@ -47,7 +47,7 @@ dependencies {
     implementation("io.ktor:ktor-server-call-logging-jvm:2.0.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:2.0.3")
     implementation("io.ktor:ktor-server-status-pages:2.0.3")
-    dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.7.0")
+    dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.7.10")
     dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.10")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.10")
 }
