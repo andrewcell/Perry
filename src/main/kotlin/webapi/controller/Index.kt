@@ -15,6 +15,7 @@ data class ServerStatusWeb(
     val targetClientVersion: String,
     val playersOnline: Int
 )
+
 fun Route.index() {
     route("/") {
         get {
@@ -22,7 +23,12 @@ fun Route.index() {
         }
 
         get("/status") {
-            val status = ServerStatusWeb(Server.online, Server.worlds.size, "1.2.${ServerConstants.gameVersion}", OnlinePlayers.getAllOnlinePlayers())
+            val status = ServerStatusWeb(
+                Server.online,
+                Server.worlds.size,
+                "1.2.${ServerConstants.gameVersion}",
+                OnlinePlayers.getAllOnlinePlayers()
+            )
             call.respond(status)
         }
     }

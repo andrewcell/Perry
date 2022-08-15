@@ -579,12 +579,6 @@ class PacketCreator {
         }
 
 
-
-
-
-
-
-
         @Throws(SQLException::class)
         fun showNotes(list: List<Character.Companion.Note>): ByteArray {
             val lew = PacketLittleEndianWriter()
@@ -633,11 +627,6 @@ class PacketCreator {
             lew.gameASCIIString(info!!)
             return lew.getPacket()
         }
-
-
-
-
-
 
 
         fun writeIntMask(lew: PacketLittleEndianWriter, stats: Map<MonsterStatus, Int>) {

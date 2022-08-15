@@ -1,8 +1,12 @@
 package webapi
 
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.*
@@ -17,6 +21,7 @@ import mu.KLoggable
 import org.slf4j.event.Level
 import tools.ServerJSON
 import webapi.controller.account
+import webapi.tools.JWTVariables
 
 object WebApiApplication : KLoggable {
     override val logger = logger()
@@ -36,8 +41,26 @@ object WebApiApplication : KLoggable {
             }
             install(StatusPages) {
                 exception<Throwable> { call, cause ->
-                    logger.error(cause) { "Exception caught in WebAPI. Request IP: ${call.request.origin.remoteHost}"}
+                    logger.error(cause) { "Exception caught in WebAPI. Request IP: ${call.request.origin.remoteHost}" }
                     call.respondText("What is happening in here?", status = HttpStatusCode.BadRequest)
+                }
+            }
+            install(Authentication) {
+                jwt("auth") {
+                    realm = JWTVariables.myRealm
+                    verifier(JWT
+                        .require(Algorithm.HMAC256(JWTVariables.secret))
+                        .withAudience(JWTVariables.audience)
+                        .withIssuer(JWTVariables.issuer)
+                        .build())
+                    validate { credential ->
+                        if (credential.payload.getClaim("username").asString() != "")
+                            JWTPrincipal(credential.payload)
+                        else null
+                    }
+                    challenge { _, _ ->
+                        call.respond(HttpStatusCode.Unauthorized, "You need to obtain the token first or token has been expired.")
+                    }
                 }
             }
             install(Routing) {
