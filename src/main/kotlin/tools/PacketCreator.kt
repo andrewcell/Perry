@@ -25,8 +25,11 @@ class PacketCreator {
         const val ZERO_TIME = 94354848000000000L //00 40 E0 FD 3B 37 4F 01
         private const val PERMANENT = 150841440000000000L // 00 C0 9B 90 7D E5 17 02
 
-        fun packetWriter(lew: PacketLittleEndianWriter.() -> Unit): ByteArray {
-            return PacketLittleEndianWriter().apply(lew).getPacket()
+        fun packetWriter(code: SendPacketOpcode? = null, lew: PacketLittleEndianWriter.() -> Unit): ByteArray {
+            return PacketLittleEndianWriter().apply {
+                code?.let { opcode(it) }
+                lew()
+            }.getPacket()
         }
 
         fun addAnnounceBox(

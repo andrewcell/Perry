@@ -32,8 +32,7 @@ class LoginPacket {
          *
          * @return The end of server list packet.
          */
-        fun getEndOfServerList() = packetWriter {
-            opcode(SendPacketOpcode.SERVERLIST)
+        fun getEndOfServerList() = packetWriter(SendPacketOpcode.SERVERLIST) {
             byte(0xFF)
         }
 
@@ -67,8 +66,7 @@ class LoginPacket {
          *
          * @return The PIN request packet.
          */
-        fun getAuthSuccess(c: Client) = packetWriter {
-            opcode(SendPacketOpcode.LOGIN_STATUS)
+        fun getAuthSuccess(c: Client) = packetWriter(SendPacketOpcode.LOGIN_STATUS) {
             byte(0)
             int(c.accountId)
             byte(c.gender)

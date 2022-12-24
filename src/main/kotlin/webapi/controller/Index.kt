@@ -2,6 +2,7 @@ package webapi
 
 import constants.ServerConstants
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
@@ -22,14 +23,16 @@ fun Route.index() {
             call.respondText { "It works!" }
         }
 
-        get("/status") {
-            val status = ServerStatusWeb(
-                Server.online,
-                Server.worlds.size,
-                "1.2.${ServerConstants.gameVersion}",
-                OnlinePlayers.getAllOnlinePlayers()
-            )
-            call.respond(status)
+        authenticate("jwt") {
+            get("/status") {
+                val status = ServerStatusWeb(
+                    Server.online,
+                    Server.worlds.size,
+                    "1.2.${ServerConstants.gameVersion}",
+                    OnlinePlayers.getAllOnlinePlayers()
+                )
+                call.respond(status)
+            }
         }
     }
 }
