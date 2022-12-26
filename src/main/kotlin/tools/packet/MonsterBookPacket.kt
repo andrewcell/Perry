@@ -3,6 +3,7 @@ package tools.packet
 import client.Character
 import net.SendPacketOpcode
 import tools.PacketCreator
+import tools.PacketCreator.Companion.packetWriter
 import tools.data.output.PacketLittleEndianWriter
 
 class MonsterBookPacket {
@@ -42,7 +43,7 @@ class MonsterBookPacket {
             return lew.getPacket()
         }
 
-        fun showGainCard(): ByteArray {
+        fun showGainCard() = packetWriter(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT) {
             val lew = PacketLittleEndianWriter(3)
             lew.byte(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
             lew.byte(0x0D)

@@ -144,7 +144,7 @@ class NpcPacket {
          * 0D = You need more items
          * 0E = CRASH; LENGTH NEEDS TO BE LONGER :O
          */
-        fun shopTransaction(code: Byte) = packetWriter(SendPacketOpcode.CONFIRM_SHOP_TRANSACTION) {
+        fun shopTransaction(code: Byte) = packetWriter(SendPacketOpcode.CONFIRM_SHOP_TRANSACTION, 3) {
             byte(code)
         }
 
