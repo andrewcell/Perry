@@ -244,47 +244,6 @@ class PacketCreator {
             return mask
         }
 
-        fun getPlayerNpc(npc: PlayerNPCs): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.byte(SendPacketOpcode.IMITATED_NPC_RESULT.value)
-            lew.byte(0x01)
-            lew.int(npc.npcId)
-            lew.gameASCIIString(npc.name)
-            lew.byte(0) // direction
-            lew.byte(npc.skin)
-            lew.int(npc.face)
-            lew.byte(0)
-            lew.int(npc.hair)
-            val equip = npc.equips
-            val myEquip: MutableMap<Byte, Int?> = mutableMapOf()
-            for (position in equip.keys) {
-                var pos = (position * -1).toByte()
-                if (pos > 100) {
-                    pos = (pos - 100).toByte()
-                    myEquip[pos] = equip[position]
-                } else {
-                    if (myEquip[pos] == null) {
-                        myEquip[pos] = equip[position]
-                    }
-                }
-            }
-            for ((key, value) in myEquip) {
-                lew.byte(key)
-                lew.int(value ?: 0)
-            }
-            lew.short(-1)
-            val cWeapon = equip[(-111).toByte()]
-            if (cWeapon != null) {
-                lew.int(cWeapon)
-            } else {
-                lew.int(0)
-            }
-            for (i in 0..11) {
-                lew.byte(0)
-            }
-            return lew.getPacket()
-        }
-
         /**
          * Gets the response to a relog request.
          *

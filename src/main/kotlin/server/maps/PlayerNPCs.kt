@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import tools.PacketCreator
 import tools.packet.GameplayPacket
+import tools.packet.NpcPacket
 import java.awt.Point
 import java.sql.SQLException
 
@@ -49,6 +50,6 @@ class PlayerNPCs(
 
     override fun sendSpawnData(client: Client) {
         client.announce(GameplayPacket.spawnPlayerNpc(this))
-        client.announce(PacketCreator.getPlayerNpc(this))
+        client.announce(NpcPacket.getPlayerNpc(this))
     }
 }

@@ -1432,7 +1432,7 @@ class Character(
                     Server.getChannelsFromWorld(world).forEach {
                         val m = it.mapFactory.getMap(mapId)
                         m.broadcastMessage(GameplayPacket.spawnPlayerNpc(pn))
-                        m.broadcastMessage(PacketCreator.getPlayerNpc(pn))
+                        m.broadcastMessage(NpcPacket.getPlayerNpc(pn))
                         m.addMapObject(pn)
                     }
                 }
