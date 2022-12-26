@@ -8,6 +8,7 @@ import client.inventory.PetDataFactory
 import database.Pets
 import mu.KLoggable
 import net.AbstractPacketHandler
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import provider.DataProviderFactory

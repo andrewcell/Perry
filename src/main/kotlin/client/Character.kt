@@ -21,6 +21,7 @@ import net.server.world.Party
 import net.server.world.PartyCharacter
 import net.server.world.PartyOperation
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import scripting.event.EventInstanceManager
 import server.*

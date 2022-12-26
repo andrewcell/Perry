@@ -15,6 +15,7 @@ import net.server.world.PartyCharacter
 import net.server.world.PartyOperation
 import org.bouncycastle.util.encoders.Hex
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import scripting.npc.NPCScriptManager
 import scripting.quest.QuestScriptManager

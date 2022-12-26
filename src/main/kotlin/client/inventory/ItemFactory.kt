@@ -4,6 +4,7 @@ import database.InventoryEquipment
 import database.InventoryItems
 import mu.KLogging
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.SQLException
 

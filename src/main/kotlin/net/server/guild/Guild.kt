@@ -7,6 +7,7 @@ import database.Notes
 import mu.KLogging
 import net.server.Server
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import tools.packet.GuildPacket
 import tools.packet.InteractPacket

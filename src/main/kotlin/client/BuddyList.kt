@@ -3,6 +3,7 @@ package client
 import database.Buddies
 import database.Characters
 import mu.KLogging
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
@@ -44,7 +45,7 @@ class BuddyList(var capacity: Int) {
                         addEntry(BuddyListEntry(it[Characters.name], it[Buddies.group], it[Buddies.buddyId], 1, true))
                     }
                 }
-                Buddies.deleteWhere { (Buddies.pending eq 1) and (Buddies.characterId eq characterId) }
+                Buddies.deleteWhere { (pending eq 1) and (Buddies.characterId eq characterId) }
             }
         } catch (e: SQLException) {
             logger.error (e) { "Failed to load Buddy list from database." }

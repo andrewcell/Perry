@@ -3,9 +3,12 @@ package net.server.channel.handlers
 import client.Client
 import database.BBSReplies
 import database.BBSThreads
+import database.BBSThreads.replyCount
 import mu.KLogging
 import net.AbstractPacketHandler
+import org.jetbrains.exposed.*
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.GuildPacket
