@@ -8,7 +8,7 @@ import tools.data.output.PacketLittleEndianWriter
 
 class MonsterBookPacket {
     companion object {
-        fun addMonsterBookInfo(lew: PacketLittleEndianWriter, chr: Character) {
+        /*fun addMonsterBookInfo(chr: Character): PacketLittleEndianWriter {
             lew.int(chr.bookCover)
             lew.byte(0)
             val cards = chr.monsterBook.cards
@@ -17,37 +17,25 @@ class MonsterBookPacket {
                 lew.short(id % 10000)
                 lew.byte(lv)
             }
+        }*/
+
+        fun addCard(full: Boolean, cardId: Int, level: Int) = packetWriter(SendPacketOpcode.MONSTER_BOOK_SET_CARD, 11) {
+            byte(if (full) 0 else 1)
+            int(cardId)
+            int(level)
         }
 
-        fun addCard(full: Boolean, cardId: Int, level: Int): ByteArray {
-            val lew = PacketLittleEndianWriter(11)
-            lew.byte(SendPacketOpcode.MONSTER_BOOK_SET_CARD.value)
-            lew.byte(if (full) 0 else 1)
-            lew.int(cardId)
-            lew.int(level)
-            return lew.getPacket()
+        fun changeCover(cardId: Int) = packetWriter(SendPacketOpcode.MONSTER_BOOK_SET_COVER, 6) {
+            int(cardId)
         }
 
-        fun changeCover(cardId: Int): ByteArray {
-            val lew = PacketLittleEndianWriter(6)
-            lew.byte(SendPacketOpcode.MONSTER_BOOK_SET_COVER.value)
-            lew.int(cardId)
-            return lew.getPacket()
+        fun showForeignCardEffect(id: Int) = packetWriter(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT, 7) {
+            int(id)
+            byte(0x0D)
         }
 
-        fun showForeignCardEffect(id: Int): ByteArray {
-            val lew = PacketLittleEndianWriter(7)
-            lew.byte(SendPacketOpcode.SHOW_FOREIGN_EFFECT.value)
-            lew.int(id)
-            lew.byte(0x0D)
-            return lew.getPacket()
-        }
-
-        fun showGainCard() = packetWriter(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT) {
-            val lew = PacketLittleEndianWriter(3)
-            lew.byte(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT.value)
-            lew.byte(0x0D)
-            return lew.getPacket()
+        fun showGainCard() = packetWriter(SendPacketOpcode.SHOW_ITEM_GAIN_INCHAT, 3) {
+            byte(0x0D)
         }
 
         fun showMonsterBookPickup() = PacketCreator.showSpecialEffect(14)
