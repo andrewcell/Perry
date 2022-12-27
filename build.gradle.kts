@@ -50,7 +50,7 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
     dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.7.20")
     dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.20")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.20")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.22")
 }
 
 tasks.test {
