@@ -18,9 +18,7 @@ class LoginPacket {
          * @param port     The port the channel is on.
          * @return The server IP packet.
          */
-        fun getChannelChange(inetAddress: InetAddress, port: Int): ByteArray {
-            return packetWriter {
-                opcode(SendPacketOpcode.CHANGE_CHANNEL)
+        fun getChannelChange(inetAddress: InetAddress, port: Int) = packetWriter(SendPacketOpcode.CHANGE_CHANNEL) {
                 byte(1)
                 byte(inetAddress.address)
                 short(port)
@@ -44,8 +42,7 @@ class LoginPacket {
          * @param receiveIv       the IV used by the server for receiving
          * @return
          */
-        fun getHello(gameVersion: Short, sendIv: ByteArray, receiveIv: ByteArray): ByteArray {
-            return packetWriter {
+        fun getHello(gameVersion: Short, sendIv: ByteArray, receiveIv: ByteArray) = packetWriter {
                 var ret = 0
                 ret = ret xor (gameVersion.toInt() and 0x7FFF)
                 ret = ret xor (0x01 shl 15)
@@ -100,8 +97,7 @@ class LoginPacket {
          * @param reason The reason logging in failed.
          * @return The login failed packet.
          */
-        fun getLoginFailed(reason: Int) = packetWriter {
-            opcode(SendPacketOpcode.LOGIN_STATUS)
+        fun getLoginFailed(reason: Int) = packetWriter(SendPacketOpcode.LOGIN_STATUS) {
             byte(reason)
             byte(0)
             int(0)
@@ -129,13 +125,11 @@ class LoginPacket {
          * @param reason The reason logging in failed.
          * @return The login failed packet.
          */
-        fun getAfterLoginError(reason: Int) = packetWriter { //same as above o.o
-            opcode(SendPacketOpcode.SELECT_CHARACTER_BY_VAC)
+        fun getAfterLoginError(reason: Int) = packetWriter(SendPacketOpcode.SELECT_CHARACTER_BY_VAC) { //same as above o.o
             short(reason) //using other types then stated above = CRASH
         }
 
-        fun getPermBan(reason: Byte) = packetWriter {
-            opcode(SendPacketOpcode.LOGIN_STATUS)
+        fun getPermBan(reason: Byte) = packetWriter(SendPacketOpcode.LOGIN_STATUS) {
             byte(2) // Account is banned
             byte(0)
             int(0)
@@ -148,9 +142,7 @@ class LoginPacket {
          *
          * @return The packet.
          */
-        fun getPing() = packetWriter {
-            byte(SendPacketOpcode.PING.value)
-        }
+        fun getPing() = packetWriter(SendPacketOpcode.PING) { }
 
         /**
          * Gets a packet telling the client the IP of the channel server.
@@ -160,8 +152,7 @@ class LoginPacket {
          * @param clientId The ID of the client.
          * @return The server IP packet.
          */
-        fun getServerIP(inetAddress: InetAddress, port: Int, clientId: Int) = packetWriter {
-            opcode(SendPacketOpcode.SERVER_IP)
+        fun getServerIP(inetAddress: InetAddress, port: Int, clientId: Int) = packetWriter(SendPacketOpcode.SERVER_IP) {
             short(0)
             byte(inetAddress.address)
             short(port)
@@ -183,8 +174,7 @@ class LoginPacket {
             flag: Int,
             eventMessage: String,
             channelLoad: List<Channel>
-        ) = packetWriter {
-            opcode(SendPacketOpcode.SERVERLIST)
+        ) = packetWriter(SendPacketOpcode.SERVERLIST) {
             byte(serverId)
             gameASCIIString(serverName)
             byte(flag)
@@ -201,8 +191,7 @@ class LoginPacket {
             short(0)
         }
 
-        fun getTempBan(timestampTill: Long, reason: Byte) = packetWriter {
-            opcode(SendPacketOpcode.LOGIN_STATUS)
+        fun getTempBan(timestampTill: Long, reason: Byte) = packetWriter(SendPacketOpcode.LOGIN_STATUS) {
             byte(2)
             byte(0)
             int(0)
