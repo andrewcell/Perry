@@ -31,7 +31,7 @@ class InteractPacket {
             lew.byte(SendPacketOpcode.MESSENGER.value)
             lew.byte(0x00)
             lew.byte(position)
-            CharacterPacket.addCharLook(lew, chr, true)
+            CharacterPacket.addCharLook(chr, true)
             lew.gameASCIIString(from.toString())
             lew.byte(channel)
             lew.bool(invite)
@@ -100,10 +100,10 @@ class InteractPacket {
             lew.byte(4)
             lew.byte(if (owner) 0 else 1)
             lew.byte(0)
-            CharacterPacket.addCharLook(lew, shop.owner, false)
+            CharacterPacket.addCharLook(shop.owner, false)
             lew.gameASCIIString(shop.owner.name)
             lew.byte(1)
-            CharacterPacket.addCharLook(lew, shop.owner, false)
+            CharacterPacket.addCharLook(shop.owner, false)
             lew.gameASCIIString(shop.owner.name)
             lew.byte(0xFF)
             lew.gameASCIIString(shop.description)
@@ -114,7 +114,7 @@ class InteractPacket {
                 lew.short(bundles.toInt())
                 lew.short(item1.quantity.toInt())
                 lew.int(price)
-                ItemPacket.addItemInfo(lew, item1, true, true)
+                ItemPacket.addItemInfo(item1, true, true)
             }
             return lew.getPacket()
         }
@@ -148,7 +148,7 @@ class InteractPacket {
                 lew.short(bundles.toInt())
                 lew.short(item1.quantity.toInt())
                 lew.int(price)
-                ItemPacket.addItemInfo(lew, item1, true, true)
+                ItemPacket.addItemInfo(item1, true, true)
             }
             return lew.getPacket()
         }
@@ -246,7 +246,7 @@ class InteractPacket {
             lew.byte(PlayerInteractionHandler.Action.SET_ITEMS.code)
             lew.byte(number)
             //lew.byte(item.getPosition());
-            ItemPacket.addItemInfo(lew, item, zeroPosition = false, leaveOut = false, trade = true)
+            ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = true)
             return lew.getPacket()
         }
 
@@ -264,7 +264,7 @@ class InteractPacket {
             lew.byte(SendPacketOpcode.PLAYER_INTERACTION.value)
             lew.byte(PlayerInteractionHandler.Action.VISIT.code)
             lew.byte(1)
-            CharacterPacket.addCharLook(lew, c, false)
+            CharacterPacket.addCharLook(c, false)
             lew.gameASCIIString(c.name)
             return lew.getPacket()
         }
@@ -278,11 +278,11 @@ class InteractPacket {
             lew.byte(number)
             if (number.toInt() == 1) {
                 lew.byte(0)
-                trade?.partner?.let { CharacterPacket.addCharLook(lew, it.chr, false) }
+                trade?.partner?.let { CharacterPacket.addCharLook(it.chr, false) }
                 lew.gameASCIIString(trade?.partner?.chr?.name.toString())
             }
             lew.byte(number)
-            c.player?.let { CharacterPacket.addCharLook(lew, it, false) }
+            c.player?.let { CharacterPacket.addCharLook(it, false) }
             lew.gameASCIIString(c.player?.name.toString())
             lew.byte(0xFF)
             return lew.getPacket()
@@ -585,7 +585,7 @@ class InteractPacket {
                 lew.byte(0)
             } else {
                 lew.byte(item.position)
-                ItemPacket.addItemInfo(lew, item, zeroPosition = false, leaveOut = false, trade = true)
+                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = true)
             }
             return lew.getPacket()
         }
@@ -605,7 +605,7 @@ class InteractPacket {
             lew.gameASCIIString("${player?.name} : got a(n)")
             lew.int(0) //random?
             lew.gameASCIIString(town)
-            item?.let { ItemPacket.addItemInfo(lew, it, zeroPosition = true, leaveOut = true) }
+            item?.let { ItemPacket.addItemInfo(it, zeroPosition = true, leaveOut = true) }
             return lew.getPacket()
         }
 
@@ -637,7 +637,7 @@ class InteractPacket {
             }
             lew.int(channel - 1) // channel
             lew.bool(ear)
-            CharacterPacket.addCharLook(lew, chr, true)
+            CharacterPacket.addCharLook(chr, true)
             return lew.getPacket()
         }
 
@@ -722,7 +722,7 @@ class InteractPacket {
             lew.byte(SendPacketOpcode.MESSENGER.value)
             lew.byte(0x07)
             lew.byte(position)
-            CharacterPacket.addCharLook(lew, chr, true)
+            CharacterPacket.addCharLook( chr, true)
             lew.gameASCIIString(from)
             lew.byte(channel)
             lew.byte(0x00)

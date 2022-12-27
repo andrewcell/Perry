@@ -33,23 +33,22 @@ class PacketCreator {
         }
 
         fun addAnnounceBox(
-            lew: PacketLittleEndianWriter,
             game: MiniGame?,
             gameType: Int,
             locker: Int?,
             type: Int,
             amMount: Int,
             joinable: Int
-        ) {
-            if (game == null) return
-            lew.byte(gameType)
-            lew.int(game.objectId) // gameid/shopid
-            lew.gameASCIIString(game.description) // desc
-            lew.byte(locker ?: 0)
-            lew.byte(type)
-            lew.byte(amMount)
-            lew.byte(2)
-            lew.byte(joinable)
+        ) = packetWriter {
+            if (game == null) return@packetWriter
+            byte(gameType)
+            int(game.objectId) // gameid/shopid
+            gameASCIIString(game.description) // desc
+            byte(locker ?: 0)
+            byte(type)
+            byte(amMount)
+            byte(2)
+            byte(joinable)
         }
 
         /**
@@ -408,7 +407,7 @@ class PacketCreator {
                         lew.byte(0)
                         if (dp.item != null) {
                             lew.byte(1)
-                            addItemInfo(lew, dp.item, zeroPosition = true, leaveOut = true)
+                            addItemInfo(dp.item, zeroPosition = true, leaveOut = true)
                         } else {
                             lew.byte(0)
                         }
@@ -468,7 +467,7 @@ class PacketCreator {
             lew.byte(SendPacketOpcode.SEND_TV.value)
             lew.byte(if (partner != null) 3 else 1)
             lew.byte(type) //Heart = 2  Star = 1  Normal = 0
-            CharacterPacket.addCharLook(lew, chr, false)
+            CharacterPacket.addCharLook(chr, false)
             lew.gameASCIIString(chr.name)
             if (partner != null) {
                 lew.gameASCIIString(partner.name)
@@ -484,7 +483,7 @@ class PacketCreator {
             }
             lew.int(1337) // time limit
             if (partner != null) {
-                CharacterPacket.addCharLook(lew, partner, false)
+                CharacterPacket.addCharLook(partner, false)
             }
             return lew.getPacket()
         }

@@ -8,6 +8,7 @@ import net.SendPacketOpcode
 import server.ItemInformationProvider
 import server.life.MobSkill
 import tools.PacketCreator
+import tools.PacketCreator.Companion.packetWriter
 import tools.data.output.LittleEndianWriter
 import tools.data.output.PacketLittleEndianWriter
 import kotlin.random.Random
@@ -60,60 +61,60 @@ class CharacterPacket {
             return lew.getPacket()
         }
 
-        private fun addCharStats(lew: PacketLittleEndianWriter, chr: Character) {
-            lew.int(chr.id)
-            lew.ASCIIString(chr.name, 13)
-            lew.byte(chr.gender)
-            lew.byte(chr.skinColor.id)
-            lew.int(chr.face)
-            lew.int(chr.hair)
-            lew.long((chr.pet?.uniqueId ?: 0).toLong())
-            lew.byte(chr.level.toByte())
-            lew.short(chr.job.id) // job
-            lew.short(chr.str) // str
-            lew.short(chr.dex) // dex
-            lew.short(chr.int) // int
-            lew.short(chr.luk) // luk
-            lew.short(chr.hp) // hp (?)
-            lew.short(chr.maxHp) // maxhp
-            lew.short(chr.mp) // mp (?)
-            lew.short(chr.maxMp) // maxmp
-            lew.short(chr.remainingAp) // remaining ap
-            lew.short(chr.remainingSp) // remaining sp
-            lew.int(chr.exp.get()) // current exp
-            lew.short(chr.fame) // fame
-            lew.int(chr.mapId) // current map id
-            lew.byte(chr.initialSpawnPoint) // spawnpoint
+        private fun addCharStats(chr: Character) = packetWriter {
+            int(chr.id)
+            ASCIIString(chr.name, 13)
+            byte(chr.gender)
+            byte(chr.skinColor.id)
+            int(chr.face)
+            int(chr.hair)
+            long((chr.pet?.uniqueId ?: 0).toLong())
+            byte(chr.level.toByte())
+            short(chr.job.id) // job
+            short(chr.str) // str
+            short(chr.dex) // dex
+            short(chr.int) // int
+            short(chr.luk) // luk
+            short(chr.hp) // hp (?)
+            short(chr.maxHp) // maxhp
+            short(chr.mp) // mp (?)
+            short(chr.maxMp) // maxmp
+            short(chr.remainingAp) // remaining ap
+            short(chr.remainingSp) // remaining sp
+            int(chr.exp.get()) // current exp
+            short(chr.fame) // fame
+            int(chr.mapId) // current map id
+            byte(chr.initialSpawnPoint) // spawnpoint
         }
 
-        fun addCharLook(lew: PacketLittleEndianWriter, chr: Character, mega: Boolean) {
-            lew.byte(chr.gender)
-            lew.byte(chr.skinColor.id) // skin color
-            lew.int(chr.face) // face
-            lew.byte(if (mega) 0 else 1)
-            lew.int(chr.hair) // hair
-            addCharEquips(lew, chr)
+        fun addCharLook(chr: Character, mega: Boolean) = packetWriter {
+            byte(chr.gender)
+            byte(chr.skinColor.id) // skin color
+            int(chr.face) // face
+            byte(if (mega) 0 else 1)
+            int(chr.hair) // hair
+            addCharEquips(chr)
         }
 
 
 
-        fun addCharacterInfo(lew: PacketLittleEndianWriter, chr: Character) {
-            lew.short(-1)
-            addCharStats(lew, chr)
-            lew.byte(chr.buddyList.capacity)
-            addInventoryInfo(lew, chr)
-            addSkillInfo(lew, chr)
-            GameplayPacket.addQuestInfo(lew, chr)
-            MiniGamePacket.addMiniGameInfo(lew, chr)
-            ItemPacket.addRingInfo(lew, chr)
-            CashPacket.addTeleportInfo(lew, chr)
+        fun addCharacterInfo(chr: Character) = packetWriter {
+            short(-1)
+            addCharStats(chr)
+            byte(chr.buddyList.capacity)
+            addInventoryInfo(chr)
+            addSkillInfo(chr)
+            GameplayPacket.addQuestInfo(chr)
+            MiniGamePacket.addMiniGameInfo(chr)
+            ItemPacket.addRingInfo(chr)
+            CashPacket.addTeleportInfo(chr)
         }
 
-        fun addCharEquips(lew: PacketLittleEndianWriter, chr: Character) {
+        fun addCharEquips(chr: Character) = packetWriter {
             val equip = chr.getInventory(InventoryType.EQUIPPED)
             if (equip == null) {
                 PacketCreator.logger.error { "chr.getInventory EQUIPPED is null. something gone wrong." }
-                return
+                return@packetWriter
             }
             val ii = ItemInformationProvider.canWearEquipment(chr, equip.list())
             val myEquip = mutableMapOf<Byte, Int>()
@@ -132,40 +133,40 @@ class CharacterPacket {
                 }
             }
             myEquip.forEach { (t, u) ->
-                lew.byte(t)
-                lew.int(u)
+                byte(t)
+                int(u)
             }
-            lew.byte(0xff)
+            byte(0xff)
             maskedEquip.forEach { (t, u) ->
-                lew.byte(t)
-                lew.int(u)
+                byte(t)
+                int(u)
             }
-            lew.byte(0xff)
+            byte(0xff)
             val weapon = equip.getItem(-111)
-            lew.int(weapon?.itemId ?: 0)
-            lew.int(chr.pet?.itemId ?: 0)
+            int(weapon?.itemId ?: 0)
+            int(chr.pet?.itemId ?: 0)
         }
 
-        fun addCharEntry(lew: PacketLittleEndianWriter, chr: Character) {
-            addCharStats(lew, chr)
-            addCharLook(lew, chr, false)
+        fun addCharEntry(chr: Character) = packetWriter{
+            addCharStats(chr)
+            addCharLook( chr, false)
             if (chr.isGM()) {
-                lew.byte(0)
+                byte(0)
             } else {
-                lew.byte(1) // world rank enabled (next 4 ints are not sent if disabled) Short??
-                lew.int(chr.rank) // world rank
-                lew.int(chr.rankMove) // move (negative is downwards)
-                lew.int(chr.jobRank) // job rank
-                lew.int(chr.jobRankMove) // move (negative is downwards)
+                byte(1) // world rank enabled (next 4 ints are not sent if disabled) Short??
+                int(chr.rank) // world rank
+                int(chr.rankMove) // move (negative is downwards)
+                int(chr.jobRank) // job rank
+                int(chr.jobRankMove) // move (negative is downwards)
             }
         }
 
-        private fun addInventoryInfo(plew: PacketLittleEndianWriter, chr: Character) {
-            plew.int(chr.meso.get())
+        private fun addInventoryInfo(chr: Character) = packetWriter {
+            int(chr.meso.get())
             for (i in 1..5) {
-                chr.getInventory(InventoryType.getByType(i.toByte()))?.let { plew.byte(it.slotLimit) }
+                chr.getInventory(InventoryType.getByType(i.toByte()))?.let { byte(it.slotLimit) }
             }
-            val iv = chr.getInventory(InventoryType.EQUIPPED) ?: return
+            val iv = chr.getInventory(InventoryType.EQUIPPED) ?: return@packetWriter
             val equippedC: Collection<Item> = iv.list()
             val equipped: MutableList<Item> = ArrayList(equippedC.size)
             val equippedCash: MutableList<Item> = ArrayList(equippedC.size)
@@ -179,57 +180,57 @@ class CharacterPacket {
             equipped.sort()
             equippedCash.sort()
             for (item in equipped) {
-                ItemPacket.addItemInfo(plew, item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
             }
-            plew.byte(0)
+            byte(0)
             for (item in equippedCash) {
-                ItemPacket.addItemInfo(plew, item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
             }
-            plew.byte(0)
+            byte(0)
             for (item in chr.getInventory(InventoryType.EQUIP)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(plew, item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
             }
-            plew.byte(0)
+            byte(0)
             for (item in chr.getInventory(InventoryType.USE)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(plew, item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
             }
-            plew.byte(0)
+            byte(0)
             for (item in chr.getInventory(InventoryType.SETUP)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(plew, item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
             }
-            plew.byte(0)
+            byte(0)
             for (item in chr.getInventory(InventoryType.ETC)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(plew, item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
             }
-            plew.byte(0)
+            byte(0)
             for (item in chr.getInventory(InventoryType.CASH)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(plew, item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
             }
-            plew.byte(0)
+            byte(0)
         }
 
         fun addNewCharEntry(chr: Character): ByteArray {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.ADD_NEW_CHAR_ENTRY.value)
             lew.byte(0)
-            addCharEntry(lew, chr)
+            addCharEntry( chr)
             return lew.getPacket()
         }
 
-        private fun addSkillInfo(plew: PacketLittleEndianWriter, chr: Character) {
+        private fun addSkillInfo(chr: Character) = packetWriter {
             val skills: Map<Skill, Character.Companion.SkillEntry> = chr.skills
-            plew.short(skills.size)
+            short(skills.size)
             val it = skills.entries.iterator()
             while (it.hasNext()) {
                 val (key, value) = it.next()
-                plew.int(key.id)
-                plew.int(value.skillLevel.toInt())
+                int(key.id)
+                int(value.skillLevel.toInt())
             }
-            plew.short(chr.getAllCoolDowns().size)
+            short(chr.getAllCoolDowns().size)
             for ((skillId, startTime, length) in chr.getAllCoolDowns()) {
-                plew.int(skillId)
+                int(skillId)
                 val timeLeft = (length + startTime - System.currentTimeMillis()).toInt()
-                plew.short(timeLeft / 1000)
+                short(timeLeft / 1000)
             }
         }
 
@@ -396,7 +397,7 @@ class CharacterPacket {
             for (i in 0..2) {
                 lew.int(Random.nextInt())
             }
-            addCharacterInfo(lew, chr)
+            addCharacterInfo(chr)
             lew.long(PacketCreator.getTime(System.currentTimeMillis()))
             return lew.getPacket()
         }
@@ -416,7 +417,7 @@ class CharacterPacket {
             val chars = c.loadCharacters(serverId)
             plew.byte(chars.size.toByte())
             for (chr in chars) {
-                addCharEntry(plew, chr)
+                addCharEntry(chr)
             }
             plew.byte(2)
             plew.byte(0)
@@ -500,7 +501,7 @@ class CharacterPacket {
             lew.byte(0)
             lew.byte(items.size.toByte())
             for (item in items) {
-                ItemPacket.addItemInfo(lew, item, true, true)
+                ItemPacket.addItemInfo(item, true, true)
             }
             lew.byte(0)
             return lew.getPacket()
@@ -690,7 +691,7 @@ class CharacterPacket {
                 when (mod.mode) {
                     0 -> { //add item
                         lew.short(mod.getPosition().toInt())
-                        ItemPacket.addItemInfo(lew, mod.item, zeroPosition = true, leaveOut = true)
+                        ItemPacket.addItemInfo(mod.item, zeroPosition = true, leaveOut = true)
                     }
                     1 -> { //update quantity
                         lew.short(mod.getPosition().toInt())
@@ -867,7 +868,7 @@ class CharacterPacket {
             lew.short(type.getBitfieldEncoding())
             lew.byte(items.size)
             for (item in items) {
-                ItemPacket.addItemInfo(lew, item, true, true)
+                ItemPacket.addItemInfo(item, true, true)
             }
             return lew.getPacket()
         }
@@ -901,7 +902,7 @@ class CharacterPacket {
             lew.short(type.getBitfieldEncoding())
             lew.byte(items.size)
             for (item in items) {
-                ItemPacket.addItemInfo(lew, item, true, true)
+                ItemPacket.addItemInfo(item, true, true)
             }
             return lew.getPacket()
         }
@@ -911,7 +912,7 @@ class CharacterPacket {
             lew.byte(SendPacketOpcode.UPDATE_CHAR_LOOK.value)
             lew.int(chr.id)
             lew.byte(1)
-            addCharLook(lew, chr, false)
+            addCharLook(chr, false)
             ItemPacket.addRingLook(lew, chr, true)
             ItemPacket.addRingLook(lew, chr, false)
             //addMarriageRingLook(lew, chr);

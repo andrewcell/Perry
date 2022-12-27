@@ -14,6 +14,7 @@ import server.maps.Reactor
 import server.maps.Summon
 import server.movement.LifeMovementFragment
 import tools.PacketCreator
+import tools.PacketCreator.Companion.packetWriter
 import tools.data.output.LittleEndianWriter
 import tools.data.output.PacketLittleEndianWriter
 import java.awt.Point
@@ -21,21 +22,21 @@ import java.awt.Point
 //Packet for game playing. maps, monsters, ...
 class GameplayPacket {
     companion object {
-        fun addQuestInfo(lew: PacketLittleEndianWriter, chr: Character) {
-            lew.short(chr.getStartedQuestsSize())
+        fun addQuestInfo(chr: Character) = packetWriter {
+            short(chr.getStartedQuestsSize())
             chr.getStartedQuests().forEach {
-                lew.short(it.quest.id.toInt())
-                lew.gameASCIIString(it.getQuestData())
+                short(it.quest.id.toInt())
+                gameASCIIString(it.getQuestData())
                 if (it.quest.infoNumber > 0) {
-                    lew.short(it.quest.infoNumber.toInt())
-                    lew.gameASCIIString(it.medalProgress.toString())
+                    short(it.quest.infoNumber.toInt())
+                    gameASCIIString(it.medalProgress.toString())
                 }
             }
             val completed = chr.getCompletedQuests()
-            lew.short(completed.size)
+            short(completed.size)
             completed.forEach {
-                lew.short(it.quest.id.toInt())
-                lew.long(PacketCreator.getTime(it.completionTime))
+                short(it.quest.id.toInt())
+                long(PacketCreator.getTime(it.completionTime))
             }
         }
 
@@ -774,7 +775,7 @@ class GameplayPacket {
                 buffMask = buffMask or BuffStat.SHADOWPARTNER.value
             }
             lew.long(buffMask)
-            CharacterPacket.addCharLook(lew, chr, false)
+            CharacterPacket.addCharLook(chr, false)
             lew.int(chr.getInventory(InventoryType.CASH)?.countById(5110000) ?: 0)
             lew.int(chr.itemEffect)
             lew.int(if (ItemConstants.getInventoryType(chr.chair) == InventoryType.SETUP) chr.chair else 0)
@@ -797,9 +798,9 @@ class GameplayPacket {
                 var gameType = 1
                 if (chr.miniGame?.gameType == "matchcard") gameType = 2
                 if (chr.miniGame?.hasFreeSlot() == true) {
-                    PacketCreator.addAnnounceBox(lew, chr.miniGame, gameType, chr.miniGame?.locker, 0, 1, 0)
+                    PacketCreator.addAnnounceBox(chr.miniGame, gameType, chr.miniGame?.locker, 0, 1, 0)
                 } else {
-                    PacketCreator.addAnnounceBox(lew, chr.miniGame, gameType, chr.miniGame?.locker, 0, 2, 1)
+                    PacketCreator.addAnnounceBox(chr.miniGame, gameType, chr.miniGame?.locker, 0, 2, 1)
                 }
             } else {
                 lew.byte(0)

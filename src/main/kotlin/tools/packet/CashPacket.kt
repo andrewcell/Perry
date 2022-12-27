@@ -11,6 +11,7 @@ import net.SendPacketOpcode
 import net.server.channel.handlers.PlayerInteractionHandler
 import server.CashShop
 import server.maps.HiredMerchant
+import tools.PacketCreator.Companion.packetWriter
 import tools.data.output.PacketLittleEndianWriter
 import java.awt.Point
 
@@ -42,7 +43,7 @@ class CashPacket {
                 giftMessage?.let { lew.ASCIIString(it, 73) }
                 return
             }
-            ItemPacket.addExpirationTime(lew, item.expiration)
+            ItemPacket.addExpirationTime(item.expiration)
             lew.long(0)
         }
 
@@ -58,9 +59,9 @@ class CashPacket {
             lew.int(pet.fh)
         }
 
-        fun addTeleportInfo(lew: PacketLittleEndianWriter, chr: Character) {
-            chr.trockMaps.forEach { lew.int(it) }
-            chr.vipTrockMaps.forEach { lew.int(it) }
+        fun addTeleportInfo(chr: Character) = packetWriter {
+            chr.trockMaps.forEach { int(it) }
+            chr.vipTrockMaps.forEach { int(it) }
         }
 
         fun destroyHiredMerchant(id: Int): ByteArray {
@@ -89,7 +90,7 @@ class CashPacket {
             val items = ItemFactory.MERCHANT.loadItems(chr?.id ?: -1, false)
             lew.byte(items.size)
             for (i in items.indices) {
-                ItemPacket.addItemInfo(lew, items[i].first, zeroPosition = true, leaveOut = true)
+                ItemPacket.addItemInfo(items[i].first, zeroPosition = true, leaveOut = true)
             }
             lew.skip(3)
             return lew.getPacket()
@@ -115,7 +116,7 @@ class CashPacket {
                 val v = hm.visitors[i]
                 if (v != null) {
                     lew.byte(i + 1)
-                    CharacterPacket.addCharLook(lew, v, false)
+                    CharacterPacket.addCharLook(v, false)
                     lew.gameASCIIString(v.name)
                 }
             }
@@ -153,7 +154,7 @@ class CashPacket {
                     lew.short(bundles.toInt())
                     lew.short(item1.quantity.toInt())
                     lew.int(price)
-                    ItemPacket.addItemInfo(lew, item1, zeroPosition = true, leaveOut = true)
+                    ItemPacket.addItemInfo(item1, zeroPosition = true, leaveOut = true)
                 }
             }
             return lew.getPacket()
@@ -196,7 +197,7 @@ class CashPacket {
             lew.byte(SendPacketOpcode.PLAYER_INTERACTION.value)
             lew.byte(PlayerInteractionHandler.Action.VISIT.code)
             lew.byte(slot)
-            CharacterPacket.addCharLook(lew, chr, false)
+            CharacterPacket.addCharLook(chr, false)
             lew.gameASCIIString(chr.name)
             return lew.getPacket()
         }
@@ -232,7 +233,7 @@ class CashPacket {
         fun openCashShop(c: Client): ByteArray {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.SET_CASH_SHOP.value)
-            c.player?.let { CharacterPacket.addCharacterInfo(lew, it) }
+            c.player?.let { CharacterPacket.addCharacterInfo( it) }
             lew.gameASCIIString("nxId") // NX ID
             lew.skip(123)
             for (i in 1..8) { //TODO: check this id. might be recommend items?
@@ -520,7 +521,7 @@ class CashPacket {
             lew.byte(SendPacketOpcode.CASHSHOP_OPERATION.value)
             lew.byte(53)
             lew.short(item.position.toInt())
-            ItemPacket.addItemInfo(lew, item, zeroPosition = true, leaveOut = true)
+            ItemPacket.addItemInfo(item, zeroPosition = true, leaveOut = true)
             return lew.getPacket()
         }
 
@@ -561,7 +562,7 @@ class CashPacket {
                 lew.short(bundles.toInt())
                 lew.short(item1.quantity.toInt())
                 lew.int(price)
-                ItemPacket.addItemInfo(lew, item1, zeroPosition = true, leaveOut = true)
+                ItemPacket.addItemInfo( item1, zeroPosition = true, leaveOut = true)
             }
             return lew.getPacket()
         }
