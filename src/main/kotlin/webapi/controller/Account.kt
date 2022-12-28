@@ -6,6 +6,7 @@ import database.Accounts
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -86,6 +87,8 @@ fun Route.account() {
         post("login") {
             val user = call.receive<LoginRequest>()
             var login: String? = null
+            var id: Int? = null
+            var gm: Int? = null
             try {
                 transaction {
                     val account = Accounts.slice(Accounts.salt).select { Accounts.name eq user.email }
@@ -101,6 +104,8 @@ fun Route.account() {
                     } else {
                         val acc = row.first()
                         login = acc[Accounts.name]
+                        id = acc[Accounts.id]
+                        gm = acc[Accounts.gm]
                     }
                 }
                 if (login == null) {
@@ -112,7 +117,9 @@ fun Route.account() {
                     val token = JWT.create()
                         .withAudience(JWTVariables.audience)
                         .withIssuer(JWTVariables.issuer)
-                        .withClaim("login", login)
+                        .withClaim("name", login)
+                        .withClaim("id", id)
+                        .withClaim("gm", gm)
                         .withExpiresAt(Date(System.currentTimeMillis() + 60000))
                         .sign(Algorithm.HMAC256(JWTVariables.secret))
                     call.respond(ApiResponse(true, ResponseMessage.SUCCESS, token))
@@ -124,6 +131,8 @@ fun Route.account() {
         }
         authenticate("login") { // Require token
             get("/info") {
+                val principal = call.principal<JWTPrincipal>() ?: return@get
+                val id = principal.payload.getClaim("id")
 
             }
             put("/info") {
