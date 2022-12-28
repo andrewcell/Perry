@@ -5,11 +5,13 @@ import com.auth0.jwt.algorithms.Algorithm
 import database.Accounts
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
+import mu.KotlinLogging
 import net.server.handlers.login.AutoRegister
 import org.bouncycastle.util.encoders.Hex
 import org.jetbrains.exposed.sql.and
@@ -40,7 +42,7 @@ data class LoginRequest(
     val password: String,
     val requestToken: String? = null
 )
-
+private val logger = KotlinLogging.logger {  }
 fun Route.account() {
     route("/account") {
         post("/register") {
@@ -84,32 +86,51 @@ fun Route.account() {
         post("login") {
             val user = call.receive<LoginRequest>()
             var login: String? = null
-            transaction {
-                val account = Accounts.slice(Accounts.salt).select { Accounts.name eq user.email }
-                if (account.empty()) return@transaction
-                val row = Accounts.select {
-                    (Accounts.name eq user.email) and (Accounts.password eq PasswordHash.generate(
-                        user.password,
-                        Hex.decode(account.first()[Accounts.salt] ?: "")
-                    ))
+            try {
+                transaction {
+                    val account = Accounts.slice(Accounts.salt).select { Accounts.name eq user.email }
+                    if (account.empty()) return@transaction
+                    val row = Accounts.select {
+                        (Accounts.name eq user.email) and (Accounts.password eq PasswordHash.generate(
+                            user.password,
+                            Hex.decode(account.first()[Accounts.salt] ?: "")
+                        ))
+                    }
+                    if (row.empty()) {
+                        return@transaction
+                    } else {
+                        val acc = row.first()
+                        login = acc[Accounts.name]
+                    }
                 }
-                if (row.empty()) {
-                    return@transaction
+                if (login == null) {
+                    call.respond(
+                        HttpStatusCode.Unauthorized,
+                        ApiResponse(false, ResponseMessage.INCORRECT_EMAIL_PASSWORD)
+                    )
                 } else {
-                    val acc = row.first()
-                    login = acc[Accounts.name]
+                    val token = JWT.create()
+                        .withAudience(JWTVariables.audience)
+                        .withIssuer(JWTVariables.issuer)
+                        .withClaim("login", login)
+                        .withExpiresAt(Date(System.currentTimeMillis() + 60000))
+                        .sign(Algorithm.HMAC256(JWTVariables.secret))
+                    call.respond(ApiResponse(true, ResponseMessage.SUCCESS, token))
                 }
+            } catch (e: Exception) {
+                logger.error(e) { e.message }
+                call.respond(HttpStatusCode.InternalServerError, ApiResponse.internalError)
             }
-            if (login == null) {
-                call.respond(ApiResponse(false, ResponseMessage.INCORRECT_EMAIL_PASSWORD))
-            } else {
-                val token = JWT.create()
-                    .withAudience(JWTVariables.audience)
-                    .withIssuer(JWTVariables.issuer)
-                    .withClaim("login", login)
-                    .withExpiresAt(Date(System.currentTimeMillis() + 60000))
-                    .sign(Algorithm.HMAC256(JWTVariables.secret))
-                call.respond(ApiResponse(true, ResponseMessage.SUCCESS, token))
+        }
+        authenticate("login") { // Require token
+            get("/info") {
+
+            }
+            put("/info") {
+
+            }
+            delete("/delete") {
+
             }
         }
     }

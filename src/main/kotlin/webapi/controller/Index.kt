@@ -1,4 +1,4 @@
-package webapi
+package webapi.controller
 
 import constants.ServerConstants
 import io.ktor.server.application.*
@@ -16,14 +16,9 @@ data class ServerStatusWeb(
     val targetClientVersion: String,
     val playersOnline: Int
 )
-
 fun Route.index() {
     route("/") {
-        get {
-            call.respondText { "It works!" }
-        }
-
-        authenticate("jwt") {
+        authenticate("auth") {
             get("/status") {
                 val status = ServerStatusWeb(
                     Server.online,

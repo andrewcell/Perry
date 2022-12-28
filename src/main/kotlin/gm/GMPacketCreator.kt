@@ -2,7 +2,7 @@ package gm
 
 import tools.data.output.PacketLittleEndianWriter
 
-class GMPacketCreator {
+class           GMPacketCreator {
     companion object {
         fun keyResponse(ok: Boolean): ByteArray {
             val mplew = PacketLittleEndianWriter(3)

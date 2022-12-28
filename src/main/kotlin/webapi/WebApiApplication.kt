@@ -21,6 +21,7 @@ import mu.KLoggable
 import org.slf4j.event.Level
 import tools.ServerJSON
 import webapi.controller.account
+import webapi.controller.index
 import webapi.tools.JWTVariables
 
 object WebApiApplication : KLoggable {
