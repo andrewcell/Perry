@@ -23,6 +23,7 @@ import tools.ServerJSON
 import webapi.controller.account
 import webapi.controller.index
 import webapi.tools.JWTVariables
+import webapi.tools.ResponseMessage
 
 object WebApiApplication : KLoggable {
     override val logger = logger()
@@ -60,7 +61,7 @@ object WebApiApplication : KLoggable {
                         else null
                     }
                     challenge { _, _ ->
-                        call.respond(HttpStatusCode.Unauthorized, "You need to obtain the token first or token has been expired.")
+                        call.respond(HttpStatusCode.Unauthorized, ResponseMessage.UNAUTHORIZED)
                     }
                 }
             }

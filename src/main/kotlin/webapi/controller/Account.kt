@@ -2,6 +2,7 @@ package webapi.controller
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.beust.klaxon.JsonObject
 import database.Accounts
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -11,17 +12,20 @@ import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.util.logging.*
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
 import mu.KotlinLogging
 import net.server.handlers.login.AutoRegister
 import org.bouncycastle.util.encoders.Hex
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.javatime.timestampLiteral
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import tools.PasswordHash
 import webapi.tools.ApiResponse
 import webapi.tools.JWTVariables
@@ -48,18 +52,19 @@ data class LoginRequest(
 )
 
 @Serializable
-data class AccountInfoResponse(
+data class AccountInfo(
     val name: String,
-    val nxCredit: Int,
-    val mPoint: Int,
-    val lastLogin: Long,
-    val createdAt: Long,
-    val banned: Boolean,
-    val banReason: String,
-    val female: Boolean,
-    val socialNumber: Int,
-    val registeredIP: String,
+    val nxCredit: Int?,
+    val mPoint: Int?,
+    val lastLogin: Long?,
+    val createdAt: Long?,
+    val banned: Boolean?,
+    val banReason: String?,
+    val female: Boolean?,
+    val socialNumber: Int?,
+    val registeredIP: String?
 )
+
 private val logger = KotlinLogging.logger {  }
 fun Route.account() {
     route("/account") {
@@ -139,7 +144,7 @@ fun Route.account() {
                         .withClaim("gm", gm)
                         .withExpiresAt(Date(System.currentTimeMillis() + 60000))
                         .sign(Algorithm.HMAC256(JWTVariables.secret))
-                    call.respond(ApiResponse(true, ResponseMessage.SUCCESS, token))
+                    call.respond(ApiResponse(true, ResponseMessage.SUCCESS, Json.encodeToJsonElement(mapOf("token" to token))))
                 }
             } catch (e: Exception) {
                 logger.error(e) { e.message }
@@ -153,7 +158,7 @@ fun Route.account() {
                 val name = principal.payload.getClaim("name").asString()
                 var message = ResponseMessage.SUCCESS
                 var statusCode = HttpStatusCode.OK
-                var data: AccountInfoResponse? = null
+                var data: AccountInfo? = null
                 transaction {
                     val row = Accounts
                         .slice(
@@ -168,7 +173,7 @@ fun Route.account() {
                         message = ResponseMessage.INTERNAL_ERROR
                         statusCode = HttpStatusCode.InternalServerError
                     } else {
-                        data = AccountInfoResponse(
+                        data = AccountInfo(
                             name = row[Accounts.name],
                             nxCredit = row[Accounts.nxCredit] ?: 0,
                             mPoint = row[Accounts.mPoint] ?: 0,
@@ -182,10 +187,33 @@ fun Route.account() {
                         )
                     }
                 }
-                call.respond(ApiResponse(message == ResponseMessage.SUCCESS, message, Json.encodeToString(data)))
+                call.respond(statusCode, ApiResponse(message == ResponseMessage.SUCCESS, message, Json.encodeToJsonElement(data)))
             }
             put("/info") {
-
+                var statusCode = HttpStatusCode.OK
+                var message = ResponseMessage.SUCCESS
+                val body = call.receive<AccountInfo>()
+                val principal = call.principal<JWTPrincipal>() ?: return@put
+                val id = principal.payload.getClaim("id").asInt()
+                val name = principal.payload.getClaim("name").asString()
+                if (body.name != name) {
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse(false, ResponseMessage.BAD_REQUEST))
+                    return@put
+                }
+                try {
+                    transaction {
+                        Accounts.update({ (Accounts.name eq name) and (Accounts.id eq id) }) { s ->
+                            body.female?.let { s[gender] = if (it) 1 else 0 }
+                            body.socialNumber?.let { s[socialNumber] = it }
+                        }
+                    }
+                } catch (e: Exception) {
+                    logger.error(e) { e.message }
+                    statusCode = HttpStatusCode.InternalServerError
+                    message = ResponseMessage.SUCCESS
+                } finally {
+                    call.respond(statusCode, message)
+                }
             }
             delete("/delete") {
 
