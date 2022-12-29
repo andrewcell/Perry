@@ -21,7 +21,6 @@ import scripting.npc.NPCScriptManager
 import scripting.quest.QuestScriptManager
 import server.Trade
 import tools.CoroutineManager
-import tools.PacketCreator
 import tools.PacketEncryption
 import tools.PasswordHash
 import tools.packet.CharacterPacket
@@ -133,17 +132,17 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
                         )
                     )
                 }
-                KeyMap.deleteWhere { KeyMap.characterId eq cid }
+                KeyMap.deleteWhere { characterId eq cid }
                 KeyValues.deleteWhere { KeyValues.cid eq cid }
-                QuestStatuses.deleteWhere { QuestStatuses.characterId eq cid }
-                Wishlists.deleteWhere { Wishlists.charId eq cid }
-                FameLog.deleteWhere { FameLog.characterId eq cid }
-                InventoryItems.deleteWhere { InventoryItems.characterId eq cid }
-                QuestStatuses.deleteWhere { QuestStatuses.characterId eq cid }
-                SavedLocations.deleteWhere { SavedLocations.characterId eq cid }
-                Skills.deleteWhere { Skills.characterId eq cid }
-                EventStats.deleteWhere { EventStats.characterId eq cid }
-                Characters.deleteWhere { Characters.id eq cid }
+                QuestStatuses.deleteWhere { characterId eq cid }
+                Wishlists.deleteWhere { charId eq cid }
+                FameLog.deleteWhere { characterId eq cid }
+                InventoryItems.deleteWhere { characterId eq cid }
+                QuestStatuses.deleteWhere { characterId eq cid }
+                SavedLocations.deleteWhere { characterId eq cid }
+                Skills.deleteWhere { characterId eq cid }
+                EventStats.deleteWhere { characterId eq cid }
+                Characters.deleteWhere { id eq cid }
                 //SkillMacros.deleteWhere { SkillMacros.characterId eq cid }
                 result = true
             }
