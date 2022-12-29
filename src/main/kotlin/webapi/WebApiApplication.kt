@@ -22,6 +22,7 @@ import org.slf4j.event.Level
 import tools.ServerJSON
 import webapi.controller.account
 import webapi.controller.index
+import webapi.tools.ApiResponse
 import webapi.tools.JWTVariables
 import webapi.tools.ResponseMessage
 
@@ -61,7 +62,7 @@ object WebApiApplication : KLoggable {
                         else null
                     }
                     challenge { _, _ ->
-                        call.respond(HttpStatusCode.Unauthorized, ResponseMessage.UNAUTHORIZED)
+                        call.respond(HttpStatusCode.Unauthorized, ApiResponse(false, ResponseMessage.UNAUTHORIZED))
                     }
                 }
             }
