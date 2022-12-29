@@ -45,4 +45,14 @@ enum class ResponseMessage {
      * E-mail address and password combination cannot be found in database.
      */
     INCORRECT_EMAIL_PASSWORD,
+
+    /**
+     * Incorrect old password given.
+     */
+    INCORRECT_OLD_PASSWORD,
+
+    /**
+     * Password and password check do not match.
+     */
+    PASSWORD_CHECK_MISMATCH
 }

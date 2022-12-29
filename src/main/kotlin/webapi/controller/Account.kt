@@ -65,6 +65,14 @@ data class AccountInfo(
     val registeredIP: String?
 )
 
+@Serializable
+data class ChangePasswordRequest(
+    val name: String,
+    val oldPassword: String,
+    val newPassword: String,
+    val newPasswordCheck: String,
+)
+
 private val logger = KotlinLogging.logger {  }
 fun Route.account() {
     route("/account") {
@@ -217,6 +225,45 @@ fun Route.account() {
             }
             delete("/delete") {
 
+            }
+            put("/password") {
+                val body = call.receive<ChangePasswordRequest>()
+                var statusCode = HttpStatusCode.OK
+                var message = ResponseMessage.SUCCESS
+                val principal = call.principal<JWTPrincipal>() ?: return@put
+                val id = principal.payload.getClaim("id").asInt()
+                val name = principal.payload.getClaim("name").asString()
+                if (body.newPassword != body.newPasswordCheck) {
+                    call.respond(HttpStatusCode.BadRequest, ApiResponse(false, ResponseMessage.PASSWORD_CHECK_MISMATCH))
+                    return@put
+                }
+                try {
+                    transaction {
+                        val row = Accounts.slice(Accounts.password, Accounts.salt).select((Accounts.id eq id) and (Accounts.name eq name)).firstOrNull()
+                        if (row == null) {
+                            statusCode = HttpStatusCode.InternalServerError
+                            message = ResponseMessage.INTERNAL_ERROR
+                        } else {
+                            val oldMatch = row[Accounts.password] == PasswordHash.generate(row[Accounts.password], Hex.decode(row[Accounts.salt]))
+                            if (!oldMatch) {
+                                statusCode = HttpStatusCode.BadRequest
+                                message = ResponseMessage.INCORRECT_OLD_PASSWORD
+                                return@transaction
+                            }
+                            Accounts.update({ Accounts.id eq id }) {
+                                val newSalt = PasswordHash.generateSalt()
+                                it[password] = PasswordHash.generate(body.newPassword, newSalt)
+                                it[salt] = Hex.toHexString(newSalt)
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    logger.error(e) { e.message }
+                    statusCode = HttpStatusCode.InternalServerError
+                    message = ResponseMessage.INTERNAL_ERROR
+                } finally {
+                    call.respond(statusCode, ApiResponse(message == ResponseMessage.SUCCESS, message))
+                }
             }
         }
     }
