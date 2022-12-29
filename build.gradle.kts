@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.7.20"
+    kotlin("jvm") version "1.8.0"
     id("org.jetbrains.dokka") version "1.7.20"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
     id("idea")
     id("eclipse")
     application
@@ -50,7 +50,7 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
     dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.7.20")
     dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.20")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.20")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.0")
 }
 
 tasks.test {
