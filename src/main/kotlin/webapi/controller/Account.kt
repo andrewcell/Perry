@@ -12,9 +12,12 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import mu.KotlinLogging
 import net.server.handlers.login.AutoRegister
 import org.bouncycastle.util.encoders.Hex
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
@@ -42,6 +45,20 @@ data class LoginRequest(
     val email: String,
     val password: String,
     val requestToken: String? = null
+)
+
+@Serializable
+data class AccountInfoResponse(
+    val name: String,
+    val nxCredit: Int,
+    val mPoint: Int,
+    val lastLogin: Long,
+    val createdAt: Long,
+    val banned: Boolean,
+    val banReason: String,
+    val female: Boolean,
+    val socialNumber: Int,
+    val registeredIP: String,
 )
 private val logger = KotlinLogging.logger {  }
 fun Route.account() {
@@ -129,11 +146,43 @@ fun Route.account() {
                 call.respond(HttpStatusCode.InternalServerError, ApiResponse.internalError)
             }
         }
-        authenticate("login") { // Require token
+        authenticate("auth") { // Require token
             get("/info") {
                 val principal = call.principal<JWTPrincipal>() ?: return@get
-                val id = principal.payload.getClaim("id")
-
+                val id = principal.payload.getClaim("id").asInt()
+                val name = principal.payload.getClaim("name").asString()
+                var message = ResponseMessage.SUCCESS
+                var statusCode = HttpStatusCode.OK
+                var data: AccountInfoResponse? = null
+                transaction {
+                    val row = Accounts
+                        .slice(
+                            Accounts.name, Accounts.nxCredit, Accounts.mPoint,
+                            Accounts.lastLogin, Accounts.createdAt,
+                            Accounts.banned, Accounts.banReason, Accounts.gender,
+                            Accounts.socialNumber, Accounts.sessionIp)
+                        .select((Accounts.id eq id) eq (Accounts.name eq name))
+                        .limit(1)
+                        .firstOrNull()
+                    if (row == null) {
+                        message = ResponseMessage.INTERNAL_ERROR
+                        statusCode = HttpStatusCode.InternalServerError
+                    } else {
+                        data = AccountInfoResponse(
+                            name = row[Accounts.name],
+                            nxCredit = row[Accounts.nxCredit] ?: 0,
+                            mPoint = row[Accounts.mPoint] ?: 0,
+                            lastLogin = row[Accounts.lastLogin]?.toEpochMilli() ?: 0,
+                            createdAt = row[Accounts.createdAt].toEpochMilli(),
+                            banned = row[Accounts.banned],
+                            banReason = row[Accounts.banReason] ?: "",
+                            female = row[Accounts.gender] == 1,
+                            socialNumber = row[Accounts.socialNumber],
+                            registeredIP = row[Accounts.sessionIp]
+                        )
+                    }
+                }
+                call.respond(ApiResponse(message == ResponseMessage.SUCCESS, message, Json.encodeToString(data)))
             }
             put("/info") {
 
