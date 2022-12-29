@@ -111,45 +111,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
     fun dcConnect() = disconnect(shutdown = false, cashShop = false)
 
     fun deleteCharacter(cid: Int): Boolean {
-        var result = false
-        try {
-            transaction {
-                val row = Characters.select { (Characters.id eq cid) and (Characters.accountId eq accountId) }
-                if (row.empty()) return@transaction
-                val chr = row.first()
-                if (chr[Characters.guildId] > 0) {
-                    Server.deleteGuildCharacter(
-                        GuildCharacter(
-                            cid,
-                            0,
-                            chr[Characters.name],
-                            -1,
-                            -1,
-                            0,
-                            chr[Characters.guildRank],
-                            chr[Characters.guildId],
-                            false
-                        )
-                    )
-                }
-                KeyMap.deleteWhere { characterId eq cid }
-                KeyValues.deleteWhere { KeyValues.cid eq cid }
-                QuestStatuses.deleteWhere { characterId eq cid }
-                Wishlists.deleteWhere { charId eq cid }
-                FameLog.deleteWhere { characterId eq cid }
-                InventoryItems.deleteWhere { characterId eq cid }
-                QuestStatuses.deleteWhere { characterId eq cid }
-                SavedLocations.deleteWhere { characterId eq cid }
-                Skills.deleteWhere { characterId eq cid }
-                EventStats.deleteWhere { characterId eq cid }
-                Characters.deleteWhere { id eq cid }
-                //SkillMacros.deleteWhere { SkillMacros.characterId eq cid }
-                result = true
-            }
-        } catch (e: SQLException) {
-            logger.error(e) { "Failed to delete character in account. AccountId: $accountId, CharacterId: $cid" }
-        }
-        return result
+        return Companion.deleteCharacter(cid, accountId)
     }
 
     fun disconnect(shutdown: Boolean, cashShop: Boolean) {
@@ -605,6 +567,48 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
                 logger.error(e) { "Failed to generate password hash." }
             }
             return false
+        }
+
+        fun deleteCharacter(cid: Int, accountId: Int): Boolean {
+            var result = false
+            try {
+                transaction {
+                    val row = Characters.select { (Characters.id eq cid) and (Characters.accountId eq accountId) }
+                    if (row.empty()) return@transaction
+                    val chr = row.first()
+                    if (chr[Characters.guildId] > 0) {
+                        Server.deleteGuildCharacter(
+                            GuildCharacter(
+                                cid,
+                                0,
+                                chr[Characters.name],
+                                -1,
+                                -1,
+                                0,
+                                chr[Characters.guildRank],
+                                chr[Characters.guildId],
+                                false
+                            )
+                        )
+                    }
+                    KeyMap.deleteWhere { characterId eq cid }
+                    KeyValues.deleteWhere { KeyValues.cid eq cid }
+                    QuestStatuses.deleteWhere { characterId eq cid }
+                    Wishlists.deleteWhere { charId eq cid }
+                    FameLog.deleteWhere { characterId eq cid }
+                    InventoryItems.deleteWhere { characterId eq cid }
+                    QuestStatuses.deleteWhere { characterId eq cid }
+                    SavedLocations.deleteWhere { characterId eq cid }
+                    Skills.deleteWhere { characterId eq cid }
+                    EventStats.deleteWhere { characterId eq cid }
+                    Characters.deleteWhere { id eq cid }
+                    //SkillMacros.deleteWhere { SkillMacros.characterId eq cid }
+                    result = true
+                }
+            } catch (e: SQLException) {
+                logger.error(e) { "Failed to delete character in account. AccountId: $accountId, CharacterId: $cid" }
+            }
+            return result
         }
     }
 }

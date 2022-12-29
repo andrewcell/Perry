@@ -1,9 +1,11 @@
 package webapi.controller
 
+import client.Client
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.beust.klaxon.JsonObject
 import database.Accounts
+import database.Characters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -14,18 +16,20 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.logging.*
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.CharArraySerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 import mu.KotlinLogging
+import net.server.PlayerStorage
+import net.server.Server
 import net.server.handlers.login.AutoRegister
+import net.server.world.World
 import org.bouncycastle.util.encoders.Hex
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.javatime.timestampLiteral
-import org.jetbrains.exposed.sql.or
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import tools.CoroutineManager
 import tools.PasswordHash
 import webapi.tools.ApiResponse
 import webapi.tools.JWTVariables
@@ -72,6 +76,7 @@ data class ChangePasswordRequest(
     val newPassword: String,
     val newPasswordCheck: String,
 )
+
 
 private val logger = KotlinLogging.logger {  }
 fun Route.account() {
@@ -224,7 +229,32 @@ fun Route.account() {
                 }
             }
             delete("/delete") {
-
+                var statusCode = HttpStatusCode.OK
+                var message = ResponseMessage.SUCCESS
+                val principal = call.principal<JWTPrincipal>() ?: return@delete
+                val id = principal.payload.getClaim("id").asInt()
+                try {
+                    transaction {
+                        Server.worlds.forEach { world ->
+                            world.players.storage.values.find { it.accountId == id }?.client?.disconnect(
+                                shutdown = false,
+                                cashShop = false
+                            )
+                        }
+                        Characters.select(Characters.accountId eq id).forEach {
+                            CoroutineManager.schedule({
+                                Client.deleteCharacter(it[Characters.id], id)
+                            }, 0)
+                        }
+                        Accounts.deleteWhere { Accounts.id eq id }
+                    }
+                } catch (e: Exception) {
+                    logger.error(e) { e.message }
+                    statusCode = HttpStatusCode.InternalServerError
+                    message = ResponseMessage.INTERNAL_ERROR
+                } finally {
+                    call.respond(statusCode, ApiResponse(message == ResponseMessage.SUCCESS, message))
+                }
             }
             put("/password") {
                 val body = call.receive<ChangePasswordRequest>()
