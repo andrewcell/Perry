@@ -1,5 +1,7 @@
 package provider
 
+import io.ktor.client.*
+import io.ktor.client.request.*
 import mu.KLogging
 import provider.wz.WZFile
 import provider.wz.XMLWZFile

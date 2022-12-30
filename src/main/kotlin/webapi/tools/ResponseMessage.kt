@@ -1,9 +1,11 @@
 package webapi.tools
 
+import kotlinx.serialization.Serializable
+
 /**
  * Commonly used response messages.
  */
-@kotlinx.serialization.Serializable
+@Serializable
 enum class ResponseMessage {
     /**
      * If request parameter, form, uri is formed unaccountable.
