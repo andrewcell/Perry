@@ -4,6 +4,7 @@ import client.Client
 import constants.ServerConstants
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
+import kotlinx.coroutines.runBlocking
 import mu.KLogging
 import net.server.Server
 import tools.*
@@ -89,7 +90,9 @@ class ServerHandler(val world: Int = -1, val channel: Int = -1) : SimpleChannelI
         if (packetHandler != null && packetHandler.validateState(client)) {
             try {
                 logger.debug { "Calling packet handler ${packetHandler.javaClass.simpleName}. Opcode: $packetId" }
-                packetHandler.handlePacket(msg, client)
+                runBlocking {
+                    packetHandler.handlePacket(msg, client)
+                }
             } catch (t: Exception) {
                 logger.error(t) { "Exception missed when handling packet." }
                 ctx.write(PacketCreator.enableActions())
