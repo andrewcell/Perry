@@ -31,7 +31,7 @@ dependencies {
     implementation("io.github.microutils", "kotlin-logging", "3.0.4")
     //implementation("org.slf4j:slf4j-simple:1.7.26")
     implementation("com.microsoft.sqlserver:mssql-jdbc:12.1.0.jre11-preview")
-    implementation("org.postgresql:postgresql:42.5.1")
+    implementation("org.postgresql:postgresql:42.5.3")
     implementation("org.xerial:sqlite-jdbc:3.40.0.0")
     implementation("com.h2database:h2:2.1.214")
     implementation("com.beust", "klaxon", "5.6")
