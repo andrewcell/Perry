@@ -20,7 +20,7 @@ val exposedVersion: String by project
 val ktorVersion: String by project
 
 dependencies {
-    implementation("io.netty:netty-all:4.1.86.Final")
+    implementation("io.netty:netty-all:4.1.89.Final")
     implementation("mysql", "mysql-connector-java", "8.0.31")
     implementation("org.graalvm.js", "js-scriptengine", "22.3.0")
     implementation("org.graalvm.js", "js", "22.3.0")
