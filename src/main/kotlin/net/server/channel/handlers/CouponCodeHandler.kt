@@ -12,6 +12,12 @@ import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.CashPacket
 import java.sql.SQLException
 
+/**
+ * Coupon code type.
+ * 1 : NX Credit
+ * 2 : M. Point
+ * 4 : Actual item
+ */
 class CouponCodeHandler : AbstractPacketHandler(), KLoggable {
     override val logger = logger()
 
