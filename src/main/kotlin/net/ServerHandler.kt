@@ -79,7 +79,11 @@ class ServerHandler(val world: Int = -1, val channel: Int = -1) : SimpleChannelI
         if (ServerJSON.settings.printReceivePacket) {
             msg as GenericSeekableLittleEndianAccessor
             val arr = (msg.bs as ByteArrayByteStream).array
-            logger.trace { "Recv Codes: [[ ${HexTool.toString(arr)}\n${HexTool.toStringFromASCII(arr)}" }
+            logger.trace { """
+                 Receiving:
+                 ${HexTool.toString(arr)}
+                 ${HexTool.toStringFromASCII(arr)}""".trimIndent()
+            }
         }
         //val slea = GenericSeekableLittleEndianAccessor(ByteArrayByteStream(content))
         val packetId = msg.readByte().toInt() and 0xFF

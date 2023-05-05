@@ -22,7 +22,7 @@ class PacketLittleEndianWriter(val size: Int = 32) : GenericLittleEndianWriter()
         if (ServerJSON.settings.printSendPacket) {
             logger.trace {
                 """
-                    Packet to be sent:
+                    Sending:
                     ${HexTool.toString(baos.toByteArray())}
                     ${HexTool.toStringFromASCII(baos.toByteArray())}
                     """.trimIndent()
