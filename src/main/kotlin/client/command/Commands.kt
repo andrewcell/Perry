@@ -4,6 +4,7 @@ import client.CharacterStat
 import client.Client
 import client.GameJob
 import client.SkillFactory
+import net.server.channel.handlers.DistributeAPHandler
 import server.InventoryManipulator.Companion.addById
 import server.ShopFactory
 import server.life.LifeFactory
@@ -125,6 +126,13 @@ object Commands {
                         mob.giveExpToCharacter(player, mob.stats.exp * player.expRate, true, 1)
                     }
                     player.dropMessage(0, "Killed ${monsters.size} monsters.")
+                }
+            }
+            // !dex 10 -> Level up DEX 10 times
+            "dex" -> {
+                val times = sub[1].toIntOrNull() ?: 1
+                for (i in 1..times) {
+                    DistributeAPHandler.addStat(c, 128)
                 }
             }
             else -> c.announce(InteractPacket.serverNotice(1, "Unknown command line: $command"))
