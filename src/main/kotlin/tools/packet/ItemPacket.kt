@@ -7,36 +7,35 @@ import net.SendPacketOpcode
 import server.ItemInformationProvider
 import server.maps.MapItem
 import tools.PacketCreator
-import tools.PacketCreator.Companion.packetWriter
 import tools.data.output.PacketLittleEndianWriter
 import java.awt.Point
 
 //Packet for item
 class ItemPacket {
     companion object {
-        fun addExpirationTime(time: Long) = packetWriter {
-            long(PacketCreator.getTime(time))
+        fun addExpirationTime(lew: PacketLittleEndianWriter, time: Long) {
+            lew.long(PacketCreator.getTime(time))
         }
 
-        fun addRingInfo(chr: Character) = packetWriter {
-            short(chr.crushRings.size)
+        fun addRingInfo(plew: PacketLittleEndianWriter, chr: Character) {
+            plew.short(chr.crushRings.size)
             for (ring in chr.crushRings) {
-                int(ring.partnerId)
-                ASCIIString(ring.partnerName, 13)
-                int(ring.ringId)
-                int(0)
-                int(ring.partnerRingId)
-                int(0)
+                plew.int(ring.partnerId)
+                plew.ASCIIString(ring.partnerName, 13)
+                plew.int(ring.ringId)
+                plew.int(0)
+                plew.int(ring.partnerRingId)
+                plew.int(0)
             }
-            short(chr.friendshipRings.size)
+            plew.short(chr.friendshipRings.size)
             for (ring in chr.friendshipRings) {
-                int(ring.partnerId)
-                ASCIIString(ring.partnerName, 13)
-                int(ring.ringId)
-                int(0)
-                int(ring.partnerRingId)
-                int(0)
-                int(ring.itemId)
+                plew.int(ring.partnerId)
+                plew.ASCIIString(ring.partnerName, 13)
+                plew.int(ring.ringId)
+                plew.int(0)
+                plew.int(ring.partnerRingId)
+                plew.int(0)
+                plew.int(ring.itemId)
             }
         }
 
@@ -65,26 +64,28 @@ class ItemPacket {
             }
         }
 
-        fun addPetItemInfo(item: Item) = packetWriter {
-            val pet = item.pet ?: return@packetWriter
-            long(0)
-            ASCIIString(pet.name, 13)
-            byte(pet.level)
-            short(pet.closeness)
-            byte(pet.fullness)
-            addExpirationTime(item.expiration)
-            short(0)
-            short(-1)
+        fun addPetItemInfo(plew: PacketLittleEndianWriter, item: Item) {
+            val pet = item.pet ?: return
+            plew.long(0)
+            plew.gameASCIIString(pet.name)// 13)
+            plew.byte(pet.level)
+            plew.short(pet.closeness)
+            plew.byte(pet.fullness)
+            addExpirationTime(plew, item.expiration)
+            plew.short(0)
+            plew.short(-1)
         }
 
-        fun addItemInfo(item: Item) = addItemInfo(item, true, true)
+        fun addItemInfo(lew: PacketLittleEndianWriter, item: Item) {
+            addItemInfo(lew, item, true, true)
+        }
 
-        fun addItemInfo(item: Item, zeroPosition: Boolean = true, leaveOut: Boolean = true, trade: Boolean = false, chr: Character? = null) = packetWriter {
+        fun addItemInfo(lew: PacketLittleEndianWriter, item: Item, zeroPosition: Boolean = true, leaveOut: Boolean = true, trade: Boolean = false, chr: Character? = null) {
             val hasUniqueId = ItemInformationProvider.isCash(item.itemId)
             var isRing = false
             var pos = item.position
             if (zeroPosition) {
-                if (!leaveOut) byte(0)
+                if (!leaveOut) lew.byte(0)
             } else {
                 if (pos <= -1) {
                     pos = (pos * -1).toByte()
@@ -92,48 +93,49 @@ class ItemPacket {
                         pos = (pos - 100).toByte()
                     }
                 }
-                byte(pos)
+                lew.byte(pos)
             }
-            byte(if (item.pet != null) 3 else item.getType())
-            int(item.itemId)
-            bool(hasUniqueId)
+            lew.byte(if (item.pet != null) 3 else item.getType())
+            lew.int(item.itemId)
+            lew.bool(hasUniqueId)
             if (hasUniqueId) {
-                long(if (item.pet != null) item.petId.toLong() else item.cashId.toLong())
+                lew.long(if (item.pet != null) item.petId.toLong() else item.cashId.toLong())
             }
             if (item.pet != null) { // Pet
-                addPetItemInfo(item)
-                return@packetWriter
+                addPetItemInfo(lew, item)
+                return
             } else {
-                addExpirationTime(item.expiration)
+                addExpirationTime(lew, item.expiration)
                 if (item.getType() == 1) {
                     item as Equip
                     isRing = item.ringId > -1
-                    byte(item.upgradeSlots)
-                    byte(item.level)
-                    short(item.str.toInt())
-                    short(item.dex.toInt())
-                    short(item.int.toInt())
-                    short(item.luk.toInt())
-                    short(item.hp.toInt())
-                    short(item.mp.toInt())
-                    short(item.watk.toInt())
-                    short(item.matk.toInt())
-                    short(item.wdef.toInt())
-                    short(item.mdef.toInt())
-                    short(item.acc.toInt())
-                    short(item.avoid.toInt())
-                    short(item.hands.toInt())
-                    short(item.speed.toInt())
-                    short(item.jump.toInt())
-                    gameASCIIString(item.owner)
-                    short(item.flag)
+                    lew.byte(item.upgradeSlots)
+                    lew.byte(item.level)
+                    lew.short(item.str.toInt())
+                    lew.short(item.dex.toInt())
+                    lew.short(item.int.toInt())
+                    lew.short(item.luk.toInt())
+                    lew.short(item.hp.toInt())
+                    lew.short(item.mp.toInt())
+                    lew.short(item.watk.toInt())
+                    lew.short(item.matk.toInt())
+                    lew.short(item.wdef.toInt())
+                    lew.short(item.mdef.toInt())
+                    lew.short(item.acc.toInt())
+                    lew.short(item.avoid.toInt())
+                    lew.short(item.hands.toInt())
+                    lew.short(item.speed.toInt())
+                    lew.short(item.jump.toInt())
+                    lew.gameASCIIString(item.owner)
+                    lew.short(item.flag)
                 } else {
-                    short(item.quantity.toInt())
-                    gameASCIIString(item.owner)
-                    short(item.flag)
+                    lew.short(item.quantity.toInt())
+                    lew.gameASCIIString(item.owner)
+                    lew.short(item.flag)
                 }
             }
         }
+
 
         fun changePetName(chr: Character, newName: String): ByteArray {
             val lew = PacketLittleEndianWriter()
@@ -161,7 +163,7 @@ class ItemPacket {
                 lew.short(0) //Fh?
             }
             if (drop.meso == 0) {
-                addExpirationTime(drop.item!!.expiration)
+                addExpirationTime(lew, drop.item!!.expiration)
             }
             lew.byte(if (drop.playerDrop) 0 else 1) //pet EQP pickup
             return lew.getPacket()

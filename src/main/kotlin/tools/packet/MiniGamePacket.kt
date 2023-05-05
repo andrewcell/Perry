@@ -22,50 +22,53 @@ class MiniGamePacket {
             short(team2)
         }
 
-        fun getMatchCard(c: Client?, minigame: MiniGame, owner: Boolean, piece: Int) = packetWriter(SendPacketOpcode.PLAYER_INTERACTION) {
-            byte(PlayerInteractionHandler.Action.ROOM.code)
-            byte(2)
-            byte(2)
-            byte(if (owner) 0 else 1)
-            byte(0)
-            CharacterPacket.addCharLook(minigame.owner, false)
-            gameASCIIString(minigame.owner.name)
+        fun getMatchCard(c: Client?, minigame: MiniGame, owner: Boolean, piece: Int): ByteArray {
+            val lew = PacketLittleEndianWriter()
+            lew.byte(SendPacketOpcode.PLAYER_INTERACTION.value)
+            lew.byte(PlayerInteractionHandler.Action.ROOM.code)
+            lew.byte(2)
+            lew.byte(2)
+            lew.byte(if (owner) 0 else 1)
+            lew.byte(0)
+            CharacterPacket.addCharLook(lew, minigame.owner, false)
+            lew.gameASCIIString(minigame.owner.name)
             if (minigame.visitor != null) {
-                val visitor = minigame.visitor ?: return@packetWriter
-                byte(1)
-                CharacterPacket.addCharLook(visitor, false)
-                gameASCIIString(visitor.name)
+                val visitor = minigame.visitor ?: return ByteArray(0)
+                lew.byte(1)
+                CharacterPacket.addCharLook(lew, visitor, false)
+                lew.gameASCIIString(visitor.name)
             }
-            byte(0xFF)
-            byte(0)
-            int(2)
-            int(minigame.owner.getMiniGamePoints("wins", false))
-            int(minigame.owner.getMiniGamePoints("ties", false))
-            int(minigame.owner.getMiniGamePoints("losses", false))
-            int(
+            lew.byte(0xFF)
+            lew.byte(0)
+            lew.int(2)
+            lew.int(minigame.owner.getMiniGamePoints("wins", false))
+            lew.int(minigame.owner.getMiniGamePoints("ties", false))
+            lew.int(minigame.owner.getMiniGamePoints("losses", false))
+            lew.int(
                 2000 + minigame.owner.getMiniGamePoints(
                     "wins",
                     false
                 ) - minigame.owner.getMiniGamePoints("losses", false)
             )
             if (minigame.visitor != null) {
-                val visitor = minigame.visitor ?: return@packetWriter// ByteArray(0)
-                byte(1)
-                int(2)
-                int(visitor.getMiniGamePoints("wins", false))
-                int(visitor.getMiniGamePoints("ties", false))
-                int(visitor.getMiniGamePoints("losses", false))
-                int(
+                val visitor = minigame.visitor ?: return ByteArray(0)
+                lew.byte(1)
+                lew.int(2)
+                lew.int(visitor.getMiniGamePoints("wins", false))
+                lew.int(visitor.getMiniGamePoints("ties", false))
+                lew.int(visitor.getMiniGamePoints("losses", false))
+                lew.int(
                     2000 + visitor.getMiniGamePoints("wins", false) - visitor.getMiniGamePoints(
                         "losses",
                         false
                     )
                 )
             }
-            byte(0xFF)
-            gameASCIIString(minigame.description)
-            byte(piece)
-            byte(0)
+            lew.byte(0xFF)
+            lew.gameASCIIString(minigame.description)
+            lew.byte(piece)
+            lew.byte(0)
+            return lew.getPacket()
         }
 
         fun addMatchCardBox(c: Character, locker: Int, ammount: Int, type: Int) = packetWriter(SendPacketOpcode.UPDATE_CHAR_BOX) {
@@ -74,16 +77,19 @@ class MiniGamePacket {
         }
 
 
-        fun getMatchCardNewVisitor(c: Character, slot: Int) = packetWriter(SendPacketOpcode.PLAYER_INTERACTION) {
-            byte(PlayerInteractionHandler.Action.VISIT.code)
-            byte(slot)
-            CharacterPacket.addCharLook(c, false)
-            gameASCIIString(c.name)
-            int(1)
-            int(c.getMiniGamePoints("wins", false))
-            int(c.getMiniGamePoints("ties", false))
-            int(c.getMiniGamePoints("losses", false))
-            int(2000 + c.getMiniGamePoints("wins", false) - c.getMiniGamePoints("losses", false))
+        fun getMatchCardNewVisitor(c: Character, slot: Int): ByteArray {
+            val lew = PacketLittleEndianWriter()
+            lew.byte(SendPacketOpcode.PLAYER_INTERACTION.value)
+            lew.byte(PlayerInteractionHandler.Action.VISIT.code)
+            lew.byte(slot)
+            CharacterPacket.addCharLook(lew, c, false)
+            lew.gameASCIIString(c.name)
+            lew.int(1)
+            lew.int(c.getMiniGamePoints("wins", false))
+            lew.int(c.getMiniGamePoints("ties", false))
+            lew.int(c.getMiniGamePoints("losses", false))
+            lew.int(2000 + c.getMiniGamePoints("wins", false) - c.getMiniGamePoints("losses", false))
+            return lew.getPacket()
         }
 
         fun getMatchCardSelect(game: MiniGame, turn: Int, slot: Int, firstSlot: Int, type: Int) = packetWriter(SendPacketOpcode.PLAYER_INTERACTION, 6) {
@@ -119,27 +125,29 @@ class MiniGamePacket {
 
         fun getMatchCardTie(game: MiniGame) = getMiniGameResult(game, 0, 0, 1, 3, 0, false)
 
-        fun getMiniGame(c: Client?, miniGame: MiniGame, owner: Boolean, piece: Int) = packetWriter(SendPacketOpcode.PLAYER_INTERACTION) {
-            byte(PlayerInteractionHandler.Action.ROOM.code)
-            byte(1)
-            byte(0)
-            byte(if (owner) 0 else 1)
-            byte(0)
-            CharacterPacket.addCharLook(miniGame.owner, false)
-            gameASCIIString(miniGame.owner.name)
+        fun getMiniGame(c: Client?, miniGame: MiniGame, owner: Boolean, piece: Int): ByteArray {
+            val lew = PacketLittleEndianWriter()
+            lew.byte(SendPacketOpcode.PLAYER_INTERACTION.value)
+            lew.byte(PlayerInteractionHandler.Action.ROOM.code)
+            lew.byte(1)
+            lew.byte(0)
+            lew.byte(if (owner) 0 else 1)
+            lew.byte(0)
+            CharacterPacket.addCharLook(lew, miniGame.owner, false)
+            lew.gameASCIIString(miniGame.owner.name)
             if (miniGame.visitor != null) {
-                val visitor = miniGame.visitor ?: return@packetWriter
-                byte(1)
-                CharacterPacket.addCharLook(visitor, false)
-                gameASCIIString(visitor.name)
+                val visitor = miniGame.visitor ?: return ByteArray(0)
+                lew.byte(1)
+                CharacterPacket.addCharLook(lew, visitor, false)
+                lew.gameASCIIString(visitor.name)
             }
-            byte(0xFF)
-            byte(0)
-            int(1)
-            int(miniGame.owner.getMiniGamePoints("wins", true))
-            int(miniGame.owner.getMiniGamePoints("ties", true))
-            int(miniGame.owner.getMiniGamePoints("losses", true))
-            int(
+            lew.byte(0xFF)
+            lew.byte(0)
+            lew.int(1)
+            lew.int(miniGame.owner.getMiniGamePoints("wins", true))
+            lew.int(miniGame.owner.getMiniGamePoints("ties", true))
+            lew.int(miniGame.owner.getMiniGamePoints("losses", true))
+            lew.int(
                 2000 + miniGame.owner.getMiniGamePoints(
                     "wins",
                     true
@@ -147,22 +155,23 @@ class MiniGamePacket {
             )
             if (miniGame.visitor != null) {
                 val visitor = miniGame.visitor
-                byte(1)
-                int(1)
-                int(visitor!!.getMiniGamePoints("wins", true))
-                int(visitor.getMiniGamePoints("ties", true))
-                int(visitor.getMiniGamePoints("losses", true))
-                int(
+                lew.byte(1)
+                lew.int(1)
+                lew.int(visitor!!.getMiniGamePoints("wins", true))
+                lew.int(visitor.getMiniGamePoints("ties", true))
+                lew.int(visitor.getMiniGamePoints("losses", true))
+                lew.int(
                     2000 + visitor.getMiniGamePoints("wins", true) - visitor.getMiniGamePoints(
                         "losses",
                         true
                     )
                 )
             }
-            byte(0xFF)
-            gameASCIIString(miniGame.description)
-            byte(piece)
-            byte(0)
+            lew.byte(0xFF)
+            lew.gameASCIIString(miniGame.description)
+            lew.byte(piece)
+            lew.byte(0)
+            return lew.getPacket()
         }
 
         fun getMiniGameClose(close: Boolean) = packetWriter(SendPacketOpcode.PLAYER_INTERACTION, 5) {
@@ -177,20 +186,23 @@ class MiniGamePacket {
             byte(2)
         }
 
-        fun addMiniGameInfo(chr: Character) = packetWriter {
-            short(0)
+        fun addMiniGameInfo(lew: PacketLittleEndianWriter, chr: Character) {
+            lew.short(0)
         }
 
-        fun getMiniGameNewVisitor(c: Character, slot: Int) = packetWriter(SendPacketOpcode.PLAYER_INTERACTION) {
-            byte(PlayerInteractionHandler.Action.VISIT.code)
-            byte(slot)
-            CharacterPacket.addCharLook(c, false)
-            gameASCIIString(c.name)
-            int(1)
-            int(c.getMiniGamePoints("wins", true))
-            int(c.getMiniGamePoints("ties", true))
-            int(c.getMiniGamePoints("losses", true))
-            int(2000 + c.getMiniGamePoints("wins", true) - c.getMiniGamePoints("losses", true))
+        fun getMiniGameNewVisitor(c: Character, slot: Int): ByteArray {
+            val lew = PacketLittleEndianWriter()
+            lew.byte(SendPacketOpcode.PLAYER_INTERACTION.value)
+            lew.byte(PlayerInteractionHandler.Action.VISIT.code)
+            lew.byte(slot)
+            CharacterPacket.addCharLook(lew, c, false)
+            lew.gameASCIIString(c.name)
+            lew.int(1)
+            lew.int(c.getMiniGamePoints("wins", true))
+            lew.int(c.getMiniGamePoints("ties", true))
+            lew.int(c.getMiniGamePoints("losses", true))
+            lew.int(2000 + c.getMiniGamePoints("wins", true) - c.getMiniGamePoints("losses", true))
+            return lew.getPacket()
         }
 
         fun getMiniGameMoveOmok(game: MiniGame, move1: Int, move2: Int, move3: Int) = packetWriter(SendPacketOpcode.PLAYER_INTERACTION, 12) {

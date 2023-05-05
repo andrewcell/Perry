@@ -407,7 +407,7 @@ class PacketCreator {
                         lew.byte(0)
                         if (dp.item != null) {
                             lew.byte(1)
-                            addItemInfo(dp.item, zeroPosition = true, leaveOut = true)
+                            addItemInfo(lew, dp.item, zeroPosition = true, leaveOut = true)
                         } else {
                             lew.byte(0)
                         }
@@ -467,7 +467,7 @@ class PacketCreator {
             lew.byte(SendPacketOpcode.SEND_TV.value)
             lew.byte(if (partner != null) 3 else 1)
             lew.byte(type) //Heart = 2  Star = 1  Normal = 0
-            CharacterPacket.addCharLook(chr, false)
+            CharacterPacket.addCharLook(lew, chr, false)
             lew.gameASCIIString(chr.name)
             if (partner != null) {
                 lew.gameASCIIString(partner.name)
@@ -483,7 +483,7 @@ class PacketCreator {
             }
             lew.int(1337) // time limit
             if (partner != null) {
-                CharacterPacket.addCharLook(partner, false)
+                CharacterPacket.addCharLook(lew, partner, false)
             }
             return lew.getPacket()
         }

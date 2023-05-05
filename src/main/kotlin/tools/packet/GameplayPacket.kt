@@ -14,7 +14,6 @@ import server.maps.Reactor
 import server.maps.Summon
 import server.movement.LifeMovementFragment
 import tools.PacketCreator
-import tools.PacketCreator.Companion.packetWriter
 import tools.data.output.LittleEndianWriter
 import tools.data.output.PacketLittleEndianWriter
 import java.awt.Point
@@ -22,21 +21,21 @@ import java.awt.Point
 //Packet for game playing. maps, monsters, ...
 class GameplayPacket {
     companion object {
-        fun addQuestInfo(chr: Character) = packetWriter {
-            short(chr.getStartedQuestsSize())
+        fun addQuestInfo(lew: PacketLittleEndianWriter, chr: Character) {
+            lew.short(chr.getStartedQuestsSize())
             chr.getStartedQuests().forEach {
-                short(it.quest.id.toInt())
-                gameASCIIString(it.getQuestData())
+                lew.short(it.quest.id.toInt())
+                lew.gameASCIIString(it.getQuestData())
                 if (it.quest.infoNumber > 0) {
-                    short(it.quest.infoNumber.toInt())
-                    gameASCIIString(it.medalProgress.toString())
+                    lew.short(it.quest.infoNumber.toInt())
+                    lew.gameASCIIString(it.medalProgress.toString())
                 }
             }
             val completed = chr.getCompletedQuests()
-            short(completed.size)
+            lew.short(completed.size)
             completed.forEach {
-                short(it.quest.id.toInt())
-                long(PacketCreator.getTime(it.completionTime))
+                lew.short(it.quest.id.toInt())
+                lew.long(PacketCreator.getTime(it.completionTime))
             }
         }
 
@@ -775,7 +774,7 @@ class GameplayPacket {
                 buffMask = buffMask or BuffStat.SHADOWPARTNER.value
             }
             lew.long(buffMask)
-            CharacterPacket.addCharLook(chr, false)
+            CharacterPacket.addCharLook(lew, chr, false)
             lew.int(chr.getInventory(InventoryType.CASH)?.countById(5110000) ?: 0)
             lew.int(chr.itemEffect)
             lew.int(if (ItemConstants.getInventoryType(chr.chair) == InventoryType.SETUP) chr.chair else 0)
