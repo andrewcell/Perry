@@ -11,6 +11,7 @@ import net.SendPacketOpcode
 import net.server.channel.handlers.PlayerInteractionHandler
 import server.CashShop
 import server.maps.HiredMerchant
+import tools.PacketCreator.Companion.packetWriter
 import tools.data.output.PacketLittleEndianWriter
 import java.awt.Point
 
@@ -211,12 +212,9 @@ class CashPacket {
             return lew.getPacket()
         }
 
-        fun enableCSUse(): ByteArray {
-            val lew = PacketLittleEndianWriter()
-            lew.byte(SendPacketOpcode.CS_USE.value)
-            lew.byte(0)
-            lew.int(0)
-            return lew.getPacket()
+        fun enableCSUse() = packetWriter(SendPacketOpcode.CS_USE) {
+            byte(0)
+            int(0)
         }
 
         fun leaveHiredMerchant(slot: Int, status2: Int): ByteArray {
