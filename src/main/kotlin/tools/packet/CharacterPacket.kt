@@ -93,21 +93,21 @@ class CharacterPacket {
             int(chr.face) // face
             byte(if (mega) 0 else 1)
             int(chr.hair) // hair
-            addCharEquips(chr)
+            byte(addCharEquips(chr))
         }
 
 
 
         fun addCharacterInfo(chr: Character) = packetWriter {
             short(-1)
-            addCharStats(chr)
+            byte(addCharStats(chr))
             byte(chr.buddyList.capacity)
-            addInventoryInfo(chr)
-            addSkillInfo(chr)
-            GameplayPacket.addQuestInfo(chr)
-            MiniGamePacket.addMiniGameInfo(chr)
-            ItemPacket.addRingInfo(chr)
-            CashPacket.addTeleportInfo(chr)
+            byte(addInventoryInfo(chr))
+            byte(addSkillInfo(chr))
+            byte(GameplayPacket.addQuestInfo(chr))
+            byte(MiniGamePacket.addMiniGameInfo(chr))
+            byte(ItemPacket.addRingInfo(chr))
+            byte(CashPacket.addTeleportInfo(chr))
         }
 
         fun addCharEquips(chr: Character) = packetWriter {
@@ -147,11 +147,11 @@ class CharacterPacket {
             int(chr.pet?.itemId ?: 0)
         }
 
-        fun addCharEntry(chr: Character) = packetWriter{
-            addCharStats(chr)
-            addCharLook( chr, false)
+        fun addCharEntry(chr: Character) = packetWriter {
+            byte(addCharStats(chr))
+            byte(addCharLook(chr, false))
             if (chr.isGM()) {
-                byte(0)
+                this.byte(0)
             } else {
                 byte(1) // world rank enabled (next 4 ints are not sent if disabled) Short??
                 int(chr.rank) // world rank
@@ -180,31 +180,31 @@ class CharacterPacket {
             equipped.sort()
             equippedCash.sort()
             for (item in equipped) {
-                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                byte(ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr))
             }
             byte(0)
             for (item in equippedCash) {
-                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                byte(ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr))
             }
             byte(0)
             for (item in chr.getInventory(InventoryType.EQUIP)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                byte(ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr))
             }
             byte(0)
             for (item in chr.getInventory(InventoryType.USE)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                byte(ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr))
             }
             byte(0)
             for (item in chr.getInventory(InventoryType.SETUP)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                byte(ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr))
             }
             byte(0)
             for (item in chr.getInventory(InventoryType.ETC)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                byte(ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr))
             }
             byte(0)
             for (item in chr.getInventory(InventoryType.CASH)?.list() ?: emptyList()) {
-                ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr)
+                byte(ItemPacket.addItemInfo(item, zeroPosition = false, leaveOut = false, trade = false, chr = chr))
             }
             byte(0)
         }
@@ -213,7 +213,7 @@ class CharacterPacket {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.ADD_NEW_CHAR_ENTRY.value)
             lew.byte(0)
-            addCharEntry( chr)
+            lew.byte(addCharEntry(chr))
             return lew.getPacket()
         }
 
@@ -397,7 +397,7 @@ class CharacterPacket {
             for (i in 0..2) {
                 lew.int(Random.nextInt())
             }
-            addCharacterInfo(chr)
+            lew.byte(addCharacterInfo(chr))
             lew.long(PacketCreator.getTime(System.currentTimeMillis()))
             return lew.getPacket()
         }
@@ -409,20 +409,17 @@ class CharacterPacket {
          * @param serverId The ID of the server requested.
          * @return The character list packet.
          */
-        fun getCharList(c: Client, serverId: Int): ByteArray {
-            val plew = PacketLittleEndianWriter()
-            plew.byte(SendPacketOpcode.CHARLIST.value)
-            plew.byte(0)
-            plew.int(0) // 주민등록번호
+        fun getCharList(c: Client, serverId: Int) = packetWriter(SendPacketOpcode.CHARLIST) {
+            byte(0)
+            int(0) // 주민등록번호
             val chars = c.loadCharacters(serverId)
-            plew.byte(chars.size.toByte())
+            byte(chars.size.toByte())
             for (chr in chars) {
-                addCharEntry(chr)
+                byte(addCharEntry(chr))
             }
-            plew.byte(2)
-            plew.byte(0)
-            plew.int(c.characterSlots.toInt())
-            return plew.getPacket()
+            byte(2)
+            byte(0)
+            int(c.characterSlots.toInt())
         }
 
         fun getInventoryFull() = modifyInventory(true, listOf())
