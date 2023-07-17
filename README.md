@@ -6,6 +6,8 @@ Based on OdinMS and source code from commercial-purpose game server. OdinMS auth
 Perry focused on Original game play experience. No-Money things, No-Events, No-Donation. Just play a game in old-fashioned version. Remove registered trademarks, Donation event things in source code. Also, implement modern development APIs, Libraries. (Kotlin, Dokka, Ktor...)
 
 (You need to obtain Client for yourself. This is copyright protected files, and I don't want more trouble.)
+### Web API Documentation
+Please check out dedicated documentations written in [GitBook](https://amc-2.gitbook.io/perry/)
 ## Getting started
 ### Requirements
  - Java 11 (recommended. For 1.8, you need to change target version and recompile.)
