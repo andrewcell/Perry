@@ -4,6 +4,7 @@ import client.CharacterStat
 import client.Client
 import client.GameJob
 import client.SkillFactory
+import net.server.Server
 import server.InventoryManipulator.Companion.addById
 import server.ShopFactory
 import server.life.LifeFactory
@@ -125,6 +126,13 @@ object Commands {
                         mob.giveExpToCharacter(player, mob.stats.exp * player.expRate, true, 1)
                     }
                     player.dropMessage(0, "Killed ${monsters.size} monsters.")
+                }
+            }
+            "servermessage" -> {
+                val message = sub.getOrNull(1) ?: ""
+                c.player?.let { player ->
+                    val currentWorldId = player.world
+                    Server.getWorld(currentWorldId).setServerMessage(message)
                 }
             }
             else -> c.announce(InteractPacket.serverNotice(1, "Unknown command line: $command"))
