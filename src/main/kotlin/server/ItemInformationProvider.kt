@@ -16,6 +16,7 @@ import provider.DataProviderFactory
 import provider.DataTool
 import tools.ResourceFile
 import tools.ServerJSON.settings
+import tools.StringXmlParser
 import tools.settings.MonsterCardDataDatabase
 import java.io.File
 import java.sql.SQLException
@@ -141,6 +142,7 @@ object ItemInformationProvider : KLoggable {
             itemPairs.add(Pair(itemId, name))
             logger.trace { "Item: Pet.img - $itemId - $name" }
         }
+        StringXmlParser.addItemEntry(itemPairs)
         return itemPairs
     }
 

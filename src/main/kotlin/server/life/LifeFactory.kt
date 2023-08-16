@@ -27,6 +27,28 @@ class LifeFactory {
             }
         }
 
+        /**
+         * Get a map of id and name of Mobs or Npcs from String.wz
+         *
+         * @param type 1 = Mob, 2 = Npc, else = empty
+         * @return Map of ID and Name
+         */
+        fun getStringData(type: Int): Map<Int, String> {
+            val data = mutableMapOf<Int, String>()
+            val stringData = when (type) {
+                1 -> mobStringData
+                2 -> npcStringData
+                else -> null
+            }
+            stringData?.children?.forEach { entry ->
+                val id = entry.name.toIntOrNull()
+                if (id != null) {
+                    data[id] = DataTool.getString("$id/name", stringData, "UNKNOWN")
+                }
+            }
+            return data
+        }
+
         fun getMonster(mid: Int): Monster? {
             var stats = monsterStats[mid]
             if (stats == null) {

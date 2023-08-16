@@ -9,6 +9,7 @@ import provider.DataTool
 import server.StatEffect
 import server.life.Element
 import tools.ServerJSON
+import tools.StringXmlParser
 import java.io.File
 import kotlin.collections.first as first1
 
@@ -99,7 +100,9 @@ class SkillFactory {
                                 if (data2 != null) {
                                     skillId = data2.name.toInt()
                                     val skill = loadFromData(skillId, data2)
-                                    logger.trace { "Skill: ${skill.id} - ${getSkillName(skill.id)}" }
+                                    val skillName = getSkillName(skill.id) ?: "Unknown"
+                                    StringXmlParser.addSkillEntry(skillId, skillName)
+                                    logger.trace { "Skill: ${skill.id} - $skillName" }
                                     skills[skillId] = skill
                                 }
                             }

@@ -29,6 +29,7 @@ import server.life.MonsterInformationProvider
 import server.maps.MapFactory
 import tools.CoroutineManager
 import tools.ServerJSON.settings
+import tools.StringXmlParser
 import tools.packet.InteractPacket
 import webapi.WebApiApplication
 import java.util.*
@@ -241,6 +242,7 @@ object Server : Runnable, KLoggable {
             logger.debug { "Loading server packet handlers." }
             ServerHandler.initiate()
             logger.info { "Successfully loading server packet handlers." }
+            StringXmlParser.test()
             try {
                 if (settings.worlds.size >= 21) {
                     logger.error { "World more than 21 cannot be start successful. Reduce some worlds. shutting down server." }

@@ -12,6 +12,7 @@ import server.PortalFactory
 import server.life.LifeFactory
 import server.life.Monster
 import tools.ResourceFile
+import tools.StringXmlParser
 import tools.settings.WZCustomLifeDatabase
 import java.awt.Point
 import java.awt.Rectangle
