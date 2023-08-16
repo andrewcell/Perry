@@ -14,6 +14,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import webapi.tools.ApiResponse
 import webapi.tools.ResponseMessage
+import kotlin.system.exitProcess
 
 private val logger = KotlinLogging.logger { }
 fun Route.adminServer() {
@@ -38,8 +39,10 @@ fun Route.adminServer() {
                     validated = true
                 }
                 if (validated) {
+                    call.respond(ApiResponse(true, ResponseMessage.SUCCESS))
                     logger.error { "Warning. Server is going to be shut down. triggered by Admin $name, Id: $id, GM Level: $gm" }
-                    Runtime.getRuntime().addShutdownHook(Thread(Server.shutdown(false)))
+                    exitProcess(0)
+                    //Runtime.getRuntime().addShutdownHook(Thread(Server.shutdown(false)))
                 }
             }
         }
