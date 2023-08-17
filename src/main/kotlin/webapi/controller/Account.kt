@@ -39,7 +39,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.*
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class RegisterRequest(
     val email: String,
     val password: String,
