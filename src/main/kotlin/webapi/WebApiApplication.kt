@@ -20,9 +20,7 @@ import kotlinx.serialization.json.Json
 import mu.KLoggable
 import org.slf4j.event.Level
 import tools.ServerJSON
-import webapi.controller.account
-import webapi.controller.adminServer
-import webapi.controller.index
+import webapi.controller.*
 import webapi.tools.ApiResponse
 import webapi.tools.JWTVariables
 import webapi.tools.ResponseMessage
@@ -71,6 +69,8 @@ object WebApiApplication : KLoggable {
                 index()
                 account()
                 adminServer()
+                adminSearch()
+                admin()
             }
         }.start(wait = false)
     }

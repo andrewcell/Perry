@@ -1,11 +1,10 @@
 package tools
 
 import mu.KLoggable
-import mu.KLogger
-import provider.DataProvider
 import provider.DataProviderFactory
 import provider.DataTool
 import server.life.LifeFactory
+import webapi.controller.SearchType
 import java.io.File
 
 object StringXmlParser : KLoggable {
@@ -29,7 +28,8 @@ object StringXmlParser : KLoggable {
 
     private fun addMapEntry(): Map<Int, String> {
         val map = mutableMapOf<Int, String>()
-        val stringWz = DataProviderFactory.getDataProvider(File("${ServerJSON.settings.wzPath}/String.wz")).getData("Map.img")
+        val stringWz =
+            DataProviderFactory.getDataProvider(File("${ServerJSON.settings.wzPath}/String.wz")).getData("Map.img")
         stringWz?.children?.forEach { data ->
             data.children.forEach {
                 val mapId = it.name.toIntOrNull()
@@ -40,9 +40,22 @@ object StringXmlParser : KLoggable {
 
                 }
             }
-        //DataTool.getString(wz.name"")
         }
         return map
+    }
+
+    fun findMap(type: SearchType, code: Int? = null, name: String? = null): Map<Int, String> {
+        if (code == null && name == null) return emptyMap()
+        return when (type) {
+            SearchType.MAP -> mapData
+            SearchType.ITEM -> itemData
+            SearchType.NPC -> npcData
+            SearchType.SKILL -> skillData
+            SearchType.MOB -> mobData
+        }.filter { (key, string) ->
+            code?.let { key.toString().contains(it.toString()) } == true
+                    || name?.let { string.contains(it) } == true
+        }
     }
 
     fun test() {
