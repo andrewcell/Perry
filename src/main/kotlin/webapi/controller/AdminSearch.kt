@@ -67,7 +67,7 @@ fun Route.adminSearch() {
                 val name = principal.payload.getClaim("name").asString()
                 if (!isAdmin || name == null) return@post
                 val request = call.receive<SearchRequest>()
-                val result = StringXmlParser.findMap(request.type, request.byId, request.byName)
+                val result = StringXmlParser.find(request.type, request.byId, request.byName)
                 call.respond(ApiResponse(true, ResponseMessage.SUCCESS, Json.encodeToJsonElement(result)))
             }
         }
