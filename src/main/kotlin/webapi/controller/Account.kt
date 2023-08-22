@@ -3,7 +3,6 @@ package webapi.controller
 import client.Client
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.beust.klaxon.JsonObject
 import database.Accounts
 import database.Characters
 import io.ktor.http.*

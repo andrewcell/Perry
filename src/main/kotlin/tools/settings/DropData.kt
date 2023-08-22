@@ -1,4 +1,7 @@
 package tools.settings
+
+import kotlinx.serialization.Serializable
+
 /*
  {
     "id": 2999,
@@ -10,6 +13,7 @@ package tools.settings
     "chance": 30000
   },
  */
+@Serializable
 data class DropData(
     val id: Int,
     val dropperId: Int,

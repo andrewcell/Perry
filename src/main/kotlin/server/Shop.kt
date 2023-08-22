@@ -3,8 +3,8 @@ package server
 import client.Client
 import client.inventory.InventoryType
 import client.inventory.Pet
-import com.beust.klaxon.Klaxon
 import constants.ItemConstants
+import kotlinx.serialization.json.Json
 import mu.KLogging
 import tools.PacketCreator
 import tools.ResourceFile
@@ -161,8 +161,8 @@ class Shop(val id: Int, val npcId: Int) {
         fun createFromDatabase(id: Int, isShopId: Boolean): Shop? {
             var ret: Shop? = null
             val shopId: Int
-            val shopData = ResourceFile.load("shops.json")?.let { Klaxon().parseArray<ShopDatabase>(it) } ?: return null
-            val shopItemData = ResourceFile.load("shopItem.json")?.let { Klaxon().parseArray<ShopItemDatabase>(it) } ?: return null
+            val shopData = ResourceFile.load("shops.json")?.let { Json.decodeFromString<Array<ShopDatabase>>(it) } ?: return null
+            val shopItemData = ResourceFile.load("shopItem.json")?.let { Json.decodeFromString<Array<ShopItemDatabase>>(it) } ?: return null
             try {
                 val filtered = shopData.filter { if (isShopId) it.shopId == id else it.npcId == id }
                 if (filtered.isEmpty()) return null

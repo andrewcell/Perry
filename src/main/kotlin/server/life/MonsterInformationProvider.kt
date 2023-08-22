@@ -1,6 +1,6 @@
 package server.life
 
-import com.beust.klaxon.Klaxon
+import kotlinx.serialization.json.Json
 import mu.KLoggable
 import tools.ResourceFile
 import tools.settings.DropData
@@ -13,19 +13,19 @@ object MonsterInformationProvider : KLoggable {
 
     init {
         retrieveGlobal()
-        val dropData = ResourceFile.load("DropData.json")?.let { Klaxon().parseArray<DropData>(it) } ?: emptyList()
+        val dropData = ResourceFile.load("DropData.json")?.let { Json.decodeFromString<Array<DropData>>(it) } ?: emptyArray()
         val drops = mutableMapOf<Int, List<MonsterDropEntry>>()
         dropData.forEach {
             val list = drops[it.dropperId] ?: emptyList()
             drops[it.dropperId] = list + listOf(MonsterDropEntry(it.itemId, it.chance, it.minimumQuantity, it.maximumQuantity, it.questId.toShort()))
+            logger.trace { "Drop data loaded. DropperId: ${it.dropperId}, ItemId: ${it.itemId}" }
         }
         this.drops = drops
     }
 
     private fun retrieveGlobal() {
         try {
-            val globalDropData = ResourceFile.load("DropDataGlobal.json")
-                ?.let { Klaxon().parseArray<DropDataGlobal>(it) } ?: return
+            val globalDropData = ResourceFile.load("DropDataGlobal.json")?.let { Json.decodeFromString<Array<DropDataGlobal>>(it) } ?: emptyArray()
             globalDropData.forEach {
                 globalDrops.add(
                     MonsterGlobalDropEntry(it.itemId, it.chance, it.continent,

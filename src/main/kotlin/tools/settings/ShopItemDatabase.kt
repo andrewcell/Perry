@@ -1,5 +1,8 @@
 package tools.settings
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ShopItemDatabase(
     //  {"shopItemId":3355,"shopId":9999999,"itemId":1902001,"price":1,"pitch":0,"position":328},
     val shopItemId: Int,

@@ -8,8 +8,8 @@ import client.inventory.Equip
 import client.inventory.InventoryType
 import client.inventory.Item
 import client.inventory.WeaponType
-import com.beust.klaxon.Klaxon
 import constants.ItemConstants
+import kotlinx.serialization.json.Json
 import mu.KLoggable
 import provider.Data
 import provider.DataProviderFactory
@@ -512,8 +512,7 @@ object ItemInformationProvider : KLoggable {
     private fun loadMonsterCardIdData(): Map<Int, Int> {
         val map = mutableMapOf<Int, Int>()
         try {
-            val cardData = ResourceFile.load("MonsterCardData.json")
-                ?.let { Klaxon().parseArray<MonsterCardDataDatabase>(it) } ?: return emptyMap()
+            val cardData = ResourceFile.load("MonsterCardData.json")?.let { Json.decodeFromString<Array<MonsterCardDataDatabase>>(it) } ?: emptyArray()
             cardData.forEach {
                 map[it.id] = it.cardId
             }

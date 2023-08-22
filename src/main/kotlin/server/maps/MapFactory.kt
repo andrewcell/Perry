@@ -1,7 +1,7 @@
 package server.maps
 
-import com.beust.klaxon.Klaxon
 import database.PlayerNpcs
+import kotlinx.serialization.json.Json
 import mu.KLogging
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -12,7 +12,6 @@ import server.PortalFactory
 import server.life.LifeFactory
 import server.life.Monster
 import tools.ResourceFile
-import tools.StringXmlParser
 import tools.settings.WZCustomLifeDatabase
 import java.awt.Point
 import java.awt.Rectangle
@@ -241,7 +240,7 @@ class MapFactory(val source: DataProvider, stringSource: DataProvider, val world
             customLife.clear()
             try {
                 val customLifeData = ResourceFile.load("WZCustomLife.json")
-                    ?.let { Klaxon().parseArray<WZCustomLifeDatabase>(it) }
+                    ?.let { Json.decodeFromString<Array<WZCustomLifeDatabase>>(it) }
                     ?: return -1
                 customLifeData.forEach {
                     val mapId = it.mid

@@ -1,5 +1,8 @@
 package tools.settings
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class WorldConfig(
     val flag: Int = 0,
     val serverMessage: String = "",

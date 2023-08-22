@@ -1,5 +1,8 @@
 package tools.settings
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class WorldRates(
     val exp: Int = 1,
     val meso: Int = 1,

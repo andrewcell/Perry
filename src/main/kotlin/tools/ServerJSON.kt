@@ -1,11 +1,10 @@
 package tools
 
-import com.beust.klaxon.Klaxon
+import kotlinx.serialization.json.Json
 import net.server.Server
 import tools.ServerJSON.path
 import tools.ServerJSON.settings
 import tools.ServerJSON.settingsJsonText
-import tools.settings.DatabaseConfig
 import tools.settings.Settings
 import java.io.File
 import kotlin.system.exitProcess
@@ -31,12 +30,8 @@ object ServerJSON {
     init {
         try {
             val file = File(path)
-            val parsed = Klaxon().parse(file) as? Settings
             settingsJsonText = file.readText()
-            settings = if (parsed == null) {
-                printErrorAndExit()
-                Settings(database = DatabaseConfig("mysql", "", "", "", "", port = 3306), worlds = listOf())
-            } else parsed
+            settings = Json.decodeFromString<Settings>(settingsJsonText)
         } catch (e: Exception) {
             println("Failed to load settings.json.")
             e.printStackTrace()
@@ -52,13 +47,8 @@ object ServerJSON {
      */
     suspend fun reload(): Boolean {
         try {
-            val file = File(path)
-            val parsed = Klaxon().parse(file) as? Settings
-            settingsJsonText = file.readText()
-            settings = if (parsed == null) {
-                printErrorAndExit()
-                Settings(database = DatabaseConfig("mysql", "", "", "", "", port = 3306), worlds = listOf())
-            } else parsed
+            settingsJsonText = File(path).readText()
+            settings = Json.decodeFromString<Settings>(settingsJsonText)
             Server.worlds.forEach {
                 it.reload()
             }

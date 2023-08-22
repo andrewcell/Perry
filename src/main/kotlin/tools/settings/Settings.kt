@@ -1,5 +1,8 @@
 package tools.settings
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Settings(
     val host: String = "127.0.0.1",
     val bindHost: String = "0.0.0.0",

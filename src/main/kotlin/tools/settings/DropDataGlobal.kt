@@ -1,4 +1,7 @@
 package tools.settings
+
+import kotlinx.serialization.Serializable
+
 /*
   {
     "id": 1,
@@ -12,6 +15,7 @@ package tools.settings
     "comments": "마우스"
   },
  */
+@Serializable
 data class DropDataGlobal(
     val id: Int,
     val continent: Int,

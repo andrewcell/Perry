@@ -1,5 +1,8 @@
 package tools.settings
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class HashType(
     val hashType: String = "pbkdf2", // sha-512, sha-1, pbkdf2
     // Above is only for PBKDF2

@@ -1,7 +1,7 @@
 package scripting.reactor
 
 import client.Client
-import com.beust.klaxon.Klaxon
+import kotlinx.serialization.json.Json
 import mu.KLoggable
 import scripting.AbstractScriptManager
 import server.maps.Reactor
@@ -33,7 +33,7 @@ object ReactorScriptManager : AbstractScriptManager(), KLoggable {
         var ret = drops[id]
         if (ret == null) {
             val reactorDropData = ResourceFile.load("ReactorDrops.json")
-                ?.let { Klaxon().parseArray<ReactorDropDatabase>(it) } ?: return emptyList()
+                ?.let { Json.decodeFromString<Array<ReactorDropDatabase>>(it) } ?: return emptyList()
             val retT = mutableListOf<ReactorDropEntry>()
             reactorDropData.forEach {
                 retT.add(ReactorDropEntry(it.itemId, it.change, it.questId))

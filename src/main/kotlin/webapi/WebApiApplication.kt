@@ -12,6 +12,7 @@ import io.ktor.server.netty.*
 import io.ktor.server.plugins.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -34,6 +35,13 @@ object WebApiApplication : KLoggable {
                 level = Level.INFO
                 filter { call -> call.request.path().startsWith("/") }
             }
+            install(CORS) {
+                allowHost("*")
+                allowHeader(HttpHeaders.ContentType)
+                allowMethod(HttpMethod.Options)
+                allowMethod(HttpMethod.Post)
+                allowMethod(HttpMethod.Get)
+	        }
             install(ContentNegotiation) {
                 json(Json {
                     prettyPrint = true
