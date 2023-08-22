@@ -365,7 +365,7 @@ class World(val id: Int, var flag: Int, var eventMessage: String, var expRate: I
     fun allSave() = players.getAllCharacters().forEach { it.saveToDatabase() }
 
     suspend fun reload(): Boolean {
-        with (ServerJSON.settings.worlds[id - 1]) {
+        with (ServerJSON.settings.worlds[id]) {
             setServerMessage(this.serverMessage)
             this@World.eventMessage = eventMessage
             this@World.flag = flag
