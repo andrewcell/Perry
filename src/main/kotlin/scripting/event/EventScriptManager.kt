@@ -8,7 +8,7 @@ import javax.script.Invocable
 import javax.script.ScriptContext.ENGINE_SCOPE
 import javax.script.ScriptEngineManager
 
-class EventScriptManager(channelServer: Channel, scripts: List<String>) : AbstractScriptManager() {
+class EventScriptManager(channelServer: Channel, scripts: Array<String>) : AbstractScriptManager() {
     data class EventEntry(val iv: Invocable, val em: EventManager)
 
     val events = mutableMapOf<String, EventEntry>()

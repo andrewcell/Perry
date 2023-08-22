@@ -16,6 +16,20 @@ data class Settings(
     val printReceivePacket: Boolean = false,
     val modifiedClient: Boolean = false,
     val autoRegister: Boolean = false,
+    val events: Array<String> = arrayOf(),
     val hashType: HashType = HashType(),
     val logging: LoggingOption = LoggingOption()
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Settings
+
+        return events.contentEquals(other.events)
+    }
+
+    override fun hashCode(): Int {
+        return events.contentHashCode()
+    }
+}

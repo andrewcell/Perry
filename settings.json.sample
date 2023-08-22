@@ -8,6 +8,7 @@
   "printReceivePacket": true,
   "modifiedClient": true,
   "autoRegister": true,
+  "events": ["Trains", "Boats", "Cabin", "elevator", "KerningPQ"],
   "hashType": {
     "hashType": "pbkdf2",
     "shaType": "sha512",

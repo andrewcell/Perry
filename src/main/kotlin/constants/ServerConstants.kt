@@ -12,6 +12,5 @@ class ServerConstants {
         const val autoSaveInterval = 1800000
         const val rankingInterval = 1800000
         const val perfectPitch = true
-        const val events = "Trains Boats Cabin elevator KerningPQ"
     }
 }

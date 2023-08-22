@@ -1,7 +1,6 @@
 package net.server.channel
 
 import client.Character
-import constants.ServerConstants
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.ChannelOption
@@ -44,7 +43,7 @@ class Channel(val world: Int, val channelId: Int) : KLoggable {
     var event: Event? = null
     var finishedShutdown = false
     private val bootstrap = ServerBootstrap()
-    val eventSM = EventScriptManager(this, ServerConstants.events.split(" "))
+    val eventSM = EventScriptManager(this, settings.events)
 
     init {
         port = port + channelId - 1
