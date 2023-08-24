@@ -11,8 +11,9 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun validateAdmin(principal: JWTPrincipal): Boolean {
     val gm = (principal.payload.getClaim("gm").asInt() ?: -1)
     val isAdmin = gm > 1
-    val name = principal.payload.getClaim("name").asString()
-    val id = principal.payload.getClaim("id").asInt()
+    val name = principal.payload.getClaim("name").asString() ?: ""
+    val id = principal.payload.getClaim("id").asInt() ?: -1
+    if (!isAdmin || name == "" || id == 0) return false
     var validated = false
     transaction {
         val account = Accounts.slice(
