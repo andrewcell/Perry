@@ -51,6 +51,7 @@ object Server : Runnable, KLoggable {
         worlds[worldId].removeChannel(channel)
     }
 
+
     fun getChannel(world: Int, channel: Int) = worlds[world].getChannel(channel)
 
     fun getChannelsFromWorld(world: Int) = worlds[world].channels

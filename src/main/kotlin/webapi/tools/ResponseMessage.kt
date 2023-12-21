@@ -56,5 +56,10 @@ enum class ResponseMessage {
     /**
      * Password and password check do not match.
      */
-    PASSWORD_CHECK_MISMATCH
+    PASSWORD_CHECK_MISMATCH,
+
+    /**
+     * Tried to find something with query, but nothing can found.
+     */
+    NO_TARGET_FOUND
 }

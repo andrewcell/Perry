@@ -35,10 +35,11 @@ enum class SearchType(val value: String) {
     MOB("mob")
 }
 
-private class SearchTypeSerializer: EnumValueSerializer<SearchType>(
+private class SearchTypeSerializer : EnumValueSerializer<SearchType>(
     "searchType", { it.value }, { v -> SearchType.entries.find { it.value == v } ?: SearchType.MAP }
 )
-open class EnumValueSerializer<T:Enum<*>>(
+
+open class EnumValueSerializer<T : Enum<*>>(
     serialName: String,
     val serialize: (v: T) -> String,
     val deserialize: (v: String) -> T
@@ -55,6 +56,12 @@ open class EnumValueSerializer<T:Enum<*>>(
     }
 }
 
+data class ItemSearchRequest(
+    val id: Int? = null,
+    val name: String? = null
+)
+
+
 /**
  * Controller for search of items, maps, npcs, skills and mobs ONLY for Admins
  */
@@ -69,7 +76,25 @@ fun Route.adminSearch() {
                 val request = call.receive<SearchRequest>()
                 val result = StringXmlParser.find(request.type, request.byId, request.byName)
                 call.respond(ApiResponse(true, ResponseMessage.SUCCESS, Json.encodeToJsonElement(result)))
+
             }
         }
+//        route("/admin/search") {
+//            post("/item") {
+//                val principal = call.principal<JWTPrincipal>()
+//                if (principal == null || principal.payload.getClaim("gm").isNull)
+//                    return@post
+//                val body = call.receive<ItemSearchRequest>()
+//                if (body.id == null && body.name == null) {
+//                    return@post call.respond(
+//                        HttpStatusCode.NotFound, ApiResponse(
+//                            success = false,
+//                            message = ResponseMessage.NO_TARGET_FOUND
+//                        )
+//                    )
+//                }
+//                val items = ItemInformationProvider.getAllItems()
+//            }
+//        }
     }
 }

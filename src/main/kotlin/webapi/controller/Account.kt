@@ -13,20 +13,15 @@ import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.logging.*
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.CharArraySerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 import mu.KotlinLogging
-import net.server.PlayerStorage
 import net.server.Server
 import net.server.handlers.login.AutoRegister
-import net.server.world.World
 import org.bouncycastle.util.encoders.Hex
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.javatime.timestampLiteral
 import org.jetbrains.exposed.sql.transactions.transaction
 import tools.CoroutineManager
 import tools.PasswordHash
@@ -139,7 +134,8 @@ fun Route.account() {
                         val acc = row.first()
                         login = acc[Accounts.name]
                         id = acc[Accounts.id]
-                        gm = acc[Accounts.gm]
+                        if (acc[Accounts.gm] >= 1)
+                            gm = acc[Accounts.gm]
                     }
                 }
                 if (login == null) {

@@ -73,3 +73,6 @@ tasks.dokkaHtml.configure {
         }
     }
 }
+kotlin {
+    jvmToolchain(11)
+}

@@ -1,12 +1,21 @@
 package tools
 
 import java.io.ByteArrayOutputStream
-import kotlin.experimental.and
 
+/**
+ * HexTool is a utility class that provides methods for converting between hexadecimal strings and byte arrays.
+ */
 class HexTool {
     companion object {
+        // Array of hexadecimal characters
         private val HEX = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
 
+        /**
+         * Converts a byte to a hexadecimal string.
+         *
+         * @param byteValue The byte to convert.
+         * @return The hexadecimal string representation of the byte.
+         */
         fun toString(byteValue: Byte): String {
             val tmp: Int = byteValue.toInt() shl 8
             val ret = charArrayOf(
@@ -16,6 +25,12 @@ class HexTool {
             return ret.concatToString()
         }
 
+        /**
+         * Converts a byte array to a hexadecimal string.
+         *
+         * @param bytes The byte array to convert.
+         * @return The hexadecimal string representation of the byte array.
+         */
         fun toString(bytes: ByteArray): String {
             val hexed = buildString {
                 for (i in bytes.indices) {
@@ -26,6 +41,12 @@ class HexTool {
             return hexed.substring(0, hexed.length - 1)
         }
 
+        /**
+         * Converts a hexadecimal string to a byte array.
+         *
+         * @param hex The hexadecimal string to convert.
+         * @return The byte array representation of the hexadecimal string.
+         */
         fun getByteArrayFromHexString(hex: String): ByteArray {
             val bas = ByteArrayOutputStream()
             var nextI = 0
@@ -61,11 +82,10 @@ class HexTool {
         }
 
         /**
-         * Turns an array of bytes into a ASCII string. Any non-printable characters
-         * are replaced by a period (<code>.</code>)
+         * Converts a byte array to an ASCII string. Any non-printable characters are replaced by a period (<code>.</code>)
          *
-         * @param bytes The bytes to convert.
-         * @return The ASCII hexadecimal representation of <code>bytes</code>
+         * @param bytes The byte array to convert.
+         * @return The ASCII string representation of the byte array.
          */
         fun toStringFromASCII(bytes: ByteArray): String {
             val ret = CharArray(bytes.size)

@@ -18,7 +18,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
-import mu.KLoggable
+import mu.KotlinLogging
 import org.slf4j.event.Level
 import tools.ServerJSON
 import webapi.controller.*
@@ -26,60 +26,63 @@ import webapi.tools.ApiResponse
 import webapi.tools.JWTVariables
 import webapi.tools.ResponseMessage
 
-object WebApiApplication : KLoggable {
-    override val logger = logger()
-
+object WebApiApplication {
     fun main() {
-        embeddedServer(Netty, port = ServerJSON.settings.webApi.port) {
-            install(CallLogging) {
-                level = Level.INFO
-                filter { call -> call.request.path().startsWith("/") }
+        embeddedServer(Netty, port = ServerJSON.settings.webApi.port, module = Application::perryWebAPI).start(wait = false)
+    }
+}
+
+fun Application.perryWebAPI() {
+    val logger = KotlinLogging.logger {  }
+    install(CallLogging) {
+        level = Level.INFO
+        filter { call -> call.request.path().startsWith("/") }
+    }
+    install(CORS) {
+        allowHost("*")
+        allowHeader(HttpHeaders.ContentType)
+        allowMethod(HttpMethod.Options)
+        allowMethod(HttpMethod.Post)
+        allowMethod(HttpMethod.Get)
+    }
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+            ignoreUnknownKeys = true
+        })
+    }
+    install(StatusPages) {
+        exception<Throwable> { call, cause ->
+            logger.error(cause) { "Exception caught in WebAPI. Request IP: ${call.request.origin.remoteHost}" }
+            call.respondText("What is happening in here?", status = HttpStatusCode.BadRequest)
+        }
+    }
+    install(Authentication) {
+        jwt("auth") {
+            realm = JWTVariables.myRealm
+            verifier(
+                JWT
+                    .require(Algorithm.HMAC256(JWTVariables.secret))
+                    .withAudience(JWTVariables.audience)
+                    .withIssuer(JWTVariables.issuer)
+                    .build()
+            )
+            validate { credential ->
+                if (credential.payload.getClaim("username").asString() != "")
+                    JWTPrincipal(credential.payload)
+                else null
             }
-            install(CORS) {
-                allowHost("*")
-                allowHeader(HttpHeaders.ContentType)
-                allowMethod(HttpMethod.Options)
-                allowMethod(HttpMethod.Post)
-                allowMethod(HttpMethod.Get)
-	        }
-            install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+            challenge { _, _ ->
+                call.respond(HttpStatusCode.Unauthorized, ApiResponse(false, ResponseMessage.UNAUTHORIZED))
             }
-            install(StatusPages) {
-                exception<Throwable> { call, cause ->
-                    logger.error(cause) { "Exception caught in WebAPI. Request IP: ${call.request.origin.remoteHost}" }
-                    call.respondText("What is happening in here?", status = HttpStatusCode.BadRequest)
-                }
-            }
-            install(Authentication) {
-                jwt("auth") {
-                    realm = JWTVariables.myRealm
-                    verifier(JWT
-                        .require(Algorithm.HMAC256(JWTVariables.secret))
-                        .withAudience(JWTVariables.audience)
-                        .withIssuer(JWTVariables.issuer)
-                        .build())
-                    validate { credential ->
-                        if (credential.payload.getClaim("username").asString() != "")
-                            JWTPrincipal(credential.payload)
-                        else null
-                    }
-                    challenge { _, _ ->
-                        call.respond(HttpStatusCode.Unauthorized, ApiResponse(false, ResponseMessage.UNAUTHORIZED))
-                    }
-                }
-            }
-            install(Routing) {
-                index()
-                account()
-                adminServer()
-                adminSearch()
-                admin()
-            }
-        }.start(wait = false)
+        }
+    }
+    install(Routing) {
+        index()
+        account()
+        admin()
+        adminServer()
+        adminSearch()
     }
 }
