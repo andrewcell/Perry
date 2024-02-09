@@ -1,11 +1,14 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.adarshr.gradle.testlogger.theme.ThemeType
+import org.jetbrains.dokka.DokkaConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     kotlin("jvm") version "1.9.0"
-    id("org.jetbrains.dokka") version "1.8.20"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
+    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
     id("idea")
     id("eclipse")
+    id("com.adarshr.test-logger") version "4.0.0"
     application
 }
 
@@ -20,7 +23,7 @@ val exposedVersion: String by project
 val ktorVersion: String by project
 
 dependencies {
-    implementation("io.netty:netty-all:4.1.96.Final")
+    implementation("io.netty:netty-all:4.1.106.Final")
     implementation("com.mysql", "mysql-connector-j", "8.0.33")
     implementation("org.graalvm.js", "js-scriptengine", "23.0.1")
     implementation("org.graalvm.js", "js", "23.0.1")
@@ -34,9 +37,9 @@ dependencies {
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("org.xerial:sqlite-jdbc:3.42.0.0")
     implementation("com.h2database:h2:2.2.220")
-    implementation("ch.qos.logback:logback-classic:1.4.11")
-    implementation("org.bouncycastle:bcprov-jdk15on:1.70")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.77")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.2")
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-server-auth:$ktorVersion")
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
@@ -51,28 +54,48 @@ dependencies {
     dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.8.20")
     dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.8.20")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
+    // https://mvnrepository.com/artifact/io.github.oshai/kotlin-logging-jvm
+    //runtimeOnly("io.github.oshai:kotlin-logging:6.0.3")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
 
-tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "11"
-}
-
 application {
     mainClassName = "MainKt"
 }
 
-tasks.dokkaHtml.configure {
-    dokkaSourceSets {
-        configureEach {
-            includeNonPublic.set(true)
-            samples.from("src/test/kotlin/Sample.kt")
-        }
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets.configureEach {
+        documentedVisibilities.set(
+            setOf(
+                DokkaConfiguration.Visibility.PUBLIC,
+                DokkaConfiguration.Visibility.PROTECTED,
+                DokkaConfiguration.Visibility.INTERNAL,
+                DokkaConfiguration.Visibility.PRIVATE
+            )
+        )
     }
 }
-kotlin {
-    jvmToolchain(11)
+
+testlogger {
+    theme = ThemeType.MOCHA
+    showExceptions = true
+    showStackTraces = true
+    showFullStackTraces = false
+    showCauses = true
+    slowThreshold = 2000
+    showSummary = true
+    showSimpleNames = false
+    showPassed = true
+    showSkipped = true
+    showFailed = true
+    showOnlySlow = false
+    showStandardStreams = false
+    showPassedStandardStreams = true
+    showSkippedStandardStreams = true
+    showFailedStandardStreams = true
+    logLevel = LogLevel.LIFECYCLE
 }
+
