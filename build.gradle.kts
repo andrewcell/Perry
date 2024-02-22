@@ -1,6 +1,8 @@
+
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version "1.9.0"
@@ -63,7 +65,18 @@ tasks.test {
 }
 
 application {
-    mainClassName = "MainKt"
+    mainClass.set("MainKt")
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks.withType<DokkaTask>().configureEach {
