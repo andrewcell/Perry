@@ -5,7 +5,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "2.0.21"
     id("org.jetbrains.dokka") version "1.9.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
     id("idea")
