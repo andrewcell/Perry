@@ -55,7 +55,7 @@ dependencies {
     implementation("io.ktor:ktor-server-cors:$ktorVersion")
     dokkaGfmPlugin("org.jetbrains.dokka:jekyll-plugin:1.8.20")
     dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.8.20")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.21")
     // https://mvnrepository.com/artifact/io.github.oshai/kotlin-logging-jvm
     //runtimeOnly("io.github.oshai:kotlin-logging:6.0.3")
 }
