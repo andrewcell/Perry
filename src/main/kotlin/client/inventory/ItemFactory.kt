@@ -1,5 +1,6 @@
 package client.inventory
 
+import client.inventory.ItemFactory.*
 import database.InventoryEquipment
 import database.InventoryItems
 import mu.KLogging
@@ -8,12 +9,49 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.SQLException
 
+/**
+ * Enum class representing the different types of item factories in the game.
+ *
+ * Each enum constant represents a different type of item factory and is associated with an integer value and a boolean value.
+ * The integer value is used to identify the type of item factory.
+ * The boolean value indicates whether the item factory is associated with an account.
+ *
+ * @property value The integer value associated with the item factory.
+ * @property account The boolean value indicating whether the item factory is associated with an account.
+ * @property INVENTORY Represents an inventory item factory. It is not associated with an account.
+ * @property STORAGE Represents a storage item factory. It is associated with an account.
+ * @property CASH_EXPLORER Represents a cash explorer item factory. It is associated with an account.
+ * @property MERCHANT Represents a merchant item factory. It is not associated with an account.
+ * @see ItemFactory.loadItems for the method that loads items from the item factory.
+ * @see ItemFactory.saveItems for the method that saves items to the item factory.
+ */
 enum class ItemFactory(val value: Int, val account: Boolean) {
     INVENTORY(1, false),
     STORAGE(2, true),
     CASH_EXPLORER(3, true),
     MERCHANT(6, false);
 
+    /**
+     * Function to load items from the database.
+     *
+     * This function takes an ID and a boolean value as parameters. It then loads items from the database associated with the given ID and item factory type.
+     * It first selects items from the InventoryItems table joined with the InventoryEquipment table.
+     * If the item factory is associated with an account, it selects items where the account ID is equal to the given ID.
+     * Otherwise, it selects items where the character ID is equal to the given ID.
+     * If the login parameter is true, it further filters the items to only include those of type EQUIPPED.
+     * It then iterates over the selected items and creates an Item or Equip object for each item, depending on the item type.
+     * It adds each item to a list along with its InventoryType, and returns this list.
+     *
+     * @param id The ID associated with the items. This can be either an account ID or a character ID, depending on the type of item factory.
+     * @param login A boolean value indicating whether to only load items of type EQUIPPED.
+     * @return A list of pairs, where each pair consists of an Item or Equip object and an InventoryType object.
+     * @throws SQLException If an SQL error occurs while loading the items from the database.
+     * @see Item for the class that represents an item.
+     * @see Equip for the class that represents an equip item.
+     * @see InventoryType for the enum class that represents the type of item.
+     * @see ItemFactory for the enum class that represents the type of item factory.
+     * @see ItemFactory.saveItems for the method that saves items to the item factory.
+     */
     fun loadItems(id: Int, login: Boolean): List<Pair<Item, InventoryType>> {
         val items = mutableListOf<Pair<Item, InventoryType>>()
         try {
@@ -76,13 +114,29 @@ enum class ItemFactory(val value: Int, val account: Boolean) {
         return items
     }
 
+    /**
+     * Synchronized function to save items to the database.
+     *
+     * This function takes a list of items and an ID as parameters. It then saves these items to the database.
+     * It first deletes any existing items associated with the given ID and item factory type from the database.
+     * It then iterates over the list of items and inserts each item into the database.
+     * If the item is of type EQUIPPED or EQUIP, it also inserts the item into the InventoryEquipment table.
+     *
+     * @param items The list of items to save to the database. Each item is a pair consisting of an Item object and an InventoryType object.
+     * @param id The ID associated with the items. This can be either an account ID or a character ID, depending on the type of item factory.
+     * @throws SQLException If an SQL error occurs while saving the items to the database.
+     * @see Item for the class that represents an item.
+     * @see InventoryType for the enum class that represents the type of item.
+     * @see ItemFactory for the enum class that represents the type of item factory.
+     * @see ItemFactory.loadItems for the method that loads items from the item factory.
+     */
     @Synchronized fun saveItems(items: List<Pair<Item, InventoryType>>, id: Int) {
         try {
             transaction {
                 InventoryItems.deleteWhere {
-                    (InventoryItems.type eq value.toByte()) and
-                            if (account) (InventoryItems.accountId eq id)
-                            else (InventoryItems.characterId eq id)
+                    (type eq value.toByte()) and
+                            if (account) (accountId eq id)
+                            else (characterId eq id)
                 }
                 items.forEach { (item, type) ->
                     val ii = InventoryItems.insert {
@@ -95,7 +149,7 @@ enum class ItemFactory(val value: Int, val account: Boolean) {
                         it[quantity] = item.quantity.toInt()
                         it[owner] = item.owner
                         it[petId] = item.petId
-                        it[flag] = item.flag.toInt()
+                        it[flag] = item.flag
                         it[expiration] = item.expiration
                         it[giftFrom] = item.giftFrom
                     }
