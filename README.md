@@ -1,39 +1,38 @@
 # Perry
-JVM based open source implemented server application for KMS version 1.2.31
+JVM-based open-source server application for KMS version 1.2.31.
 
-Based on OdinMS and source code from commercial-purpose game server. OdinMS authors, and so many individual developers contributed to original source code.
+This project is derived from OdinMS and incorporates source code from a commercial game server. Contributions from OdinMS authors and numerous individual developers have been integrated into the original source code.
 
-Perry focused on Original game play experience. No-Money things, No-Events, No-Donation. Just play a game in old-fashioned version. Remove registered trademarks, Donation event things in source code. Also, implement modern development APIs, Libraries. (Kotlin, Dokka, Ktor...)
+Perry is focused on providing an authentic gameplay experience. It excludes monetization, events, and donations, offering a pure, old-fashioned gaming experience. Registered trademarks and donation-related elements have been removed from the source code. Additionally, modern development APIs and libraries such as Kotlin, Dokka, and Ktor have been implemented.
 
-(You need to obtain Client for yourself. This is copyright protected files, and I don't want more trouble.)
+(Note: You must obtain the client files independently, as they are copyright-protected and not included in this project.)
 ### Web API Documentation
 Please check out dedicated documentations written in [GitBook](https://amc-2.gitbook.io/perry/)
 ## Getting started
 ### Requirements
- - Java 11 (recommended. For 1.8, you need to change target version and recompile.)
- - SQL database
+- Java 11 (recommended; for Java 1.8, you need to change the target version and recompile)
+- SQL database:
    - MySQL, MariaDB
    - MS SQL Server
-   - PostgresSQL
-   - SQLite (Not support Memory database)
-   - You also can use DBaaS (like Amazon RDS, Azure Database...)
-   - And more..? (See [Exposed](https://github.com/Jetbrains/Exposed) for full list.)
- - Operating System that support Java 11.
- - Check out tested environment list below.
+   - PostgreSQL
+   - SQLite (Memory database not supported)
+   - DBaaS (e.g., Amazon RDS, Azure Database)
+   - For a complete list, refer to [Exposed](https://github.com/Jetbrains/Exposed)
+- Operating System that supports Java 11
+- Refer to the tested environment list below
 ### Preparation
 Following instructions required to run Perry.
  - Configure SQL database server in somewhere. (MySQL, PostgresSQL, MariaDB, MSSQL... whatever you want. Or simply you can use DBaaS service.)
  - Dump WZ in Client into XML (you might know what it is...).
- - Download PerryScripts, extract and rename to scripts 
- - Create settings.json using settings.json.sample. (Of course, remove .sample to actual file.)
- - Above 2 folders (wz, scripts) and 1 file (settings.json) must be located with Perry or Perry.bat in bin folder.
- - After first start of server, you can change location of wz or scripts folder using settings.json.
+ - Create a settings.json file using settings.json.sample as a template (remove the .sample extension).
+ - Ensure the wz and scripts folders, along with the settings.json file, are located in the same directory as Perry or Perry.bat in the bin folder.
+ - After the initial server startup, you can modify the location of the wz or scripts folders using the settings.json file.
 ### Production
-Download pre-compiled files from Releases section.
+Download pre-compiled files from the Releases section.
 
-OR, Download the nightly version which is being compiled when every commit.
+Alternatively, download the nightly version, which is compiled with every commit.
 
-- Follow instruction above, run a Perry or Perry.bat in bin folder with your favorite shell.
+- Follow the instructions above and run `Perry` or `Perry.bat` in the `bin` folder using your preferred shell.
 ### Development
 #### Run
 ```shell
@@ -53,11 +52,11 @@ $ ./gradlew distTar
 $ ./gradlew DokkaHtml
 ```
 ## Todo
- - [ ] Full JavaDoc documentation (Dokka)
- - [ ] Web API support
- - [ ] Fix No NPC reaction when accept quest
- - [ ] Separation of Login-World-Channel servers (To make run separately)
- - [ ] More is coming...
+- [ ] Complete JavaDoc documentation using Dokka
+- [ ] Implement Web API support
+- [ ] Resolve issue with NPCs not reacting when accepting quests
+- [ ] Separate Login, World, and Channel servers for independent operation
+- [ ] Additional features to be added...
 ## Download
  - Nightly (or SNAPSHOT) build download [here](https://nightly.link/andrewcell/Perry/workflows/gradle/main).
 ## Tested Environments
