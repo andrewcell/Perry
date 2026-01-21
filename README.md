@@ -1,4 +1,6 @@
 # Perry
+__This project is for research and study purposes__
+
 JVM-based open-source server application for KMS version 1.2.31.
 
 This project is derived from OdinMS and incorporates source code from a commercial game server. Contributions from OdinMS authors and numerous individual developers have been integrated into the original source code.
