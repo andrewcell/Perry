@@ -4,9 +4,10 @@ import database.Accounts
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.routing.*
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 fun validateAdmin(principal: JWTPrincipal): Boolean {
     val gm = (principal.payload.getClaim("gm").asInt() ?: -1)
@@ -16,9 +17,9 @@ fun validateAdmin(principal: JWTPrincipal): Boolean {
     if (!isAdmin || name == "" || id == 0) return false
     var validated = false
     transaction {
-        val account = Accounts.slice(
+        val account = Accounts.select(
             Accounts.id, Accounts.name, Accounts.gm
-        ).select { (Accounts.name eq name) and (Accounts.id eq id) }
+        ).where { (Accounts.name eq name) and (Accounts.id eq id) }
         if (account.empty()) return@transaction
         val accountRow = account.first()
         val dbName = accountRow[Accounts.name]

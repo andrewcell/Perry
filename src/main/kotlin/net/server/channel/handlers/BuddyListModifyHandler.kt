@@ -8,10 +8,13 @@ import database.Buddies
 import database.Characters
 import mu.KLogging
 import net.AbstractPacketHandler
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.like
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.InteractPacket
 import java.sql.SQLException
@@ -21,7 +24,7 @@ class BuddyListModifyHandler : AbstractPacketHandler() {
         var ret: CharacterIdNameBuddyCapacity? = null
         try {
             transaction {
-                val row = Characters.select { Characters.name like name }
+                val row = Characters.select(Characters.id, Characters.name, Characters.buddyCapacity).where { Characters.name like name }
                 if (!row.empty()) {
                     val it = row.first()
                     ret = CharacterIdNameBuddyCapacity(it[Characters.id], it[Characters.name], it[Characters.buddyCapacity])
@@ -74,11 +77,11 @@ class BuddyListModifyHandler : AbstractPacketHandler() {
                                 buddyAddResult = world.requestBuddyAdd(addName, c.channel, player.id, player.name)
                             } else {
                                 transaction {
-                                    val cnt = Buddies.select { (Buddies.characterId eq charWithId.id) and (Buddies.pending eq 0) }.count()
+                                    val cnt = Buddies.select(Buddies.id).where { (Buddies.characterId eq charWithId.id) and (Buddies.pending eq 0) }.count()
                                     if (cnt >= charWithId.buddyCapacity) {
                                         buddyAddResult = BuddyList.BuddyAddResult.BUDDYLIST_FULL
                                     }
-                                    val row = Buddies.slice(Buddies.pending).select {
+                                    val row = Buddies.select(Buddies.pending).where {
                                         (Buddies.characterId eq charWithId.id) eq (Buddies.buddyId eq player.id)
                                     }
                                     if (!row.empty()) {
@@ -123,7 +126,7 @@ class BuddyListModifyHandler : AbstractPacketHandler() {
                         var otherName: String? = null
                         if (otherChar == null) {
                             transaction {
-                                val row = Characters.slice(Characters.name).select { Characters.id eq otherCid }
+                                val row = Characters.select(Characters.name).where { Characters.id eq otherCid }
                                 if (!row.empty()) {
                                     otherName = row.first()[Characters.name]
                                 }
@@ -132,7 +135,7 @@ class BuddyListModifyHandler : AbstractPacketHandler() {
                             otherName = otherChar.name
                         }
                         if (otherName != null) {
-                            buddyList.addEntry(BuddyListEntry((otherName ?: ""), "그룹 미지정", otherCid, channel, true))
+                            buddyList.addEntry(BuddyListEntry(otherName, "그룹 미지정", otherCid, channel, true))
                             c.announce(InteractPacket.updateBuddyList(buddyList.buddies.values))
                             notifyRemoteChannel(c, channel, otherCid, BuddyList.BuddyOperation.ADDED)
                         }

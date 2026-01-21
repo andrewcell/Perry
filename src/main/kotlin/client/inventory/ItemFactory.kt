@@ -4,9 +4,13 @@ import client.inventory.ItemFactory.*
 import database.InventoryEquipment
 import database.InventoryItems
 import mu.KLogging
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.andWhere
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import java.sql.SQLException
 
 /**
@@ -56,7 +60,7 @@ enum class ItemFactory(val value: Int, val account: Boolean) {
         val items = mutableListOf<Pair<Item, InventoryType>>()
         try {
             transaction {
-                var rs = (InventoryItems leftJoin InventoryEquipment).select {
+                var rs = (InventoryItems leftJoin InventoryEquipment).selectAll().where {
                     if (account) {
                         InventoryItems.accountId eq id
                     } else {

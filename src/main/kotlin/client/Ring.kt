@@ -1,5 +1,18 @@
 package client
 
+/**
+ * Represents a ring item that can be equipped by a character.
+ * Commented out : Ring was not available yet in target client.
+ * @param ringId The unique identifier for this ring.
+ * @param partnerRingId The unique identifier for the partner's ring.
+ * @param partnerId The unique identifier for the partner character.
+ * @param itemId The item identifier for the ring.
+ * @param partnerName The name of the partner character.
+ * @constructor Creates a new Ring instance.
+ * @author Seungyeon Choi (git@vxz.me)
+ * @version 1.0
+ *
+ */
 class Ring(val ringId: Int, val partnerRingId: Int, val partnerId: Int, val itemId: Int, val partnerName: String) : Comparable<Ring> {
     var equipped = false
 

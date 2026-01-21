@@ -4,9 +4,11 @@ import client.Client
 import database.Accounts
 import mu.KLogging
 import org.bouncycastle.util.encoders.Hex
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.PasswordHash
 import java.sql.SQLException
 import java.time.LocalDate
@@ -19,11 +21,11 @@ class AutoRegister {
             try {
                 var code = 5
                 transaction {
-                    val account = Accounts.select {
+                    val account = Accounts.select(Accounts.sessionIp).where {
                         Accounts.name eq name
                     }.toList()
                     if (account.isNotEmpty()) return@transaction
-                    val sessionIp = Accounts.slice(Accounts.sessionIp).select {
+                    val sessionIp = Accounts.select(Accounts.sessionIp).where {
                         Accounts.sessionIp eq c.getSessionIPAddress()
                     }.map { it[Accounts.sessionIp] }
                     code = if (sessionIp.size >= ENABLE_IP_COUNT) 6

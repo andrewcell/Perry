@@ -3,8 +3,9 @@ package scripting.portal
 import client.Client
 import database.Characters
 import mu.KLoggable
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import scripting.AbstractPlayerInteraction
 import server.Portal
 import tools.packet.GameplayPacket
@@ -18,7 +19,7 @@ class PortalPlayerInteraction(c: Client, val portal: Portal) : AbstractPlayerInt
             var result = false
             transaction {
                 getPlayer()?.let {
-                    Characters.slice(Characters.level).select { Characters.accountId eq it.accountId }
+                    Characters.select(Characters.level).where { Characters.accountId eq it.accountId }
                         .forEach {
                             if (it[Characters.level] >= 30) result = true
                         }

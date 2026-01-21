@@ -5,11 +5,13 @@ import database.Accounts
 import database.Characters
 import kotlinx.coroutines.Runnable
 import mu.KLoggable
-import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.andWhere
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.div
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.andWhere
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import java.sql.SQLException
 
 class RankingWorker : Runnable, KLoggable {
@@ -19,7 +21,7 @@ class RankingWorker : Runnable, KLoggable {
     @Throws(SQLException::class)
     private fun updateRanking(job: GameJob? = null) {
         transaction {
-            var row = (Characters leftJoin Accounts).select { Characters.gm eq 0 }
+            var row = (Characters leftJoin Accounts).selectAll().where { Characters.gm eq 0 }
 
             if (job != null) row = row.andWhere { (Characters.job div 100) eq (job.id / 100) } // If job is null, it is for character level ranking
             row = row.orderBy(Characters.level, SortOrder.DESC)

@@ -1,6 +1,6 @@
 package database
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.v1.core.Table
 
 object NXCodes : Table() {
     val code = varchar("code", 15)

@@ -8,7 +8,8 @@ import gm.server.GMServer
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.ChannelOption
-import io.netty.channel.nio.NioEventLoopGroup
+import io.netty.channel.MultiThreadIoEventLoopGroup
+import io.netty.channel.nio.NioIoHandler
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.timeout.IdleStateHandler
@@ -21,8 +22,11 @@ import net.server.channel.Channel
 import net.server.guild.Guild
 import net.server.guild.GuildCharacter
 import net.server.world.World
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.Slf4jSqlDebugLogger
+import org.jetbrains.exposed.v1.jdbc.Database
+import org.jetbrains.exposed.v1.jdbc.SchemaUtils
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import server.CashShop
 import server.ItemInformationProvider
 import server.life.MonsterInformationProvider
@@ -208,8 +212,8 @@ object Server : Runnable, KLoggable {
                 //log("Failed to reset logged in info. ${e.message}", "Server", Logger.Type.WARNING, e.stackTrace)
             }
             val bootstrap = ServerBootstrap()
-            val bossGroup = NioEventLoopGroup()
-            val workerGroup = NioEventLoopGroup()
+            val bossGroup = MultiThreadIoEventLoopGroup(NioIoHandler.newFactory())
+            val workerGroup = MultiThreadIoEventLoopGroup(NioIoHandler.newFactory())
             bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel::class.java)
                 .childHandler(object : ChannelInitializer<SocketChannel>() {

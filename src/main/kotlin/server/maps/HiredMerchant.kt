@@ -10,9 +10,10 @@ import database.Characters
 import kotlinx.coroutines.Job
 import mu.KLoggable
 import net.server.Server
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import server.InventoryManipulator
 import server.ItemInformationProvider
 import server.PlayerShopItem
@@ -102,7 +103,7 @@ class HiredMerchant(owner: Character, val itemId: Int, val description: String) 
                         } else {
                             try {
                                 transaction {
-                                    val chr = Characters.select { Characters.id eq ownerId }
+                                    val chr = Characters.select(Characters.merchantMesos).where { Characters.id eq ownerId }
                                     Characters.update({ Characters.id eq ownerId }) {
                                         it[merchantMesos] = chr.first()[merchantMesos] + price
                                     }

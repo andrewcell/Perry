@@ -3,8 +3,10 @@ package server.maps
 import database.PlayerNpcs
 import kotlinx.serialization.json.Json
 import mu.KLogging
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import provider.Data
 import provider.DataProvider
 import provider.DataTool
@@ -82,7 +84,7 @@ class MapFactory(val source: DataProvider, stringSource: DataProvider, val world
                 }
                 try {
                     transaction {
-                        PlayerNpcs.select { PlayerNpcs.map eq mapId }.forEach {
+                        PlayerNpcs.selectAll().where { PlayerNpcs.map eq mapId }.forEach {
                             map1.addMapObject(PlayerNPCs(
                                 rowId = it[PlayerNpcs.id],
                                 npcId = it[PlayerNpcs.scriptId],

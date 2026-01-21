@@ -20,9 +20,13 @@ import mu.KotlinLogging
 import net.server.Server
 import net.server.handlers.login.AutoRegister
 import org.bouncycastle.util.encoders.Hex
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.or
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import tools.CoroutineManager
 import tools.PasswordHash
 import webapi.tools.ApiResponse
@@ -83,7 +87,7 @@ fun Route.account() {
             var reason: ResponseMessage = ResponseMessage.SUCCESS
             transaction {
                 val row =
-                    Accounts.select { (Accounts.sessionIp eq requestIP) or (Accounts.name eq data.email) }.toList()
+                    Accounts.select(Accounts.sessionIp, Accounts.name).where { (Accounts.sessionIp eq requestIP) or (Accounts.name eq data.email) }.toList()
                 val ip = row.count { it[Accounts.sessionIp] == requestIP }
                 val name = row.count { it[Accounts.name] == data.email }
                 if (ip + name >= 1) {
@@ -120,9 +124,9 @@ fun Route.account() {
             var gm: Int? = null
             try {
                 transaction {
-                    val account = Accounts.slice(Accounts.salt).select { Accounts.name eq user.email }
+                    val account = Accounts.select(Accounts.salt).where { Accounts.name eq user.email }
                     if (account.empty()) return@transaction
-                    val row = Accounts.select {
+                    val row = Accounts.select(Accounts.name, Accounts.id, Accounts.gm).where {
                         (Accounts.name eq user.email) and (Accounts.password eq PasswordHash.generate(
                             user.password,
                             Hex.decode(account.first()[Accounts.salt] ?: "")
@@ -169,12 +173,12 @@ fun Route.account() {
                 var data: AccountInfo? = null
                 transaction {
                     val row = Accounts
-                        .slice(
+                        .select(
                             Accounts.name, Accounts.nxCredit, Accounts.mPoint,
                             Accounts.lastLogin, Accounts.createdAt,
                             Accounts.banned, Accounts.banReason, Accounts.gender,
                             Accounts.socialNumber, Accounts.sessionIp)
-                        .select((Accounts.id eq id) eq (Accounts.name eq name))
+                        .where((Accounts.id eq id) eq (Accounts.name eq name))
                         .limit(1)
                         .firstOrNull()
                     if (row == null) {
@@ -264,7 +268,7 @@ fun Route.account() {
                 }
                 try {
                     transaction {
-                        val row = Accounts.slice(Accounts.password, Accounts.salt).select((Accounts.id eq id) and (Accounts.name eq name)).firstOrNull()
+                        val row = Accounts.select(Accounts.password, Accounts.salt).where((Accounts.id eq id) and (Accounts.name eq name)).firstOrNull()
                         if (row == null) {
                             statusCode = HttpStatusCode.InternalServerError
                             message = ResponseMessage.INTERNAL_ERROR

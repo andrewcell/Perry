@@ -11,10 +11,13 @@ import database.Characters
 import mu.KLogging
 import net.server.Server
 import net.server.guild.Guild
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.ResultRow
+import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.greaterEq
+import org.jetbrains.exposed.v1.core.less
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import provider.DataProviderFactory
 import scripting.AbstractPlayerInteraction
 import server.InventoryManipulator
@@ -311,11 +314,11 @@ open class NPCConversationManager(c: Client, val npc: Int) : AbstractPlayerInter
             try {
                 transaction {
                     rs = if (!rk) {
-                        Characters.select {
+                        Characters.selectAll().where {
                             (Characters.gm less 1)
                         }.orderBy(Characters.level, SortOrder.DESC).limit(10).first()
                     } else {
-                        Characters.select { Characters.gm greaterEq 1 }.first()
+                        Characters.selectAll().where { Characters.gm greaterEq 1 }.first()
                     }
                 }
             } catch (e: SQLException) {

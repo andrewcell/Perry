@@ -2,9 +2,12 @@ package client
 
 import database.MonsterBooks
 import mu.KLogging
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.packet.MonsterBookPacket
 import java.sql.SQLException
 import kotlin.math.max
@@ -48,8 +51,8 @@ class MonsterBook {
         try {
             transaction {
                 MonsterBooks
-                    .slice(MonsterBooks.cardId, MonsterBooks.level)
-                    .select {
+                    .select(MonsterBooks.cardId, MonsterBooks.level)
+                    .where {
                         MonsterBooks.charId eq charId }
                     .orderBy(MonsterBooks.cardId, order = SortOrder.ASC)
                     .forEach {

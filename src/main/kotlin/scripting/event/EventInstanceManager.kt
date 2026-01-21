@@ -4,8 +4,8 @@ import client.Character
 import database.EventStats
 import mu.KLoggable
 import net.server.world.Party
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import provider.DataProviderFactory
 import server.life.Monster
 import server.maps.GameMap

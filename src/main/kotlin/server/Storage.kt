@@ -6,11 +6,12 @@ import client.inventory.Item
 import client.inventory.ItemFactory
 import database.Storages
 import mu.KLogging
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import tools.packet.CharacterPacket
 import java.sql.SQLException
 
@@ -120,7 +121,7 @@ class Storage(val id: Int, var slots: Byte, var meso: Int) {
             var ret: Storage? = null
             try {
                 transaction {
-                    val rs = Storages.select { (Storages.accountId eq id) and (Storages.world eq world) }
+                    val rs = Storages.select(Storages.id, Storages.slots, Storages.meso).where { (Storages.accountId eq id) and (Storages.world eq world) }
                     if (rs.empty()) ret = create(id, world)
                     else {
                         val storage = rs.first()

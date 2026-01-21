@@ -20,9 +20,16 @@ import net.server.world.Messenger
 import net.server.world.Party
 import net.server.world.PartyCharacter
 import net.server.world.PartyOperation
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.neq
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import scripting.event.EventInstanceManager
 import server.*
 import server.InventoryManipulator.Companion.removeById
@@ -239,7 +246,18 @@ class Character(
     private val inventories = arrayOfNulls<Inventory>(InventoryType.values().size)
     val savedLocations = arrayOfNulls<SavedLocation>(SavedLocationType.values().size)
     val trockMaps = arrayOf(999999999, 999999999, 999999999, 999999999, 999999999)
-    val vipTrockMaps = arrayOf(999999999, 999999999, 999999999, 999999999, 999999999, 999999999, 999999999, 999999999, 999999999, 999999999)
+    val vipTrockMaps = arrayOf(
+        999999999,
+        999999999,
+        999999999,
+        999999999,
+        999999999,
+        999999999,
+        999999999,
+        999999999,
+        999999999,
+        999999999
+    )
 
     val areaInfos = mutableMapOf<Short, String>()
     val blockedPortals = mutableListOf<String>()
@@ -339,18 +357,22 @@ class Character(
                 str += up
                 updateSingleStat(CharacterStat.STR, str)
             }
+
             2 -> {
                 dex += up
                 updateSingleStat(CharacterStat.DEX, dex)
             }
+
             3 -> {
                 int += up
                 updateSingleStat(CharacterStat.INT, int)
             }
+
             4 -> {
                 luk += up
                 updateSingleStat(CharacterStat.LUK, luk)
             }
+
             else -> return
         }
     }
@@ -444,7 +466,7 @@ class Character(
                 val weapon = ItemInformationProvider.getWeaponType(weaponItem.itemId)
                 val pair = if (weapon == WeaponType.WAND || weapon == WeaponType.STAFF) {
                     Pair(localInt, localLuk)
-                } else Pair (localInt, localLuk)
+                } else Pair(localInt, localLuk)
                 ((((weapon.maxDamageMultiplier * pair.first + pair.second) / 100.0) * magic) + 10).toInt()
             } else {
                 0
@@ -559,12 +581,14 @@ class Character(
                 maxHp += rand(100, 150)
                 maxHp += rand(25, 50)
             }
+
             jobId in 1..199 -> maxHp += rand(300, 350)
             jobId < 300 -> maxMp += rand(450, 500)
             jobId > 0 && jobId != 1000 -> {
                 maxHp += rand(300, 350)
                 maxMp += rand(150, 200)
             }
+
             else -> {}
         }
         if (maxHp >= 30000) maxHp = 30000
@@ -588,7 +612,7 @@ class Character(
         guildUpdate()
         map.broadcastMessage(this, CharacterPacket.showForeignEffect(id, 8), false)
     }
-    
+
     fun changeKeyBinding(key: Int, binding: KeyBinding) {
         if (binding.type != 0) {
             keymap[key] = binding
@@ -596,37 +620,37 @@ class Character(
             keymap.remove(key)
         }
     }
-    
+
     fun changeMap(mapId: Int, portal: Int = 0) {
         val map = client.getChannelServer().mapFactory.getMap(mapId)
         changeMap(map, map.getPortal(portal) ?: return)
     }
-    
+
     fun changeMap(mapId: Int, portal: String) {
         val map = client.getChannelServer().mapFactory.getMap(mapId)
         changeMap(map, map.getPortal(portal) ?: return)
     }
-    
+
     fun changeMap(mapId: Int, portal: Portal) {
         val map = client.getChannelServer().mapFactory.getMap(mapId)
         changeMap(map, portal)
     }
-    
+
     fun changeMap(to: GameMap, pto: Portal? = to.getPortal(0)) {
         if (pto == null) return
         pto.position?.let { changeMapInternal(to, it, PacketCreator.getWarpToMap(to, pto.id, this)) }
     }
-    
+
     fun changeMap(to: GameMap, pos: Point) {
         changeMapInternal(to, pos, PacketCreator.getWarpToMap(to, 0x80, this))
     }
-    
+
     fun changeMapBanish(mapId: Int, portal: String, message: String) {
         dropMessage(5, message)
         val map = client.getChannelServer().mapFactory.getMap(mapId)
         changeMap(map, map.getPortal(portal))
     }
-    
+
     private fun changeMapInternal(to: GameMap, pos: Point, warpPacket: ByteArray) {
         client.announce(warpPacket)
         map.removePlayer(this)
@@ -729,7 +753,8 @@ class Character(
             battleshipHp = 0
             val coolDown = SkillFactory.getSkill(Corsair.BATTLE_SHIP)?.coolTime ?: 0
             announce(CharacterPacket.skillCoolDown(Corsair.BATTLE_SHIP, coolDown))
-            addCoolDown(Corsair.BATTLE_SHIP, System.currentTimeMillis(), coolDown.toLong(),
+            addCoolDown(
+                Corsair.BATTLE_SHIP, System.currentTimeMillis(), coolDown.toLong(),
                 CoroutineManager.schedule(CancelCoolDownAction(this, Corsair.BATTLE_SHIP), coolDown * 1000L)
             )
             removeCoolDown(5221999)
@@ -784,13 +809,16 @@ class Character(
                 val mbsvh = effects[stat] ?: return@forEach
                 effects.remove(stat)
                 var addMbsvh = true
-                effectsToCancel.forEach { if (mbsvh.startTime == it.startTime && it.effect == mbsvh.effect) addMbsvh = false }
+                effectsToCancel.forEach {
+                    if (mbsvh.startTime == it.startTime && it.effect == mbsvh.effect) addMbsvh = false
+                }
                 if (addMbsvh) effectsToCancel.add(mbsvh)
                 when (stat) {
                     BuffStat.RECOVERY -> {
                         recoveryTask?.cancel()
                         recoveryTask = null
                     }
+
                     BuffStat.SUMMON, BuffStat.PUPPET -> {
                         val summonId = mbsvh.effect.sourceId
                         val summon = summons[summonId]
@@ -807,10 +835,12 @@ class Character(
                             beholderBuffSchedule = null
                         }
                     }
+
                     BuffStat.DRAGONBLOOD -> {
                         dragonBloodSchedule?.cancel()
                         dragonBloodSchedule = null
                     }
+
                     else -> {}
                 }
             }
@@ -846,6 +876,7 @@ class Character(
             DarkKnight.BEHOLDER, FPArchMage.ELQUINES, ILArchMage.IFRIT,
             Priest.SUMMON_DRAGON, Bishop.BAHAMUT, Ranger.PUPPET,
             Ranger.SILVER_HAWK, Sniper.PUPPET, Sniper.GOLDEN_EAGLE, Hermit.SHADOW_PARTNER -> true
+
             else -> false
         }
     }
@@ -950,7 +981,8 @@ class Character(
                         }
                     }
                     toBeRemove.forEach {
-                        InventoryManipulator.removeFromSlot(client, inv.type, it.position, it.quantity,
+                        InventoryManipulator.removeFromSlot(
+                            client, inv.type, it.position, it.quantity,
                             fromDrop = true,
                             consume = false
                         )
@@ -1103,7 +1135,7 @@ class Character(
         var status = 0
         try {
             transaction {
-                val row = CustomQuests.select {
+                val row = CustomQuests.selectAll().where {
                     CustomQuests.characterId eq this@Character.id
                 }
                 if (row.empty()) {
@@ -1144,7 +1176,8 @@ class Character(
     fun needQuestItem(questId: Int, itemId: Int): Boolean {
         if (questId <= 0) return true
         val quest = Quest.getInstance(questId)
-        return getInventory(ItemConstants.getInventoryType(itemId))?.countById(itemId)?.let { it < quest.getItemAmountNeeded(itemId) } ?: false
+        return getInventory(ItemConstants.getInventoryType(itemId))?.countById(itemId)
+            ?.let { it < quest.getItemAmountNeeded(itemId) } ?: false
     }
 
     fun getSavedLocationMapId(type: String) = savedLocations[SavedLocationType.valueOf(type).ordinal]?.mapId
@@ -1175,7 +1208,8 @@ class Character(
             addCoolDown(skillId, 0, length, null)
         } else {
             val time = ((length + startTime) - System.currentTimeMillis())
-            addCoolDown(skillId, System.currentTimeMillis(), time,
+            addCoolDown(
+                skillId, System.currentTimeMillis(), time,
                 CoroutineManager.schedule(CancelCoolDownAction(this, skillId), time)
             )
         }
@@ -1232,8 +1266,14 @@ class Character(
         val combo = SkillFactory.getSkill(skillId) ?: return
         val stat = listOf(Pair(BuffStat.COMBO, 1))
         setBuffedValue(BuffStat.COMBO, 1)
-        getBuffedStartTime(BuffStat.COMBO)?.minus(System.currentTimeMillis())?.let { client.announce(CharacterPacket.giveBuff(skillId,
-            (combo.getEffect(getSkillLevel(combo).toInt()).duration + it.toInt()), stat)) }
+        getBuffedStartTime(BuffStat.COMBO)?.minus(System.currentTimeMillis())?.let {
+            client.announce(
+                CharacterPacket.giveBuff(
+                    skillId,
+                    (combo.getEffect(getSkillLevel(combo).toInt()).duration + it.toInt()), stat
+                )
+            )
+        }
         map.broadcastMessage(this, CharacterPacket.giveForeignBuff(id, stat), false)
     }
 
@@ -1259,7 +1299,8 @@ class Character(
 
     fun haveItem(itemId: Int, qw: Int) = getItemQuantity(itemId, false) >= qw
 
-    fun isActiveBuffedValue(skillId: Int) = effects.values.find { it.effect.skill && it.effect.sourceId == skillId }?.let { true } ?: false
+    fun isActiveBuffedValue(skillId: Int) =
+        effects.values.find { it.effect.skill && it.effect.sourceId == skillId }?.let { true } ?: false
 
     fun isAlive() = hp > 0
 
@@ -1295,6 +1336,7 @@ class Character(
                 maxHp += rand(12, 16)
                 maxMp += rand(10, 12)
             }
+
             job.isA(GameJob.WARRIOR) -> {
                 improvingMaxHp = SkillFactory.getSkill(Swordsman.IMPROVED_MAX_HP_INCREASE) ?: return
                 if (job.isA(GameJob.CRUSADER)) improvingMaxMp = SkillFactory.getSkill(1210000)
@@ -1302,22 +1344,26 @@ class Character(
                 maxHp += rand(24, 28)
                 maxMp += rand(4, 6)
             }
+
             job.isA(GameJob.MAGICIAN) -> {
                 improvingMaxMp = SkillFactory.getSkill(Magician.IMPROVED_MAX_MP_INCREASE) ?: return
                 improvingMaxMpLevel = getSkillLevel(improvingMaxMp).toInt()
                 maxHp += rand(10, 14)
                 maxHp += rand(22, 24)
             }
+
             job.isA(GameJob.GM) -> {
                 maxHp = 30000
                 maxMp = 30000
             }
+
             job.isA(GameJob.PIRATE) -> {
                 improvingMaxHp = SkillFactory.getSkill(5100000) ?: return
                 improvingMaxHpLevel = getSkillLevel(improvingMaxHp).toInt()
                 maxHp += rand(22, 28)
                 maxMp += rand(18, 23)
             }
+
             else -> {}
         }
         if (improvingMaxHpLevel > 0 && (job.isA(GameJob.WARRIOR) || job.isA(GameJob.PIRATE))) {
@@ -1402,7 +1448,7 @@ class Character(
     fun createPlayerNpc(v: Character, scriptId: Int) {
         try {
             transaction {
-                if (!(PlayerNpcs.select { PlayerNpcs.scriptId eq scriptId }).empty()) {
+                if (!(PlayerNpcs.selectAll().where { PlayerNpcs.scriptId eq scriptId }).empty()) {
                     val rs = PlayerNpcs.insert {
                         it[name] = v.name
                         it[hair] = v.hair
@@ -1426,10 +1472,22 @@ class Character(
                             }
                         }
                     }
-                    val row = PlayerNpcs.select { PlayerNpcs.scriptId eq scriptId }
+                    val row = PlayerNpcs.selectAll().where { PlayerNpcs.scriptId eq scriptId }
                     if (row.empty()) return@transaction
                     val r = row.first()
-                    val pn = PlayerNPCs(r[PlayerNpcs.id], r[PlayerNpcs.id], r[PlayerNpcs.name], r[PlayerNpcs.cy], r[PlayerNpcs.hair], r[PlayerNpcs.face], r[PlayerNpcs.skin].toByte(), r[PlayerNpcs.foothold], r[PlayerNpcs.rx0], r[PlayerNpcs.rx1], r[PlayerNpcs.x])
+                    val pn = PlayerNPCs(
+                        r[PlayerNpcs.id],
+                        r[PlayerNpcs.id],
+                        r[PlayerNpcs.name],
+                        r[PlayerNpcs.cy],
+                        r[PlayerNpcs.hair],
+                        r[PlayerNpcs.face],
+                        r[PlayerNpcs.skin].toByte(),
+                        r[PlayerNpcs.foothold],
+                        r[PlayerNpcs.rx0],
+                        r[PlayerNpcs.rx1],
+                        r[PlayerNpcs.x]
+                    )
                     Server.getChannelsFromWorld(world).forEach {
                         val m = it.mapFactory.getMap(mapId)
                         m.broadcastMessage(GameplayPacket.spawnPlayerNpc(pn))
@@ -1552,8 +1610,8 @@ class Character(
         }
         if (job.isA(GameJob.BOWMAN)) {
             val expert = if (job.isA(GameJob.MARKSMAN)) SkillFactory.getSkill(3220004)
-                else if (job.isA(GameJob.BOWMASTER)) SkillFactory.getSkill(3120005)
-                else null
+            else if (job.isA(GameJob.BOWMASTER)) SkillFactory.getSkill(3120005)
+            else null
             if (expert != null) {
                 val boostLevel = getSkillLevel(expert)
                 if (boostLevel > 0) {
@@ -1608,12 +1666,17 @@ class Character(
                     beholderBuffSchedule = CoroutineManager.register({
                         buffEffect.applyTo(this)
                         client.announce(CharacterPacket.showOwnBuffEffect(beholder, 2))
-                        map.broadcastMessage(this, CharacterPacket.summonSkill(id, beholder,
-                            ((Math.random() * 3) + 6).toInt()), true)
+                        map.broadcastMessage(
+                            this, CharacterPacket.summonSkill(
+                                id, beholder,
+                                ((Math.random() * 3) + 6).toInt()
+                            ), true
+                        )
                         map.broadcastMessage(this, PacketCreator.showBuffEffect(id, beholder, 2), false)
                     }, buffInterval.toLong(), buffInterval.toLong())
                 }
             }
+
             effect.isRecovery() -> {
                 val heal = effect.x
                 recoveryTask = CoroutineManager.register({
@@ -1622,6 +1685,7 @@ class Character(
                     map.broadcastMessage(this, CharacterPacket.showRecovery(id, heal.toByte()), false)
                 }, 5000, 5000)
             }
+
             else -> {}
         }
         effect.statUps?.forEach {
@@ -1653,21 +1717,25 @@ class Character(
                 tap = (level - 10) * levelAp + 14
                 tsp += (level - 10) * 3
             }
+
             200 -> {
                 tint = 20
                 tap = (level - 8) * levelAp + 29
                 tsp += (level - 8) * 3
             }
+
             300, 400 -> {
                 tdex = 25
                 tap = (level - 10) * levelAp + 24
                 tsp += level - 10 * 3
             }
+
             500 -> {
                 tdex = 20
                 tap = (level - 10) * levelAp + 29
                 tsp = (level - 10) * 3
             }
+
             else -> {}
         }
         remainingAp = tap
@@ -1688,7 +1756,8 @@ class Character(
     }
 
     fun resetBattleshipHp() {
-        battleshipHp = 4000 * (SkillFactory.getSkill(Corsair.BATTLE_SHIP)?.let { getSkillLevel(it) } ?: 0) + ((level - 120) * 2000)
+        battleshipHp =
+            4000 * (SkillFactory.getSkill(Corsair.BATTLE_SHIP)?.let { getSkillLevel(it) } ?: 0) + ((level - 120) * 2000)
     }
 
     fun saveCoolDowns() {
@@ -1800,7 +1869,7 @@ class Character(
     fun saveToDatabase() {
         try {
             transaction {
-                Characters.update ({ Characters.id eq this@Character.id }) {
+                Characters.update({ Characters.id eq this@Character.id }) {
                     it[level] = (if (gmLevel < 1 && this@Character.level > 199) 200 else this@Character.level).toInt()
                     it[fame] = this@Character.fame
                     it[exp] = this@Character.exp.get()
@@ -1824,13 +1893,16 @@ class Character(
                     it[map] = if (cashShop != null && cashShop?.opened == true) mapId else {
                         if (this@Character.map.forcedReturnMap != 999999999) {
                             this@Character.map.forcedReturnMap
-                        } else { if (this@Character.hp < 1) this@Character.map.returnMapId else this@Character.map.mapId }
+                        } else {
+                            if (this@Character.hp < 1) this@Character.map.returnMapId else this@Character.map.mapId
+                        }
                     }
                     it[meso] = abs(this@Character.meso.get())
                     it[hpMpUsed] = hpMpApUsed
-                    it[spawnPoint] = if (this@Character.map.mapId == 610020000 || this@Character.map.mapId == 610020001) 0 else {
-                        this@Character.map.findClosestSpawnPoint(position)?.id ?: 0
-                    }
+                    it[spawnPoint] =
+                        if (this@Character.map.mapId == 610020000 || this@Character.map.mapId == 610020001) 0 else {
+                            this@Character.map.findClosestSpawnPoint(position)?.id ?: 0
+                        }
                     it[party] = this@Character.party?.id ?: -1
                     it[buddyCapacity] = buddyList.capacity
                     it[messengerId] = 0
@@ -1861,7 +1933,7 @@ class Character(
                         it[key] = t
                         it[type] = u.type
                         it[action] = u.action
-                     }
+                    }
                 }
                 val itemsWIthType = mutableListOf<Pair<Item, InventoryType>>()
                 inventories.forEach {
@@ -1909,7 +1981,7 @@ class Character(
                         }
                     }
                 }
-                Buddies.deleteWhere { (Buddies.characterId eq this@Character.id) and (Buddies.pending eq 0)}
+                Buddies.deleteWhere { (Buddies.characterId eq this@Character.id) and (Buddies.pending eq 0) }
                 buddyList.buddies.values.forEach { e ->
                     Buddies.insert {
                         it[characterId] = this@Character.id
@@ -2005,20 +2077,21 @@ class Character(
             dropRate = world.dropRate
             mesoRate = world.mesoRate
         }
-        expRate = if (haveItem(5211000) && hr > 17 && hr < 21 || haveItem(5211014) && hr > 6 && hr < 12 || haveItem(5211015) && hr > 9 && hr < 15 || haveItem(
-                5211016
-            ) && hr > 12 && hr < 18 || haveItem(5211017) && hr > 15 && hr < 21 || haveItem(5211018) && hr > 14 || haveItem(
-                5211039
-            ) && hr < 5 || haveItem(5211042) && hr > 2 && hr < 8 || haveItem(5211045) && hr > 5 && hr < 11 || haveItem(
-                5211048
-            )
-        ) {
-            2 * world.expRate
-            //if (isBeginnerJob()) 2 else 2 * world.expRate
-        } else {
-            world.expRate
-            //if (isBeginnerJob()) 2 else world.expRate
-        }
+        expRate =
+            if (haveItem(5211000) && hr > 17 && hr < 21 || haveItem(5211014) && hr > 6 && hr < 12 || haveItem(5211015) && hr > 9 && hr < 15 || haveItem(
+                    5211016
+                ) && hr > 12 && hr < 18 || haveItem(5211017) && hr > 15 && hr < 21 || haveItem(5211018) && hr > 14 || haveItem(
+                    5211039
+                ) && hr < 5 || haveItem(5211042) && hr > 2 && hr < 8 || haveItem(5211045) && hr > 5 && hr < 11 || haveItem(
+                    5211048
+                )
+            ) {
+                2 * world.expRate
+                //if (isBeginnerJob()) 2 else 2 * world.expRate
+            } else {
+                world.expRate
+                //if (isBeginnerJob()) 2 else world.expRate
+            }
     }
 
     fun setHpNormal(value: Int) {
@@ -2065,10 +2138,12 @@ class Character(
                     omokWins++
                     visitor.omokLooses++
                 }
+
                 2 -> {
                     visitor.omokWins++
                     omokLooses++
                 }
+
                 else -> {
                     omokTies++
                     visitor.omokTies++
@@ -2080,10 +2155,12 @@ class Character(
                     matchCardWins++
                     visitor.matchCardLosses++
                 }
+
                 2 -> {
                     visitor.matchCardWins++
                     matchCardLosses++
                 }
+
                 else -> {
                     matchCardTies++
                     visitor.matchCardTies++
@@ -2096,11 +2173,15 @@ class Character(
         try {
             val list = mutableListOf<Note>()
             transaction {
-                Notes.select {
+                Notes.selectAll().where {
                     (Notes.to eq name) and (Notes.deleted eq 0)
                 }.forEach {
-                    list.add(Note(id = it[Notes.id], from = it[Notes.from], message = it[Notes.message],
-                        timestamp = it[Notes.timestamp].toEpochMilli(), fame = it[Notes.fame].toByte()))
+                    list.add(
+                        Note(
+                            id = it[Notes.id], from = it[Notes.from], message = it[Notes.message],
+                            timestamp = it[Notes.timestamp].toEpochMilli(), fame = it[Notes.fame].toByte()
+                        )
+                    )
                 }
             }
             client.announce(PacketCreator.showNotes(list.toList()))
@@ -2139,7 +2220,7 @@ class Character(
                 val pet1 = getInventory(InventoryType.CASH)?.getItem(pet.position)
                 pet1?.let { forceUpdateItem(it) }
             }
-        } ,240000, 1000000)
+        }, 240000, 1000000)
         fullnessSchedule = schedule
     }
 
@@ -2211,12 +2292,15 @@ class Character(
                     }
                 }
             }
+
             QuestStatus.Status.COMPLETED -> {
                 announce(GameplayPacket.completeQuest(quest.quest.id, quest.completionTime))
             }
+
             QuestStatus.Status.NOT_STARTED -> {
                 announce(GameplayPacket.forfeitQuest(quest.quest.id))
             }
+
             else -> return
         }
     }
@@ -2345,7 +2429,9 @@ class Character(
         get() {
             return if (field == 0) id else field
         }
-        set(value) { field = value }
+        set(value) {
+            field = value
+        }
 
     enum class FameStats {
         OK, NOT_TODAY, NOT_THIS_MONTH
@@ -2353,9 +2439,132 @@ class Character(
 
     companion object : KLogging() {
         const val LEVEL_200 = "[축하] %s님이 레벨 200을 달성했습니다. 모두 축하해 주세요."
-        val DEFAULT_KEY = arrayOf(18, 65, 2, 23, 3, 4, 5, 6, 16, 17, 19, 25, 26, 27, 31, 34, 35, 37, 38, 40, 43, 44, 45, 46, 50, 56, 59, 60, 61, 62, 63, 64, 57, 48, 29, 7, 24, 33, 41, 39)
-        val DEFAULT_TYPE = arrayOf(4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 4, 4, 5, 6, 6, 6, 6, 6, 6, 5, 4, 5, 4, 4, 4, 4, 4)
-        val DEFAULT_ACTION = arrayOf(0, 106, 10, 1, 12, 13, 18, 24, 8, 5, 4, 19, 14, 15, 2, 17, 11, 3, 20, 16, 9, 50, 51, 6, 7, 53, 100, 101, 102, 103, 104, 105, 54, 22, 52, 21, 25, 26, 23, 27)
+        val DEFAULT_KEY = arrayOf(
+            18,
+            65,
+            2,
+            23,
+            3,
+            4,
+            5,
+            6,
+            16,
+            17,
+            19,
+            25,
+            26,
+            27,
+            31,
+            34,
+            35,
+            37,
+            38,
+            40,
+            43,
+            44,
+            45,
+            46,
+            50,
+            56,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            57,
+            48,
+            29,
+            7,
+            24,
+            33,
+            41,
+            39
+        )
+        val DEFAULT_TYPE = arrayOf(
+            4,
+            6,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            5,
+            5,
+            4,
+            4,
+            5,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            5,
+            4,
+            5,
+            4,
+            4,
+            4,
+            4,
+            4
+        )
+        val DEFAULT_ACTION = arrayOf(
+            0,
+            106,
+            10,
+            1,
+            12,
+            13,
+            18,
+            24,
+            8,
+            5,
+            4,
+            19,
+            14,
+            15,
+            2,
+            17,
+            11,
+            3,
+            20,
+            16,
+            9,
+            50,
+            51,
+            6,
+            7,
+            53,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            54,
+            22,
+            52,
+            21,
+            25,
+            26,
+            23,
+            27
+        )
 
         fun ban(id: String, reason: String, accountId: Boolean): Boolean {
             var result = false
@@ -2370,10 +2579,10 @@ class Character(
                         return@transaction
                     }
                     val rs = if (accountId) {
-                        val r = Accounts.slice(Accounts.id).select { Accounts.name eq id }
+                        val r = Accounts.select(Accounts.id).where { Accounts.name eq id }
                         if (r.empty()) -1 else r.first()[Accounts.id]
                     } else {
-                        val r = Characters.slice(Characters.accountId).select { Characters.name eq id }
+                        val r = Characters.select(Characters.accountId).where { Characters.name eq id }
                         if (r.empty()) -1 else r.first()[Characters.id]
                     }
                     if (rs == -1) return@transaction
@@ -2395,10 +2604,14 @@ class Character(
             var character: CashOperationHandler.Companion.SimpleCharacterInfo? = null
             try {
                 transaction {
-                    Characters.slice(Characters.id, Characters.accountId, Characters.name).select {
+                    Characters.select(Characters.id, Characters.accountId, Characters.name).where {
                         Characters.name eq name
                     }.forEach { c ->
-                        character = CashOperationHandler.Companion.SimpleCharacterInfo(c[Characters.id], c[Characters.accountId], c[Characters.name])
+                        character = CashOperationHandler.Companion.SimpleCharacterInfo(
+                            c[Characters.id],
+                            c[Characters.accountId],
+                            c[Characters.name]
+                        )
 
                     }
                 }
@@ -2429,7 +2642,7 @@ class Character(
             try {
                 var code: Int = -1
                 transaction {
-                    if (!Characters.slice(Characters.id).select { Characters.name eq name }.empty()) {
+                    if (!Characters.select(Characters.id).where { Characters.name eq name }.empty()) {
                         code = 1
                     }
                 }
@@ -2444,15 +2657,17 @@ class Character(
             try {
                 var char: Character? = null
                 transaction {
-                    val rs = Characters.select { Characters.id eq charId }
+                    val rs = Characters.selectAll().where { Characters.id eq charId }
                     if (rs.empty()) return@transaction
                     val chr = rs.first()
                     val map = client.getChannelServer().mapFactory.getMap(0)
-                    val ret = Character(world = chr[Characters.world],
-                            accountId = chr[Characters.accountId],
-                            map = map,
-                            client = client)
-                    with (ret) {
+                    val ret = Character(
+                        world = chr[Characters.world],
+                        accountId = chr[Characters.accountId],
+                        map = map,
+                        client = client
+                    )
+                    with(ret) {
                         id = charId
                         name = chr[Characters.name]
                         level = chr[Characters.level].toShort()
@@ -2547,7 +2762,7 @@ class Character(
                     }
                     var v = 0
                     var r = 0
-                    TrockLocations.slice(TrockLocations.mapId, TrockLocations.vip).select {
+                    TrockLocations.select(TrockLocations.mapId, TrockLocations.vip).where {
                         TrockLocations.characterId eq charId
                     }.limit(15).forEach {
                         val mapId = it[TrockLocations.mapId]
@@ -2567,16 +2782,17 @@ class Character(
                         ret.trockMaps[r] = 999999999
                         r++
                     }
-                    val account = Accounts.slice(Accounts.name).select {
+                    val account = Accounts.select(Accounts.name).where {
                         Accounts.id eq ret.accountId
                     }
                     if (!account.empty()) {
                         ret.client.accountName = account.first()[Accounts.name]
                     }
-                    AreaInfos.slice(AreaInfos.area, AreaInfos.info).select { AreaInfos.charId eq ret.id }.forEach {
+                    AreaInfos.select(AreaInfos.area, AreaInfos.info).where { AreaInfos.charId eq ret.id }.forEach {
                         ret.areaInfos[it[AreaInfos.area].toShort()] = it[AreaInfos.info]
                     }
-                    EventStats.slice(EventStats.characterId, EventStats.name).select { EventStats.characterId eq ret.id }.forEach {
+                    EventStats.select(EventStats.characterId, EventStats.name)
+                        .where { EventStats.characterId eq ret.id }.forEach {
                         val name = it[EventStats.name]
                         if (name == "rescueGaga") {
                             ret.events[name] = RescueGaga(it[EventStats.info])
@@ -2584,7 +2800,7 @@ class Character(
                     }
                     ret.cashShop = CashShop(ret.accountId, ret.id)
                     ret.autoban = AutobanManager(ret)
-                    val linkedRs = Characters.slice(Characters.name, Characters.level).select {
+                    val linkedRs = Characters.select(Characters.name, Characters.level).where {
                         (Characters.accountId eq ret.accountId) and (Characters.id neq charId)
                     }.orderBy(Characters.level, order = SortOrder.DESC).limit(1)
                     if (!linkedRs.empty()) {
@@ -2598,25 +2814,36 @@ class Character(
                             ret.setKeyValue("HeadTitle", "0")
                         }
                         ret.headTitle = ret.getKeyValue("HeadTitle")?.toInt() ?: 0
-                        QuestStatuses.select { QuestStatuses.characterId eq charId }.forEach { s ->
+                        QuestStatuses.selectAll().where { QuestStatuses.characterId eq charId }.forEach { s ->
                             val q = Quest.getInstance(s[QuestStatuses.quest])
-                            val status = QuestStatus(q, (QuestStatus.Status.getById(s[QuestStatuses.status]) ?: QuestStatus.Status.NOT_STARTED))
+                            val status = QuestStatus(
+                                q,
+                                (QuestStatus.Status.getById(s[QuestStatuses.status]) ?: QuestStatus.Status.NOT_STARTED)
+                            )
                             val cTime = s[QuestStatuses.time]
                             if (cTime > 1) status.completionTime = (cTime * 1000).toLong()
                             status.forfeited = s[QuestStatuses.forfeited]
                             ret.quests[q] = status
-                            QuestProgress.select { QuestProgress.questStatusId eq s[QuestStatuses.id] }.forEach { progress ->
-                                status.setProgress(progress[QuestProgress.progressId], progress[QuestProgress.progress])
-                            }
+                            QuestProgress.selectAll().where { QuestProgress.questStatusId eq s[QuestStatuses.id] }
+                                .forEach { progress ->
+                                    status.setProgress(
+                                        progress[QuestProgress.progressId],
+                                        progress[QuestProgress.progress]
+                                    )
+                                }
                             /*MedalMaps.slice(MedalMaps.mapId).select { MedalMaps.questStatusId eq s[QuestStatus.id] }.forEach { m ->
                                 status.addMedalMap(m[MedalMaps.mapId])
                             }*/
                         }
-                        Skills.select { Skills.characterId eq charId }.forEach {
+                        Skills.selectAll().where { Skills.characterId eq charId }.forEach {
                             val skill = SkillFactory.getSkill(it[Skills.skillId]) ?: return@forEach
-                            ret.skills[skill] = SkillEntry(it[Skills.skillLevel].toByte(), it[Skills.masterLevel], it[Skills.expiration])
+                            ret.skills[skill] = SkillEntry(
+                                it[Skills.skillLevel].toByte(),
+                                it[Skills.masterLevel],
+                                it[Skills.expiration]
+                            )
                         }
-                        CoolDowns.select { CoolDowns.charId eq ret.id }.forEach {
+                        CoolDowns.selectAll().where { CoolDowns.charId eq ret.id }.forEach {
                             val skillId = it[CoolDowns.skillId]
                             val length = it[CoolDowns.length]
                             val startTime = it[CoolDowns.startTime].toEpochMilli()
@@ -2625,16 +2852,19 @@ class Character(
                             }
                             ret.giveCoolDowns(skillId, startTime, length)
                         }
-                        KeyMap.select { KeyMap.characterId eq charId }.forEach {
+                        KeyMap.selectAll().where { KeyMap.characterId eq charId }.forEach {
                             ret.keymap[it[KeyMap.key]] = KeyBinding(it[KeyMap.type], it[KeyMap.action])
                         }
-                        SavedLocations.select { SavedLocations.characterId eq charId }.forEach {
-                            ret.savedLocations[SavedLocationType.valueOf(it[SavedLocations.locationType]).ordinal] = SavedLocation(
-                                it[SavedLocations.map], it[SavedLocations.portal]
-                            )
+                        SavedLocations.selectAll().where { SavedLocations.characterId eq charId }.forEach {
+                            ret.savedLocations[SavedLocationType.valueOf(it[SavedLocations.locationType]).ordinal] =
+                                SavedLocation(
+                                    it[SavedLocations.map], it[SavedLocations.portal]
+                                )
                         }
-                        FameLog.select { FameLog.characterId eq charId }.orderBy(FameLog.timestamp, SortOrder.ASC).limit(10).forEach {
-                            ret.lastFameTime = max(ret.lastFameTime.toLong(), it[FameLog.timestamp].toEpochMilli()).toInt()
+                        FameLog.selectAll().where { FameLog.characterId eq charId }
+                            .orderBy(FameLog.timestamp, SortOrder.ASC).limit(10).forEach {
+                            ret.lastFameTime =
+                                max(ret.lastFameTime.toLong(), it[FameLog.timestamp].toEpochMilli()).toInt()
                             ret.lastMonthFameIds.add(it[FameLog.characterIdTo])
                         }
                         ret.buddyList.loadFromDatabase(charId)

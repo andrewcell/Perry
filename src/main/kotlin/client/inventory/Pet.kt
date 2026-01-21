@@ -2,10 +2,11 @@ package client.inventory
 
 import database.Pets
 import mu.KLogging
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import server.ItemInformationProvider
 import server.movement.AbsoluteLifeMovement
 import server.movement.LifeMovement
@@ -107,7 +108,7 @@ class Pet(id: Int, position: Byte, val uniqueId: Int) : Item(id, position, 1) {
             try {
                 val ret = Pet(itemId, position, petId)
                 transaction {
-                    val petRs = Pets.select { Pets.id eq petId }
+                    val petRs = Pets.selectAll().where { Pets.id eq petId }
                     if (petRs.empty()) return@transaction
                     val pet = petRs.first()
                     ret.name = pet[Pets.name]

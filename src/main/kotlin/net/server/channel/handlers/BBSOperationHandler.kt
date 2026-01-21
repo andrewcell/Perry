@@ -7,16 +7,24 @@ import database.BBSThreads.replyCount
 import mu.KLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.*
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.ResultRow
+import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.GuildPacket
 import java.sql.SQLException
 import java.time.Instant
 
 class BBSOperationHandler : AbstractPacketHandler() {
-    private fun correctLength(input: String, maxSize: Int) = if (input.length > maxSize) input.substring(0, maxSize) else input
+    private fun correctLength(input: String, maxSize: Int) =
+        if (input.length > maxSize) input.substring(0, maxSize) else input
 
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         c.player?.let { player ->
@@ -42,28 +50,34 @@ class BBSOperationHandler : AbstractPacketHandler() {
                         editBBSThread(c, title, text, icon, localThreadId)
                     }
                 }
+
                 1 -> {
                     localThreadId = slea.readInt()
                     deleteBBSThread(c, localThreadId)
                 }
+
                 2 -> {
                     val start = slea.readInt()
                     listBBSThreads(c, start * 10)
                 }
+
                 3 -> { // List thread + reply, follewed by id (int)
                     localThreadId = slea.readInt()
                     displayThread(c, localThreadId)
                 }
+
                 4 -> { // reply
                     localThreadId = slea.readInt()
                     val text = correctLength(slea.readGameASCIIString(), 25)
                     newBBSReply(c, localThreadId, text)
                 }
+
                 5 -> { // delete reply
                     slea.readInt()
                     val replyId = slea.readInt()
                     deleteBBSReply(c, replyId)
                 }
+
                 else -> {
                     logger.warn { "Unknown BBS Operate code $mode." }
                 }
@@ -77,13 +91,13 @@ class BBSOperationHandler : AbstractPacketHandler() {
             if (mc.guildId <= 0) return
             try {
                 transaction {
-                    val row = BBSReplies.select { BBSReplies.replyId eq replyId }
+                    val row = BBSReplies.selectAll().where { BBSReplies.replyId eq replyId }
                     if (row.empty()) return@transaction
                     val reply = row.first()
-                    if (mc.id != reply[BBSReplies.posterCid].toInt() && mc.guildRank > 2) return@transaction
+                    if (mc.id != reply[BBSReplies.posterCid] && mc.guildRank > 2) return@transaction
                     val threadId = reply[BBSReplies.threadId]
                     BBSReplies.deleteWhere { BBSReplies.replyId eq replyId }
-                    val thread = BBSThreads.select { BBSThreads.threadId eq threadId }
+                    val thread = BBSThreads.selectAll().where { BBSThreads.threadId eq threadId }
                     if (thread.empty()) return@transaction
                     BBSThreads.update({ BBSThreads.threadId eq threadId }) {
                         it[replyCount] = thread.first()[replyCount]
@@ -100,7 +114,9 @@ class BBSOperationHandler : AbstractPacketHandler() {
             if (mc.guildId <= 0) return
             try {
                 transaction {
-                    val row = BBSThreads.select { (BBSThreads.guildId eq mc.guildId) and (BBSThreads.localThreadId eq localThreadId) }
+                    val row =
+                        BBSThreads.selectAll()
+                            .where { (BBSThreads.guildId eq mc.guildId) and (BBSThreads.localThreadId eq localThreadId) }
                     if (row.empty()) return@transaction
                     val thread = row.first()
                     if (mc.id != thread[BBSThreads.posterCid] && mc.guildRank > 2) return@transaction
@@ -119,13 +135,15 @@ class BBSOperationHandler : AbstractPacketHandler() {
             try {
                 transaction {
                     val row =
-                        BBSThreads.select { (BBSThreads.guildId eq mc.guildId) and ((if (isThreadIdLocal) BBSThreads.localThreadId else BBSThreads.threadId) eq threadId) }
+                        BBSThreads.selectAll()
+                            .where { (BBSThreads.guildId eq mc.guildId) and ((if (isThreadIdLocal) BBSThreads.localThreadId else BBSThreads.threadId) eq threadId) }
                     if (row.empty()) return@transaction
                     val thread = row.first()
                     var bbsReplies = emptyList<ResultRow>()
                     if (thread[BBSThreads.replyCount] >= 0) {
                         bbsReplies =
-                            BBSReplies.select { BBSReplies.threadId eq (if (!isThreadIdLocal) threadId else thread[BBSThreads.threadId]) }
+                            BBSReplies.selectAll()
+                                .where { BBSReplies.threadId eq (if (!isThreadIdLocal) threadId else thread[BBSThreads.threadId]) }
                                 .toList()
                     }
                     client.announce(
@@ -142,36 +160,37 @@ class BBSOperationHandler : AbstractPacketHandler() {
         }
 
         fun editBBSThread(c: Client, title: String, text: String, icon: Int, localThreadId: Int) { //TODO
-          /*  val player = c.player ?: return
-            if (player.guildId < 1) return
-            try {
-                transaction {
-                    BBSThreads.update({
-                        (BBSThreads.guildId eq player.guildId) and (BBSThreads.localThreadId eq localThreadId) and
-                                ((BBSThreads.posterCid eq player.id))
-                    })
-                }
-"UPDATE bbs_threads SET `name` = ?, `timestamp` = ?, `icon` = ?, `startpost` = ? WHERE guildid = ? AND localthreadid = ? AND (postercid = ? OR ?)")
-                ps.setString(1, title)
-                ps.setLong(2, System.currentTimeMillis())
-                ps.setInt(3, icon)
-                ps.setString(4, text)
-                ps.setInt(5, player.guildId)
-                ps.setInt(6, localThreadId)
-                ps.setInt(7, player.id)
-                ps.setBoolean(8, player.guildRank < 3)
-                ps.execute()
-                displayThread(c, localThreadId)
-            } catch (e: SQLException) {
-                log(e, "BBSOperationHandler")
-            }*/
+            /*  val player = c.player ?: return
+              if (player.guildId < 1) return
+              try {
+                  transaction {
+                      BBSThreads.update({
+                          (BBSThreads.guildId eq player.guildId) and (BBSThreads.localThreadId eq localThreadId) and
+                                  ((BBSThreads.posterCid eq player.id))
+                      })
+                  }
+  "UPDATE bbs_threads SET `name` = ?, `timestamp` = ?, `icon` = ?, `startpost` = ? WHERE guildid = ? AND localthreadid = ? AND (postercid = ? OR ?)")
+                  ps.setString(1, title)
+                  ps.setLong(2, System.currentTimeMillis())
+                  ps.setInt(3, icon)
+                  ps.setString(4, text)
+                  ps.setInt(5, player.guildId)
+                  ps.setInt(6, localThreadId)
+                  ps.setInt(7, player.id)
+                  ps.setBoolean(8, player.guildRank < 3)
+                  ps.execute()
+                  displayThread(c, localThreadId)
+              } catch (e: SQLException) {
+                  log(e, "BBSOperationHandler")
+              }*/
         }
 
         fun listBBSThreads(c: Client, start: Int) {
             val p = c.player ?: return
             try {
                 transaction {
-                    val list = BBSThreads.select { (BBSThreads.guildId eq p.guildId) }.orderBy(BBSThreads.localThreadId, SortOrder.DESC).toList()
+                    val list = BBSThreads.selectAll().where { (BBSThreads.guildId eq p.guildId) }
+                        .orderBy(BBSThreads.localThreadId, SortOrder.DESC).toList()
                     c.announce(GuildPacket.guildBBSThreadList(list, start))
                 }
             } catch (e: SQLException) {
@@ -184,7 +203,9 @@ class BBSOperationHandler : AbstractPacketHandler() {
             if (player.guildId <= 0) return
             try {
                 transaction {
-                    val thread = BBSThreads.select { (BBSThreads.guildId eq player.guildId) and (BBSThreads.localThreadId eq localThreadId) }
+                    val thread =
+                        BBSThreads.selectAll()
+                            .where { (BBSThreads.guildId eq player.guildId) and (BBSThreads.localThreadId eq localThreadId) }
                     if (thread.empty()) return@transaction
                     val threadId = thread.first()[BBSThreads.threadId]
                     BBSReplies.insert {
@@ -210,7 +231,8 @@ class BBSOperationHandler : AbstractPacketHandler() {
             try {
                 transaction {
                     if (!notice) {
-                        nextId = BBSThreads.select { BBSThreads.guildId eq player.guildId }.maxOf { it[BBSThreads.localThreadId] }
+                        nextId = BBSThreads.selectAll().where { BBSThreads.guildId eq player.guildId }
+                            .maxOf { it[BBSThreads.localThreadId] }
                     }
                     BBSThreads.insert {
                         it[posterCid] = player.id

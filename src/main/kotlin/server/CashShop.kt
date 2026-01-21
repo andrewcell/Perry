@@ -7,9 +7,13 @@ import database.Gifts
 import database.SpecialCashItems
 import database.Wishlists
 import mu.KLogging
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import provider.DataProviderFactory
 import provider.DataTool
 import tools.ServerJSON.settings
@@ -108,7 +112,7 @@ class CashShop(val accountId: Int, val characterId: Int) {
         try {
             logger.debug { "Cash shop opened. Account Id: $accountId, Character Id: $characterId" }
             transaction {
-                val row = Accounts.slice(Accounts.nxCredit, Accounts.mPoint, Accounts.nxPrepaid).select {
+                val row = Accounts.select(Accounts.nxCredit, Accounts.mPoint, Accounts.nxPrepaid).where {
                     Accounts.id eq accountId
                 }
                 if (!row.empty()) {
@@ -121,7 +125,7 @@ class CashShop(val accountId: Int, val characterId: Int) {
                 factory.loadItems(accountId, false).forEach {
                     inventory.add(it.first)
                 }
-                Wishlists.slice(Wishlists.sn).select {
+                Wishlists.select(Wishlists.sn).where {
                     Wishlists.charId eq characterId
                 }.forEach {
                     wishList.add(it[Wishlists.sn])
@@ -190,7 +194,7 @@ class CashShop(val accountId: Int, val characterId: Int) {
         logger.debug { "Loading cash shop gifts. character id: $characterId" }
         try {
             transaction {
-                Gifts.select { Gifts.to eq characterId }.forEach {
+                Gifts.selectAll().where { Gifts.to eq characterId }.forEach {
                     notes++
                     val cashItem = CashItemFactory.getItem(it[Gifts.sn]) ?: return@transaction
                     val item = cashItem.toItem()

@@ -1,6 +1,6 @@
 package database
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.v1.core.Table
 
 object Guilds : Table() {
     val guildId = integer("guildId").autoIncrement()

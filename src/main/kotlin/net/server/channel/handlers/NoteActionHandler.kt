@@ -4,10 +4,11 @@ import client.Client
 import database.Notes
 import mu.KLogging
 import net.AbstractPacketHandler
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.CashPacket
 import tools.packet.InteractPacket
@@ -35,7 +36,7 @@ class NoteActionHandler : AbstractPacketHandler() {
                     slea.readByte() // skip fame
                     try {
                         transaction {
-                            val row = Notes.slice(Notes.fame).select { (Notes.id eq id) and (Notes.deleted eq 0) }
+                            val row = Notes.select(Notes.fame).where { (Notes.id eq id) and (Notes.deleted eq 0) }
                             if (!row.empty()) {
                                 fame += row.first()[Notes.fame]
                             }

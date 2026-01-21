@@ -10,12 +10,13 @@ import database.Characters
 import database.DueyItems
 import mu.KLogging
 import net.AbstractPacketHandler
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.ResultRow
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import server.DueyPackages
 import server.InventoryManipulator
 import tools.PacketCreator
@@ -65,11 +66,31 @@ class DueyHandler : AbstractPacketHandler() {
                                 val item = player.getInventory(inv)?.getItem(itemPos.toByte())
                                 if (item != null && player.getItemQuantity(item.itemId, false) > amount) {
                                     if (ItemConstants.isRechargeable(item.itemId)) {
-                                        InventoryManipulator.removeFromSlot(c, inv, itemPos.toByte(), item.quantity, fromDrop = true, consume = false)
+                                        InventoryManipulator.removeFromSlot(
+                                            c,
+                                            inv,
+                                            itemPos.toByte(),
+                                            item.quantity,
+                                            fromDrop = true,
+                                            consume = false
+                                        )
                                     } else {
-                                        InventoryManipulator.removeFromSlot(c, inv, itemPos.toByte(), amount, fromDrop = true, consume = false)
+                                        InventoryManipulator.removeFromSlot(
+                                            c,
+                                            inv,
+                                            itemPos.toByte(),
+                                            amount,
+                                            fromDrop = true,
+                                            consume = false
+                                        )
                                     }
-                                    addItemToDatabase(item, amount.toInt(), mesos, player.name, getAccIdFromCname(recipient, false))
+                                    addItemToDatabase(
+                                        item,
+                                        amount.toInt(),
+                                        mesos,
+                                        player.name,
+                                        getAccIdFromCname(recipient, false)
+                                    )
                                 } else return
                             } else {
                                 addMesoToDatabase(mesos, player.name, getAccIdFromCname(recipient, false))
@@ -80,6 +101,7 @@ class DueyHandler : AbstractPacketHandler() {
                         }
                     }
                 }
+
                 Actions.TOSERVER_CLAIM_PACKAGE.code -> {
                     val packageId = slea.readInt()
                     val packages = mutableListOf<DueyPackages>()
@@ -87,7 +109,12 @@ class DueyHandler : AbstractPacketHandler() {
                     try {
                         var dueyPack: DueyPackages
                         transaction {
-                            val row = (database.DueyPackages leftJoin DueyItems).select { database.DueyPackages.packageId eq packageId }
+                            val row =
+                                (database.DueyPackages leftJoin DueyItems).select(
+                                    database.DueyPackages.senderName,
+                                    database.DueyPackages.mesos,
+                                    database.DueyPackages.timestamp
+                                ).where { database.DueyPackages.packageId eq packageId }
                             if (!row.empty()) {
                                 val rs = row.first()
                                 dueyPack = getItemByPid(rs) ?: return@transaction
@@ -101,7 +128,13 @@ class DueyHandler : AbstractPacketHandler() {
                         logger.error(e) { "Failed to get duey package to database. PackageId: $packageId" }
                     }
                     if (dp?.item != null) {
-                        if (!InventoryManipulator.checkSpace(c, dp.item.itemId, dp.item.quantity.toInt(), dp.item.owner)) {
+                        if (!InventoryManipulator.checkSpace(
+                                c,
+                                dp.item.itemId,
+                                dp.item.quantity.toInt(),
+                                dp.item.owner
+                            )
+                        ) {
                             player.dropMessage(1, "인벤토리가 꽉 찼습니다.")
                             c.announce(PacketCreator.enableActions())
                             return
@@ -117,14 +150,16 @@ class DueyHandler : AbstractPacketHandler() {
                         player.gainMeso(gainMesos, false)
                     }
                     removeItemFromDatabase(packageId)
-             //       c.announce(JPacketCreator.removeItemFromDuey(false, packageId))
+                    //       c.announce(JPacketCreator.removeItemFromDuey(false, packageId))
                 }
+
                 else -> {}
             }
         }
     }
 
-    private fun addMesoToDatabase(mesos: Int, name: String, recipientId: Int) = addItemToDatabase(null, 1, mesos, name, recipientId)
+    private fun addMesoToDatabase(mesos: Int, name: String, recipientId: Int) =
+        addItemToDatabase(null, 1, mesos, name, recipientId)
 
     private fun addItemToDatabase(item: Item?, quantity: Int, mesos: Int, name: String, recipientId: Int) {
         try {
@@ -222,7 +257,7 @@ class DueyHandler : AbstractPacketHandler() {
             var result = -1
             try {
                 transaction {
-                    val row = Characters.slice(Characters.accountId, Characters.id).select { Characters.name eq name }
+                    val row = Characters.select(Characters.accountId, Characters.id).where { Characters.name eq name }
                     if (row.empty()) return@transaction
                     val it = row.first()
                     result = if (accountId) it[Characters.accountId] else it[Characters.id]
@@ -290,7 +325,11 @@ class DueyHandler : AbstractPacketHandler() {
             val packages = mutableListOf<DueyPackages>()
             try {
                 transaction {
-                    (database.DueyPackages leftJoin DueyItems).select { database.DueyPackages.receiverId eq chr.id }.forEach {
+                    (database.DueyPackages leftJoin DueyItems).select(
+                        database.DueyPackages.senderName,
+                        database.DueyPackages.mesos,
+                        database.DueyPackages.timestamp
+                    ).where { database.DueyPackages.receiverId eq chr.id }.forEach {
                         val dueyPack = getItemByPid(it) ?: return@forEach
                         dueyPack.sender = it[database.DueyPackages.senderName]
                         dueyPack.mesos = it[database.DueyPackages.mesos]

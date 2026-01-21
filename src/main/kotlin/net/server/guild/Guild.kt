@@ -6,9 +6,14 @@ import database.Guilds
 import database.Notes
 import mu.KLogging
 import net.server.Server
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import tools.packet.GuildPacket
 import tools.packet.InteractPacket
 import java.sql.SQLException
@@ -19,7 +24,7 @@ class Guild(creator: GuildCharacter) {
     private val rankTitles = arrayOf("길드마스터", "부마스터", "길드원", "길드원", "길드원")
     val world = creator.world
     var id = creator.guildId
-    var name: String =""
+    var name: String = ""
     var notice: String = ""
     var gp: Int = -1
     var logo: Short = -1
@@ -35,7 +40,7 @@ class Guild(creator: GuildCharacter) {
     init {
         try {
             transaction {
-                val row = Guilds.select { Guilds.guildId eq this@Guild.id }
+                val row = Guilds.selectAll().where { Guilds.guildId eq this@Guild.id }
                 if (row.empty()) {
                     this@Guild.id = -1
                     return@transaction
@@ -56,8 +61,27 @@ class Guild(creator: GuildCharacter) {
                 leader = guild[Guilds.leader]
                 notice = guild[Guilds.notice]
                 signature = guild[Guilds.signature]
-                Characters.select { Characters.guildId eq this@Guild.id }.orderBy(Characters.guildRank, SortOrder.ASC).orderBy(Characters.name, SortOrder.ASC).forEach {
-                    members.add(GuildCharacter(it[Characters.id], it[Characters.level], it[Characters.name], -1, world, it[Characters.job], it[Characters.guildRank], this@Guild.id, false))
+                Characters.select(
+                    Characters.id,
+                    Characters.level,
+                    Characters.name,
+                    Characters.job,
+                    Characters.guildRank
+                ).where { Characters.guildId eq this@Guild.id }.orderBy(Characters.guildRank, SortOrder.ASC)
+                    .orderBy(Characters.name, SortOrder.ASC).forEach {
+                    members.add(
+                        GuildCharacter(
+                            it[Characters.id],
+                            it[Characters.level],
+                            it[Characters.name],
+                            -1,
+                            world,
+                            it[Characters.job],
+                            it[Characters.guildRank],
+                            this@Guild.id,
+                            false
+                        )
+                    )
                 }
             }
             setOnline(creator.id, true, creator.channel)
@@ -125,10 +149,14 @@ class Guild(creator: GuildCharacter) {
                     if (notification.size > 0) {
                         when (bCop) {
                             BCOp.DISBAND -> Server.getWorld(world).setGuildAndRank(notification, 0, 5, exceptionId)
-                            BCOp.EMBLEMCHANGE -> Server.getWorld(world).changeGuildEmblem(id, notification, GuildSummary(this))
+                            BCOp.EMBLEMCHANGE -> Server.getWorld(world)
+                                .changeGuildEmblem(id, notification, GuildSummary(this))
+
                             else -> packet?.let { it1 ->
-                                Server.getWorld(world).sendPacket(notification,
-                                    it1, exceptionId)
+                                Server.getWorld(world).sendPacket(
+                                    notification,
+                                    it1, exceptionId
+                                )
                             }
                         }
                     }
@@ -141,7 +169,7 @@ class Guild(creator: GuildCharacter) {
 
     fun guildMessage(serverNotice: ByteArray) {
         members.forEach { m ->
-            run ch@ {
+            run ch@{
                 Server.getChannelsFromWorld(world).forEach { c ->
                     c.players.getCharacterById(m.id)?.client?.announce(serverNotice)
                     return@ch
@@ -154,7 +182,7 @@ class Guild(creator: GuildCharacter) {
 
     fun setOnline(cid: Int, online: Boolean, channel: Int) {
         var broadcast = true
-        run loop@ {
+        run loop@{
             members.forEach {
                 if (it.id == cid) {
                     if (it.online && online) {
@@ -231,7 +259,7 @@ class Guild(creator: GuildCharacter) {
     }
 
     fun changeRank(cid: Int, newRank: Int) {
-        val target = members.find { cid == it.id  } ?: return
+        val target = members.find { cid == it.id } ?: return
         if (target.online) {
             Server.getWorld(target.world).setGuildAndRank(cid, id, newRank)
         } else {
@@ -294,14 +322,14 @@ class Guild(creator: GuildCharacter) {
             var result = 0
             try {
                 transaction {
-                    val row = Guilds.select { Guilds.name eq name }
+                    val row = Guilds.select(Guilds.guildId).where { Guilds.name eq name }
                     if (!row.empty()) return@transaction // check name exists.
                     Guilds.insert {
                         it[leader] = leaderId
                         it[Guilds.name] = name
                         it[signature] = System.currentTimeMillis().toInt()
                     }
-                    val guild = Guilds.select { Guilds.leader eq leaderId }
+                    val guild = Guilds.select(Guilds.guildId).where { Guilds.leader eq leaderId }
                     if (guild.empty()) throw Exception("Tried to insert to database for create guild, but returned nothing.")
                     result = guild.first()[Guilds.guildId]
                 }

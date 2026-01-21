@@ -1,7 +1,7 @@
 package database
 
 import database.DueyItems.default
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.v1.core.Table
 
 object HiredMerchants : Table() {
     val id = integer("id").autoIncrement()

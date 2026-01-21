@@ -8,9 +8,11 @@ import gm.server.GMServer
 import io.netty.channel.ChannelHandlerContext
 import io.netty.util.AttributeKey
 import mu.KLogging
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.greaterEq
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.data.input.SeekableLittleEndianAccessor
 import java.sql.SQLException
 
@@ -28,7 +30,7 @@ class LoginHandler : GMPacketHandler {
         val password = slea.readGameASCIIString()
         try {
             transaction {
-                val row = Accounts.slice(Accounts.password, Accounts.id).select {
+                val row = Accounts.select(Accounts.password, Accounts.id).where {
                     (Accounts.name eq login) and (Accounts.gm greaterEq 2)
                 }
                 if (!row.empty()) {

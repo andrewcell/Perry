@@ -8,10 +8,10 @@ import client.inventory.ItemFactory
 import database.InventoryItems
 import mu.KLogging
 import net.AbstractPacketHandler
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import server.InventoryManipulator
 import server.InventoryManipulator.Companion.addFromDrop
 import tools.data.input.SeekableLittleEndianAccessor

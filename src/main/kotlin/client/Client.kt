@@ -14,9 +14,16 @@ import net.server.world.MessengerCharacter
 import net.server.world.PartyCharacter
 import net.server.world.PartyOperation
 import org.bouncycastle.util.encoders.Hex
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.inList
+import org.jetbrains.exposed.v1.core.like
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import scripting.npc.NPCScriptManager
 import scripting.quest.QuestScriptManager
 import server.Trade
@@ -238,7 +245,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
         var value: Byte = 0
         try {
             transaction {
-                val row = Accounts.slice(Accounts.gReason).select { Accounts.id eq accountId }
+                val row = Accounts.select(Accounts.gReason).where { Accounts.id eq accountId }
                 if (row.empty()) return@transaction
                 value = row.first()[Accounts.gReason].toByte()
             }
@@ -252,7 +259,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
         var state = LOGIN_NOTLOGGEDIN
         try {
             transaction {
-                val rs = Accounts.slice(Accounts.loggedIn, Accounts.lastLogin, Accounts.birthday).select {
+                val rs = Accounts.select(Accounts.loggedIn, Accounts.lastLogin, Accounts.birthday).where {
                     Accounts.id eq accountId
                 }
                 if (rs.empty()) return@transaction
@@ -295,7 +302,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
         var timeInMilli = 0L
         try {
             transaction {
-                val row = Accounts.slice(Accounts.tempBan).select { Accounts.id eq accountId }
+                val row = Accounts.select(Accounts.tempBan).where { Accounts.id eq accountId }
                 if (row.empty()) return@transaction
                 val tb = row.first()[Accounts.tempBan]
                 if (tb.toEpochMilli() == 0L) return@transaction
@@ -320,7 +327,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
         try {
             val sessionIp = session.remoteAddress().toString()
             transaction {
-                val ipBans = IPBans.slice(IPBans.id).select {
+                val ipBans = IPBans.select(IPBans.id).where {
                     IPBans.ip like sessionIp
                 }.count()
 
@@ -337,7 +344,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
         var ret = false
         try {
             transaction {
-                val count = MacBans.select {
+                val count = MacBans.selectAll().where {
                     MacBans.mac inList macs
                 }.count()
                 if (count > 0) ret = true
@@ -352,7 +359,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
         try {
             val list = mutableListOf<CharacterNameAndId>()
             transaction {
-                Characters.slice(Characters.id, Characters.name).select {
+                Characters.select(Characters.id, Characters.name).where {
                     (Characters.accountId eq accountId) and (Characters.world eq serverId)
                 }.forEach { list.add(CharacterNameAndId(it[Characters.id], it[Characters.name])) }
             }
@@ -383,7 +390,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
     fun loadMacsIfNecessary() {
         if (macs.isEmpty()) {
             transaction {
-                val list = MacBans.select { MacBans.id eq accountId }.toList()
+                val list = MacBans.selectAll().where { MacBans.id eq accountId }.toList()
                 if (list.isEmpty()) return@transaction
                 list.first()[MacBans.mac].split(", ").forEach {
                     if (it != "") macs.add(it)
@@ -398,11 +405,11 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
         var loginOk = 5
         try {
             transaction {
-                val accounts = Accounts.slice(
+                val accounts = Accounts.select(
                     Accounts.id, Accounts.password, Accounts.salt, Accounts.gender,
                     Accounts.banned, Accounts.gm, Accounts.charactorSlots, Accounts.tos,
                     Accounts.socialNumber
-                ).select { Accounts.name eq login }
+                ).where { Accounts.name eq login }
                 if (!accounts.empty()) {
                     val acc = accounts.first()
                     if (acc[Accounts.banned]) {
@@ -573,7 +580,7 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
             var result = false
             try {
                 transaction {
-                    val row = Characters.select { (Characters.id eq cid) and (Characters.accountId eq accountId) }
+                    val row = Characters.selectAll().where { (Characters.id eq cid) and (Characters.accountId eq accountId) }
                     if (row.empty()) return@transaction
                     val chr = row.first()
                     if (chr[Characters.guildId] > 0) {

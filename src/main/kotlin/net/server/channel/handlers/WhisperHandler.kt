@@ -4,8 +4,9 @@ import client.Client
 import database.Characters
 import mu.KLogging
 import net.AbstractPacketHandler
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.InteractPacket
 import java.sql.SQLException
@@ -42,7 +43,7 @@ class WhisperHandler : AbstractPacketHandler() {
                             }
                         } else {
                             try {
-                                val row = Characters.select { Characters.name eq recipient }
+                                val row = Characters.select(Characters.gm).where { Characters.name eq recipient }
                                 if (!row.empty()) {
                                     if (row.first()[Characters.gm] > player.gmLevel) {
                                         c.announce(InteractPacket.getWhisperReply(recipient, 0))

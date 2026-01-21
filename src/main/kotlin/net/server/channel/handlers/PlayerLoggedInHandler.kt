@@ -9,10 +9,11 @@ import mu.KLogging
 import net.AbstractPacketHandler
 import net.server.Server
 import net.server.world.PartyOperation
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import tools.PacketCreator
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.*
@@ -58,7 +59,7 @@ class PlayerLoggedInHandler : AbstractPacketHandler() {
             player.silentGiveBuffs(buffs)
             try {
                 transaction {
-                    val row = DueyPackages.slice(DueyPackages.mesos).select { (DueyPackages.receiverId eq player.id) and (DueyPackages.checked eq true) }
+                    val row = DueyPackages.select(DueyPackages.mesos).where { (DueyPackages.receiverId eq player.id) and (DueyPackages.checked eq true) }
                     if (!row.empty()) {
                         DueyPackages.update({ DueyPackages.receiverId eq player.id }) {
                             it[checked] = false

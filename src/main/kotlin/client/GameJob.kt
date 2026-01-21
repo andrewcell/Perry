@@ -30,7 +30,7 @@ enum class GameJob(val id: Int) {
     fun isA(baseJob: GameJob) = id >= baseJob.id && id / 100 == baseJob.id / 100
 
     companion object {
-        fun getById(id: Int) = values().find { it.id == id }
+        fun getById(id: Int) = GameJob.entries.find { it.id == id }
 
         fun getBy5ByteEncoding(encoded: Int) = when (encoded) {
             2 -> WARRIOR

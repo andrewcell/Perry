@@ -5,8 +5,8 @@ import client.Client
 import database.Reports
 import mu.KLogging
 import net.AbstractPacketHandler
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.PacketCreator
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.InteractPacket

@@ -1,6 +1,6 @@
 package database
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.v1.core.Table
 /**
  * This object represents the Skills table in the database.
  * It extends the Table class from the Exposed SQL library.

@@ -3,7 +3,7 @@
  */
 package database
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.v1.core.Table
 
 /**
  * This object represents the Responses table in the database.

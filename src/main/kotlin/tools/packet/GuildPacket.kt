@@ -15,7 +15,7 @@ import database.Guilds
 import net.SendPacketOpcode
 import net.server.guild.Guild
 import net.server.guild.GuildCharacter
-import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.v1.core.ResultRow
 import tools.PacketCreator
 import tools.data.output.PacketLittleEndianWriter
 import java.sql.SQLException

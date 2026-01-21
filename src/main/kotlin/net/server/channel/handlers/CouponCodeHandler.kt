@@ -4,9 +4,10 @@ import client.Client
 import database.NXCodes
 import mu.KLoggable
 import net.AbstractPacketHandler
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import server.InventoryManipulator
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.CashPacket
@@ -25,7 +26,7 @@ class CouponCodeHandler : AbstractPacketHandler(), KLoggable {
         var item = -1
         try {
             transaction {
-                NXCodes.select { NXCodes.code eq code }.forEach {
+                NXCodes.selectAll().where { NXCodes.code eq code }.forEach {
                     item = it[NXCodes.type]
                 }
             }
@@ -39,7 +40,7 @@ class CouponCodeHandler : AbstractPacketHandler(), KLoggable {
         var valid = false
         try {
             transaction {
-                NXCodes.select { NXCodes.code eq code }.forEach {
+                NXCodes.selectAll().where { NXCodes.code eq code }.forEach {
                     valid = it[NXCodes.valid] != 0
                 }
             }

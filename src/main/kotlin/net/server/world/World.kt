@@ -12,8 +12,9 @@ import net.server.channel.CharacterIdChannelPair
 import net.server.guild.Guild
 import net.server.guild.GuildCharacter
 import net.server.guild.GuildSummary
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import tools.ServerJSON
 import tools.packet.GameplayPacket
 import tools.packet.GuildPacket

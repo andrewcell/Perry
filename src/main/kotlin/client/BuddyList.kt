@@ -3,11 +3,11 @@ package client
 import database.Buddies
 import database.Characters
 import mu.KLogging
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.and
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.packet.InteractPacket
 import java.sql.SQLException
 
@@ -35,20 +35,27 @@ class BuddyList(var capacity: Int) {
         try {
             transaction {
                 (Buddies innerJoin Characters)
-                    .slice(Buddies.buddyId, Buddies.pending, Buddies.group, Characters.name)
-                    .select {
-                        (Characters.id eq characterId) and (Buddies.buddyId eq Characters.id) }
+                    .select(Buddies.buddyId, Buddies.pending, Buddies.group, Characters.name)
+                    .where { (Characters.id eq characterId) and (Buddies.buddyId eq Characters.id) }
                     .forEach {
-                    if (it[Buddies.pending].toInt() == 1) {
-                        pendingRequests.add(CharacterNameAndId(it[Buddies.buddyId], it[Characters.name]))
-                    } else {
-                        addEntry(BuddyListEntry(it[Characters.name], it[Buddies.group], it[Buddies.buddyId], 1, true))
+                        if (it[Buddies.pending].toInt() == 1) {
+                            pendingRequests.add(CharacterNameAndId(it[Buddies.buddyId], it[Characters.name]))
+                        } else {
+                            addEntry(
+                                BuddyListEntry(
+                                    it[Characters.name],
+                                    it[Buddies.group],
+                                    it[Buddies.buddyId],
+                                    1,
+                                    true
+                                )
+                            )
+                        }
                     }
-                }
                 Buddies.deleteWhere { (pending eq 1) and (Buddies.characterId eq characterId) }
             }
         } catch (e: SQLException) {
-            logger.error (e) { "Failed to load Buddy list from database." }
+            logger.error(e) { "Failed to load Buddy list from database." }
         }
     }
 
