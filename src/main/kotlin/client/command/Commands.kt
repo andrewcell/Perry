@@ -13,7 +13,16 @@ import server.maps.MapObjectType
 import tools.PacketCreator
 import tools.packet.InteractPacket
 
+/**
+ * Commands that can be executed by GMs or for testing purposes
+ */
 object Commands {
+    /**
+     * Executes a GM command
+     * @param c The client object that executing the command
+     * @param sub The command and arguments split by spaces
+     * @param heading The heading character that was used to execute the command
+     */
     fun executeGMCommand(c: Client, sub: Array<String>, heading: Char): Boolean {
         when (val command = sub[0]) {
             "map" -> {
