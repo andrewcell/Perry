@@ -79,7 +79,7 @@ class PlayerLoggedInHandler : AbstractPacketHandler() {
             world.buddyLoggedOn(player.id, c.channel, player.buddyList)
             val buddyIds = player.buddyList.getBuddyIds()
             Server.getWorld(c.world).multiBuddyFind(player.id, buddyIds).forEach { onlineBuddy ->
-                val ble = player.buddyList.getEntry(onlineBuddy.characterId)
+                val ble = player.buddyList.buddies[onlineBuddy.characterId]
                 if (ble?.visible == true) {
                     ble.channel = onlineBuddy.channel
                     player.buddyList.addEntry(ble)

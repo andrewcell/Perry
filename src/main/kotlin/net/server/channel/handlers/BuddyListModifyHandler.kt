@@ -13,7 +13,6 @@ import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.like
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.select
-import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.InteractPacket
@@ -53,7 +52,7 @@ class BuddyListModifyHandler : AbstractPacketHandler() {
             1 -> {
                 val addName = slea.readGameASCIIString()
                 if (addName.length < 2 || addName.length > 13) return
-                val ble = buddyList.getEntry(addName)
+                val ble = buddyList.getEntryByName(addName)
                 if (ble != null && !ble.visible) {
                     c.announce(InteractPacket.serverNotice(1, "이미 친구로 등록되어 있습니다."))
                 } else if (buddyList.isFull() && ble == null) {

@@ -11,6 +11,10 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.packet.InteractPacket
 import java.sql.SQLException
 
+/**
+ * Class for manage list of buddies for a character.
+ * @param capacity The maximum number of buddies allowed in the list.
+ */
 class BuddyList(var capacity: Int) {
     val buddies = mutableMapOf<Int, BuddyListEntry>()
     val pendingRequests = mutableListOf<CharacterNameAndId>()
@@ -19,9 +23,9 @@ class BuddyList(var capacity: Int) {
 
     fun containsVisible(characterId: Int) = buddies[characterId]?.visible ?: false
 
-    fun getEntry(cId: Int) = buddies[cId]
+//    fun getEntry(cId: Int) = buddies[cId]
 
-    fun getEntry(name: String) = buddies.values.find { it.name == name.lowercase() }
+    fun getEntryByName(name: String) = buddies.values.find { it.name == name.lowercase() }
 
     fun addEntry(e: BuddyListEntry) = buddies.put(e.characterId, e)
 

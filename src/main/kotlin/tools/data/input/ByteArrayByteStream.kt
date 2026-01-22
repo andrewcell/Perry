@@ -1,7 +1,6 @@
 package tools.data.input
 
 import tools.HexTool
-import kotlin.experimental.and
 
 class ByteArrayByteStream(val array: ByteArray) : SeekableInputStreamByteStream {
     override var position = 0

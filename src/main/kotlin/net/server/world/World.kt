@@ -322,7 +322,7 @@ class World(val id: Int, var flag: Int, var eventMessage: String, var expRate: I
                 }
                 BuddyList.BuddyOperation.DELETED -> {
                     if (buddyList.contains(cidFrom)) {
-                        buddyList.getEntry(cidFrom)
+                        buddyList.buddies[cidFrom]
                             ?.let { BuddyListEntry(name, "그룹 미지정", cidFrom, -1, it.visible) }
                             ?.let { buddyList.addEntry(it) }
                         addChar.client.announce(InteractPacket.updateBuddyChannel(cidFrom, -1))
@@ -339,7 +339,7 @@ class World(val id: Int, var flag: Int, var eventMessage: String, var expRate: I
     private fun updateBuddies(characterId: Int, channel: Int, buddies: BuddyList, offline: Boolean) {
         buddies.buddies.forEach { (characterId, entry) ->
             val chr = players.getCharacterById(entry.characterId) ?: return@forEach
-            val ble = chr.buddyList.getEntry(characterId) ?: return@forEach
+            val ble = chr.buddyList.buddies[characterId] ?: return@forEach
             if (ble.visible && entry.visible) {
                 val mcChannel = if (offline) {
                     ble.channel = -1
