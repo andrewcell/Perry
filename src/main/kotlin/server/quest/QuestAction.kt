@@ -109,7 +109,7 @@ class QuestAction(val type: QuestActionType, val data: Data, val quest: Quest) {
                     if (c.isBeginnerJob()) {
                         c.gainExp(DataTool.getInt(data), show = true, inChat = true)
                     } else {
-                        c.gainExp(DataTool.getInt(data) * ServerConstants.questExpRate, show = true, inChat = true)
+                        c.gainExp(DataTool.getInt(data) * ServerConstants.QUEST_EXP_RATE, show = true, inChat = true)
                     }
                 }
                 ITEM -> {
@@ -163,7 +163,7 @@ class QuestAction(val type: QuestActionType, val data: Data, val quest: Quest) {
                 }
                 MESO -> {
                     if (status.status == QuestStatus.Status.NOT_STARTED && status.forfeited > 0) return@whn
-                    c.gainMeso(DataTool.getInt(data) * ServerConstants.questMesoRate,
+                    c.gainMeso(DataTool.getInt(data) * ServerConstants.QUEST_MESO_RATE,
                         show = true,
                         enableActions = false,
                         inChat = true

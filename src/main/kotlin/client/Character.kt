@@ -1409,7 +1409,7 @@ class Character(
         if (guildId > 0) {
             getGuild()?.broadcast(GuildPacket.levelUpMessageToGuild(2, level.toInt(), name), id, Guild.BCOp.NONE)
         }
-        if (ServerConstants.perfectPitch) {
+        if (ServerConstants.PERFECT_PITCH) {
             if (InventoryManipulator.checkSpace(client, 4310000, 1, "")) {
                 InventoryManipulator.addById(client, 4310000, 1)
             }

@@ -45,7 +45,7 @@ class LoginPacket {
             var ret = 0
             ret = ret xor (gameVersion.toInt() and 0x7FFF)
             ret = ret xor (0x01 shl 15)
-            ret = ret xor (ServerConstants.patchVersion.toInt() and 0xFF shl 16)
+            ret = ret xor (ServerConstants.MINOR_VERSION.toInt() and 0xFF shl 16)
             val version = ret.toString()
             val packetSize = 13 + version.length
             short(packetSize)
@@ -183,7 +183,7 @@ class LoginPacket {
             byte(channelLoad.size)
             for (ch in channelLoad) {
                 gameASCIIString("${serverName}-${ch.channelId}")
-                int(ch.getConnectedClients() * 1000 / ServerConstants.channelLoad)
+                int(ch.getConnectedClients() * 1000 / ServerConstants.MAX_PLAYERS_PER_CHANNEL)
                 byte(1)
                 short(ch.channelId - 1)
             }

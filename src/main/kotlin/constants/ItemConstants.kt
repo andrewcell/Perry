@@ -35,7 +35,7 @@ class ItemConstants {
 
         fun getInventoryType(itemId: Int): InventoryType {
             val type = itemId / 1000000
-            return if (type < 1 || type > 5) InventoryType.UNDEFINED
+            return if (type !in 1..5) InventoryType.UNDEFINED
             else InventoryType.getByType(type.toByte())
         }
     }

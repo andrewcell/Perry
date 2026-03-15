@@ -1,7 +1,6 @@
 package webapi.controller
 
 import constants.ServerConstants
-import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -23,7 +22,7 @@ fun Route.index() {
                 val status = ServerStatusWeb(
                     Server.online,
                     Server.worlds.size,
-                    "1.2.${ServerConstants.gameVersion}",
+                    "1.2.${ServerConstants.GAME_VERSION}",
                     OnlinePlayers.getAllOnlinePlayers()
                 )
                 call.respond(status)

@@ -228,7 +228,7 @@ object Server : Runnable, KLoggable {
                 .option(ChannelOption.SO_BACKLOG, 128)
                 .childOption(ChannelOption.SO_SNDBUF, 4096 * 1024)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
-            CoroutineManager.register(RankingWorker(), 0, ServerConstants.rankingInterval.toLong())
+            CoroutineManager.register(RankingWorker(), 0, ServerConstants.RANKING_INTERVAL.toLong())
             MonsterInformationProvider.clearDrops()
 
             logger.debug {"Loading skill data from XML."}
@@ -300,7 +300,7 @@ object Server : Runnable, KLoggable {
             allSave(world)
             broadcastGMMessage(world, InteractPacket.serverNotice(5, "서버에 의해 월드가 저장되었습니다."))
             logger.info { "World $world successfully saved." }
-        }, ServerConstants.autoSaveInterval.toLong(), ServerConstants.autoSaveInterval.toLong())
+        }, ServerConstants.AUTOSAVE_INTERVAL.toLong(), ServerConstants.AUTOSAVE_INTERVAL.toLong())
     }
 
     fun gmChat(message: String, exclude: String) {

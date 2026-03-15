@@ -37,15 +37,15 @@ class ServerHandler(val world: Int = -1, val channel: Int = -1) : SimpleChannelI
         val ivReceive = arrayOf(70, 13, 122, Random.nextInt(255).toByte()).toByteArray()
         val ivSend = arrayOf(82, 53, 120, Random.nextInt(255).toByte()).toByteArray()
         val sendCipher = if (ServerJSON.settings.modifiedClient) {
-            KMSEncryption2(ivSend, (0xFFFF - ServerConstants.gameVersion).toShort())
-        } else KMSEncryption(ivSend, ((0xFFFF - ServerConstants.gameVersion).toShort()))
+            KMSEncryption2(ivSend, (0xFFFF - ServerConstants.GAME_VERSION).toShort())
+        } else KMSEncryption(ivSend, ((0xFFFF - ServerConstants.GAME_VERSION).toShort()))
         val receiveCipher = if (ServerJSON.settings.modifiedClient) {
-            KMSEncryption2(ivReceive, ServerConstants.gameVersion)
-        } else KMSEncryption(ivReceive, ServerConstants.gameVersion)
+            KMSEncryption2(ivReceive, ServerConstants.GAME_VERSION)
+        } else KMSEncryption(ivReceive, ServerConstants.GAME_VERSION)
         val client = Client(sendCipher, receiveCipher, ctx?.channel()!!)
         client.world = world
         client.channel = channel
-        ctx.writeAndFlush(LoginPacket.getHello(ServerConstants.gameVersion, ivSend, ivReceive))
+        ctx.writeAndFlush(LoginPacket.getHello(ServerConstants.GAME_VERSION, ivSend, ivReceive))
         ctx.channel()?.attr(Client.CLIENT_KEY)?.set(client)
         if (world != -1 && channel != -1) {
             logger.info { "Client(${ctx.channel().remoteAddress()}) connected to Channel server. World: $world, Channel: $channel" }
