@@ -1,5 +1,7 @@
 package tools;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Provides a class for en/decrypting Korean Client Packets.
  *
@@ -9,8 +11,8 @@ package tools;
  */
 public class KMSEncryption implements PacketEncryption {
 
-    private byte iv[];
-    private short gameVersion;
+    private byte[] iv;
+    private final short gameVersion;
     private static final byte[] funnyBytes = new byte[]{(byte) 0xEC, (byte) 0x3F, (byte) 0x77, (byte) 0xA4, (byte) 0x45, (byte) 0xD0, (byte) 0x71, (byte) 0xBF, (byte) 0xB7, (byte) 0x98, (byte) 0x20, (byte) 0xFC,
         (byte) 0x4B, (byte) 0xE9, (byte) 0xB3, (byte) 0xE1, (byte) 0x5C, (byte) 0x22, (byte) 0xF7, (byte) 0x0C, (byte) 0x44, (byte) 0x1B, (byte) 0x81, (byte) 0xBD, (byte) 0x63, (byte) 0x8D, (byte) 0xD4, (byte) 0xC3,
         (byte) 0xF2, (byte) 0x10, (byte) 0x19, (byte) 0xE0, (byte) 0xFB, (byte) 0xA1, (byte) 0x6E, (byte) 0x66, (byte) 0xEA, (byte) 0xAE, (byte) 0xD6, (byte) 0xCE, (byte) 0x06, (byte) 0x18, (byte) 0x4E, (byte) 0xEB,
@@ -33,10 +35,10 @@ public class KMSEncryption implements PacketEncryption {
      * Class constructor - Creates an instance of the Client encryption
      * cipher.
      *
-     * @param gameVersion The 256 bit AES key to use.
+     * @param gameVersion The 256-bit AES key to use.
      * @param iv The 4-byte IV to use.
      */
-    public KMSEncryption(byte iv[], short gameVersion) {
+    public KMSEncryption(byte[] iv, short gameVersion) {
         this.setIv(iv);
         this.gameVersion = (short) (((gameVersion >> 8) & 0xFF) | ((gameVersion << 8) & 0xFF00));
     }
@@ -59,7 +61,7 @@ public class KMSEncryption implements PacketEncryption {
         return this.iv;
     }
 
-    @Override public byte[] encrypt(final byte[] data) {
+    @Override public byte @NotNull [] encrypt(final byte @NotNull [] data) {
         byte[] datacpy = new byte[data.length];
         System.arraycopy(data, 0, datacpy, 0, data.length);
         byte[] in = new byte[this.iv.length];
@@ -70,7 +72,7 @@ public class KMSEncryption implements PacketEncryption {
             byt = ((byt << 4) & 0xF0) | ((byt >> 4) & 0x0F);
             byt = ((byt << 1) & 0xFE) ^ ((((byt << 1) & 0xFE) ^ ((byt >> 1) & 0x7F)) & 0x55);
             byt ^= funnyBytes[(int) in[0] & 0xFF];
-            in = generateIv((int) datacpy[x] & 0xFF, in);
+            generateIv((int) datacpy[x] & 0xFF, in);
             datacpy[x] = (byte) byt;
         }
 
@@ -78,7 +80,7 @@ public class KMSEncryption implements PacketEncryption {
         return datacpy;
     }
 
-    @Override public byte[] decrypt(byte[] data) {
+    @Override public byte @NotNull [] decrypt(byte @NotNull [] data) {
         byte[] in = new byte[this.iv.length];
         System.arraycopy(this.iv, 0, in, 0, in.length);
 
@@ -87,7 +89,7 @@ public class KMSEncryption implements PacketEncryption {
             byt ^= funnyBytes[(int) in[0] & 0xFF];
             byt = ((byt << 1) & 0xFE) ^ ((((byt << 1) & 0xFE) ^ ((byt >> 1) & 0x7F)) & 0x55);
             byt = ((byt << 4) & 0xF0) | ((byt >> 4) & 0x0F);
-            in = generateIv(byt, in);
+            generateIv(byt, in);
             data[x] = (byte) byt;
         }
 
@@ -103,13 +105,14 @@ public class KMSEncryption implements PacketEncryption {
     }
 
     /**
-     * Generates a packet header for a packet that is
-     * <code>length</code> long.
+     * Generates the packet header for the data to be transmitted. This method incorporates
+     * encryption with the object's initialization vector (IV) and game version.
      *
-     * @param length How long the packet that this header is for is.
-     * @return The header.
+     * @param length The length of the packet data for which the header is being generated.
+     * @return A byte array representing the packet header, derived by encrypting the length
+     *         and using the object's IV and game version.
      */
-    @Override public byte[] getPacketHeader(int length) {
+    @Override public byte @NotNull [] getPacketHeader(int length) {
         int iiv = (((iv[3]) & 0xFF) | ((iv[2] << 8) & 0xFF00)) ^ gameVersion;
         int mlength = (((length << 8) & 0xFF00) | (length >>> 8)) ^ iiv;
 
@@ -157,7 +160,7 @@ public class KMSEncryption implements PacketEncryption {
      * @param oldIv The old IV to get a new IV from.
      * @return The new IV.
      */
-    public static byte[] getNewIv(byte oldIv[]) {
+    public static byte[] getNewIv(byte[] oldIv) {
         byte[] in = {(byte) 0xf2, (byte) 0x53, (byte) 0x50, (byte) 0xc6}; // magic
         // ;)
         for (int x = 0; x < 4; x++) {
@@ -187,10 +190,10 @@ public class KMSEncryption implements PacketEncryption {
      */
     public static byte[] generateIv(int inputByte, byte[] in) {
 
-        in[0] += funnyBytes[(int) in[1] & 0xFF] - (inputByte & 0xFF);
-        in[1] -= in[2] ^ funnyBytes[(int) inputByte & 0xFF];
-        in[2] ^= (inputByte & 0xFF) + funnyBytes[(int) in[3] & 0xFF];
-        in[3] = (byte) ((in[3] - in[0] + funnyBytes[(int) inputByte & 0xFF]) & 0xFF);
+        in[0] += (byte) (funnyBytes[(int) in[1] & 0xFF] - (inputByte & 0xFF));
+        in[1] -= (byte) (in[2] ^ funnyBytes[inputByte & 0xFF]);
+        in[2] ^= (byte) ((inputByte & 0xFF) + funnyBytes[(int) in[3] & 0xFF]);
+        in[3] = (byte) ((in[3] - in[0] + funnyBytes[inputByte & 0xFF]) & 0xFF);
 
         int ret_value = ((int) in[0]) & 0xFF;
         ret_value |= (in[1] << 8) & 0xFF00;
