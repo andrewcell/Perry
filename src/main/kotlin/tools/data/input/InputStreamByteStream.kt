@@ -13,7 +13,7 @@ class InputStreamByteStream(val stream: InputStream) : ByteInputStream, KLoggabl
     /**
      * Reads the next byte from the stream.
      *
-     * @return Then next byte in the stream.
+     * @return Then the next byte in the stream.
      */
     override fun readByte(): Int {
         try {
