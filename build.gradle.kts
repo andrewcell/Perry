@@ -57,6 +57,7 @@ dependencies {
     dokkaPlugin("org.jetbrains.dokka:jekyll-plugin:2.1.0")
     dokkaPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:2.1.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
+    testImplementation("io.mockk:mockk:1.14.2")
     // https://mvnrepository.com/artifact/io.github.oshai/kotlin-logging-jvm
     //runtimeOnly("io.github.oshai:kotlin-logging:6.0.3")
 }
