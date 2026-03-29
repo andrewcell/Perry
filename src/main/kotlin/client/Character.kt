@@ -60,30 +60,119 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
 
+/**
+ * Represents a game character with various properties and behaviors.
+ * Inherits from AbstractAnimatedMapObject to support animated actions
+ * and interactions within the game world.
+ *
+ * @property world The identifier for the world this character belongs to.
+ * @property accountId The ID of the account associated with this character.
+ * @property map The current game map the character is located on.
+ * @property client The client instance representing the player's connection.
+ */
 class Character(
     var world: Int,
     val accountId: Int,
     var map: GameMap,
     var client: Client,
 ) : AbstractAnimatedMapObject() {
+    /**
+     *
+     */
     var loggedIn = false
+    /**
+     * Represents the tick or unit of time when the last attack occurred or is scheduled to occur.
+     * This can be used to manage and track time-based attack actions in the system.
+     */
     var attackTick = 0
+    /**
+     * Represents the identifier or resource reference for a book's cover.
+     * This variable is used to associate a specific visual representation
+     * or asset with a book.
+     */
     var bookCover = 0
+    /**
+     *
+     */
     var markedMonster = 0
+    /**
+     * Represents the hit points (HP) of a battleship in the game.
+     * This variable tracks the current health status of the battleship.
+     * A value of 0 indicates the battleship has been destroyed.
+     */
     var battleshipHp = 0
+    /**
+     *
+     */
     var chalkBoard = ""
+    /**
+     * Represents the amount of mesos that have been traded during a transaction or series of transactions.
+     * This variable is used to track and store the total mesos exchanged.
+     */
     var mesosTraded = 0
+    /**
+     *
+     */
     var expRate = 2
+    /**
+     * Represents the meso rate value used within the application.
+     * This variable holds a numerical value assigned by default to 1,
+     * and can be modified where necessary to adjust the meso rate.
+     */
     var mesoRate = 1
+    /**
+     * The drop rate represents a factor or percentage used to determine
+     * the probability or frequency of items or events being dropped
+     * or occurring within a specific context.
+     *
+     * This variable is typically used in scenarios such as gaming, simulations,
+     * or systems where controlled randomness is required.
+     */
     var dropRate = 1
+    /**
+     * Represents the total number of possible reports that can be generated or handled.
+     * This variable acts as a limit or reference point for report-related functionalities.
+     */
     var possibleReports = 10
+    /**
+     * Represents the initial spawn point in the application or game.
+     * This variable is typically used to define the starting location
+     * or position for an entity or player.
+     */
     var initialSpawnPoint = 0
+    /**
+     * Represents the identifier or timestamp of the most recently used cash item.
+     * This variable can be used to track the last utilized cash item in a system
+     * where cash-related transactions or items are managed.
+     */
     var lastUsedCashItem = 0L
+    /**
+     *
+     */
     var notMovePlayer = false
+    /**
+     * Stores the timestamp of the last frame update or render cycle.
+     * This variable is typically used to track or measure the time elapsed
+     * between consecutive frames in a game or application loop.
+     */
     var lastFameTime = 0
+    /**
+     *
+     */
     var messengerPosition = 4
+    /**
+     * Represents whether the door functionality is enabled or allowed.
+     * A value of `true` indicates that the door can be opened or accessed,
+     * whereas `false` means it cannot be used or is restricted.
+     */
     var canDoor = true
+    /**
+     *
+     */
     private var pendantExp = 0
+    /**
+     *
+     */
     var guildId = -1
         set(value) {
             field = value
@@ -91,37 +180,203 @@ class Character(
                 if (mgc == null) GuildCharacter(this) else mgc?.guildId = guildId
             }
         }
+    /**
+     * Represents the effect value of an item.
+     *
+     * This variable is typically used to define or modify the impact
+     * or effectiveness of an item in a given context, such as gameplay elements
+     * in a game or other domain-specific implementations.
+     * The value is stored as an integer, which can be used to quantify or
+     * evaluate the item’s influence.
+     */
     var itemEffect = 0
+    /**
+     * Represents the number of slots available or allocated for a specific purpose.
+     * Default value is -1, which may indicate an uninitialized or invalid state.
+     * The value can be updated dynamically as necessary.
+     */
     var slots = -1
+    /**
+     * Holds the current value of points.
+     *
+     * This variable is used to track the points in the application.
+     * It is initialized to 0 and is intended for internal use only.
+     */
     private var mPoints = 0
+    /**
+     * Represents the current level of the energy bar, typically used to track
+     * energy or power in a game or application. The value is an integer that can
+     * be manipulated based on the specific requirements or logic of the program.
+     */
     var energybar = 0
+    /**
+     * Represents the current state or count of a conversation.
+     * This variable can be used to track or manage conversation-related logic.
+     */
     var conversation = 0
+    /**
+     *
+     */
     var chair = 0
+    /**
+     * Represents the remaining action points a player or character has in the context of a game or application.
+     * It is typically used to determine the amount of actions or moves a player can perform within a turn or session.
+     * The value is initialized to 0 and can be updated based on the game's mechanics.
+     */
     var remainingAp = 0
+    /**
+     * Represents the remaining spell points or skill points that a player or entity has.
+     * This variable can be used to keep track of the remaining points that can be allocated for actions,
+     * abilities, or skill upgrades in the context of a game or application.
+     */
     var remainingSp = 0
+    /**
+     * Represents a variable to track the usage of HP (Health Points), MP (Magic Points), and AP (Action Points).
+     * The value is initialized to 0 and can be updated during gameplay or operations to reflect their usage.
+     */
     var hpMpApUsed = 0
+    /**
+     * A variable representing the identifier for a map.
+     * This ID can be used to uniquely identify or reference a specific map.
+     */
     var mapId = 0
+    /**
+     * A boolean variable that indicates whether a certain entity or feature
+     * should be hidden or visible. The value `true` represents that it is hidden,
+     * whereas `false` indicates it is visible.
+     */
     var hidden = false
+    /**
+     * A boolean variable that represents the state of a specific channel check.
+     * Used to track whether the channel has been checked or not.
+     * The default value is `false`.
+     */
     var channelCheck = false
+    /**
+     * Indicates whether a certain action, user, or item is banned or restricted.
+     * The default value is `false`, meaning it is not banned.
+     * Set to `true` to denote that the entity is banned.
+     */
     var banned = false
+    /**
+     * A boolean variable that tracks whether a key-value pair has been changed.
+     * It is used as a flag to indicate whether a specific key-value update has occurred.
+     * Defaults to `false`.
+     */
     private var keyValueChanged = false
+    /**
+     * Represents the title header, typically used as an identifier or label in the application.
+     * The variable is mutable and its value can be modified as needed.
+     * By default, it is initialized to 0.
+     */
     var headTitle = 0
+    /**
+     * Represents the current level or degree associated with a linked structure or relationship.
+     *
+     * This variable is used to track or represent the depth, hierarchy, or a specific level
+     * in a structure or system that involves linked or connected components. The value is an integer,
+     * which can be adjusted based on the required context or operations.
+     */
     var linkedLevel = 0
+    /**
+     * Represents the current page index in a paginated data set or list.
+     * This variable is typically used to track the position or state of navigation
+     * through a collection of items.
+     */
     var currentPage = 0
+    /**
+     * Represents the current type of an entity or process.
+     * The value of this variable can be updated to reflect changes in the type.
+     * It is initialized to 0 by default.
+     */
     var currentType = 0
+    /**
+     *
+     */
     var currentTab = 1
+    /**
+     * A variable representing a configurable integer value.
+     * This can be used to store or manipulate integer data as per the application logic.
+     */
     var ci = 0
+    /**
+     * Represents a search query input by the user or derived programmatically.
+     * This variable can hold a nullable string value that may represent a
+     * keyword, phrase, or other search-related input.
+     *
+     * The value can be null, indicating that no search query has been set.
+     */
     var search: String? = null
+    /**
+     * Represents the rank or position of an entity in a certain order or hierarchy.
+     * The default value is set to 1, but it can be modified to represent a different rank.
+     */
     var rank = 1
+    /**
+     * Represents the movement or change in ranking, typically used to track
+     * the position shift in a ranking system or leaderboard.
+     *
+     * The value is initialized to 0 and can be updated to reflect the
+     * magnitude of a position change. Positive values indicate an upward
+     * movement in ranking, while negative values indicate a downward
+     * movement.
+     */
     var rankMove = 0
+    /**
+     * Represents the rank or level of a job position.
+     *
+     * This variable typically holds an integer value indicating the
+     * rank of a job, where a lower number may signify a higher rank
+     * or priority depending on the context.
+     *
+     * The default value is set to 1.
+     */
     var jobRank = 1
+    /**
+     * Represents the change or movement in job ranking, where the value indicates the
+     * relative position change in rankings. A positive value implies an upward movement
+     * (promotion), while a negative value indicates a downward movement (demotion).
+     * A value of 0 means no change in the ranking.
+     */
     var jobRankMove = 0
+    /**
+     * A variable that tracks the number of Omok game wins.
+     * This variable is initialized to 0 and can be updated
+     * to represent the current total wins for an Omok game session.
+     */
     var omokWins = 0
+    /**
+     * Tracks the number of losses in an Omok game.
+     *
+     * This variable holds the count of how many times a player has lost in the game of Omok.
+     * It is initialized to zero and can be updated as the game progresses.
+     */
     var omokLooses = 0
+    /**
+     * Represents the count of ties (draws) in an Omok game.
+     * This variable is used to keep track of how many games have ended without a winner.
+     */
     var omokTies = 0
+    /**
+     * Represents the number of matches won in a card game.
+     * This variable keeps a count of the total wins achieved.
+     */
     var matchCardWins = 0
+    /**
+     *
+     */
     var matchCardLosses = 0
+    /**
+     * Represents the number of card matches that have resulted in a tie.
+     * This variable is used to track the count of tied matches in a card matching game.
+     */
     var matchCardTies = 0
+    /**
+     * Represents the mesos associated with the merchant for a particular character.
+     * The value is stored in the database for persistence and is updated whenever this variable is set.
+     * Upon updating the value, it executes a database transaction to reflect the change in the underlying data store.
+     * Handles any SQL exceptions that may occur during the database update and logs the error message.
+     */
     var merchantMeso = 0
         set(value) {
             try {
@@ -135,6 +390,13 @@ class Character(
             }
             field = value
         }
+    /**
+     * Indicates whether the character has an associated merchant.
+     *
+     * This variable represents the presence of a merchant for the current character.
+     * When updated, it synchronizes the change with the corresponding database record.
+     * Any SQLException encountered during the update operation is logged as an error.
+     */
     var hasMerchant = false
         set(value) {
             try {
@@ -148,104 +410,444 @@ class Character(
             }
             field = value
         }
+    /**
+     * Represents a time configuration or value typically measured or stored as an integer.
+     * The specific usage or context of this variable might vary depending on its implementation.
+     * This variable is mutable and can be updated to reflect changes in time-related data.
+     */
     var timeSet = 0
+    /**
+     * Represents the variable `hair`, used to store an integer value.
+     * The purpose or context of this variable can be defined where it is used.
+     */
     var hair = 0
+    /**
+     *
+     */
     var curse = false
+    /**
+     * Represents a name that is linked or associated with another entity.
+     * This variable is initialized with an empty string by default
+     * and can be updated as required.
+     */
     var linkedName = ""
 
+    /**
+     * Represents the 'hit points' or health points of an entity in a game or application.
+     * This variable is used to track the remaining health of the entity.
+     * A value of 5 indicates the initial or default health level.
+     */
     var hp = 5
+    /**
+     * Represents a mutable property named `mp` with an initial value of 5.
+     * This property can be used to store or update an integer value as needed.
+     */
     var mp = 5
 
+    /**
+     * Represents the maximum health points (HP) for the local context within the application.
+     * This value can be used to define or track the upper limit of health points for a particular entity
+     * or environment in a localized scenario. It is mutable, allowing the maximum HP to be adjusted
+     * as needed during runtime.
+     */
     var localMaxHp = 0
+    /**
+     * Represents the local maximum magic points (MP) for a character or entity in a game or application.
+     * This variable stores the maximum MP value that can be used or restored locally for a specific scope.
+     */
     var localMaxMp = 0
+    /**
+     * A private variable that holds an integer value. This variable is intended
+     * for local use within the declaring class or file. It is initialized with
+     * a default value of 0 and can be modified locally as required.
+     */
     private var localStr = 0
+    /**
+     * Represents a locally scoped variable used for tracking or maintaining a numeric value.
+     * The exact purpose or usage context is unspecified but may relate to indexing or counting operations.
+     *
+     * This variable is private to the enclosing scope, ensuring its accessibility is restricted.
+     */
     private var localDex = 0
+    /**
+     * Represents a local variable named `localLuk` initialized with a value of 0.
+     * This variable can be used to store or modify integer values within its scope.
+     */
     var localLuk = 0
+    /**
+     * A private integer variable used to store a local integer value.
+     * It is initialized to 0 by default.
+     */
     private var localInt = 0
+    /**
+     * A variable representing a unique identifier.
+     * It is of type `Int` and typically used to store an identification value.
+     */
     var id: Int = 0
+    /**
+     *
+     */
     var name: String = ""
+    /**
+     * Represents the current level or stage in a particular context.
+     * This value can be used to indicate progress, difficulty, or hierarchical stages.
+     * Defaults to 1 and can be updated as needed.
+     */
     var level: Short = 1
+    /**
+     * Represents the fame or popularity level of an entity, typically as an integer value.
+     *
+     * This variable can be used to track or modify the fame status of an entity in the system.
+     * The initial value is set to 0, indicating no fame by default.
+     */
     var fame: Int = 0
+    /**
+     * Represents an integer value that can be updated and triggers a recalculation
+     * of local statistics whenever its value is changed.
+     */
     var str: Int = 4
         set(value) {
             field = value
             recalcLocalStats()
         }
+    /**
+     * Represents the dexterity attribute of an entity.
+     *
+     * This variable holds the value for dexterity, which can influence various
+     * aspects of performance such as agility or accuracy in a system.
+     * When the value is changed, the associated method `recalcLocalStats`
+     * is triggered to update related statistics dynamically.
+     */
     var dex: Int = 4
         set(value) {
             field = value
             recalcLocalStats()
         }
+    /**
+     * Represents an integer variable with a custom setter.
+     *
+     * The setter assigns the given value to the backing field and triggers
+     * the `recalcLocalStats` function to update dependent states or calculations.
+     */
     var int: Int = 4
         set(value) {
             field = value
             recalcLocalStats()
         }
+    /**
+     * Represents a customizable integer property with a default value of 4.
+     * When the value is modified, it triggers a recalculation of local statistics.
+     */
     var luk: Int = 4
         set(value) {
             field = value
             recalcLocalStats()
         }
+    /**
+     * Represents the maximum health points (HP) a character or entity can have in the system.
+     * This variable determines the upper threshold for health points, ensuring
+     * that current HP cannot exceed this value.
+     *
+     * When modified, triggers a recalculation of local stats to reflect any changes
+     * caused by an updated maximum HP.
+     */
     var maxHp: Int = 50
         set(value) {
             field = value
             recalcLocalStats()
         }
+    /**
+     * Represents the maximum magic points (MP) for an entity.
+     *
+     * This variable determines the upper limit for MP that can be held by the associated entity.
+     * Assigning a new value to this variable triggers a recalculation of local stats.
+     */
     var maxMp: Int = 5
         set(value) {
             field = value
             recalcLocalStats()
         }
+    /**
+     * Represents the game master level or access level of a user.
+     * Typically used to determine the level of permissions or privileges
+     * within a game or application.
+     *
+     * The value is represented as an integer where higher numbers
+     * indicate increased permissions or higher authority.
+     *
+     * Default value is 0, which may indicate no special privileges.
+     */
     var gmLevel: Int = 0
+    /**
+     * Represents a mutable integer variable named 'magic'.
+     * This variable holds an integer value that can be modified.
+     */
     var magic: Int = 0
+    /**
+     * The `watk` variable is a mutable integer property.
+     * It primarily holds a value initialized to `0` but can be updated as needed.
+     */
     var watk = 0
+    /**
+     * Represents the gender of an individual.
+     * The value is typically stored as an integer, where different integers represent different genders.
+     * Common values might include:
+     * - 0 for unspecified or default
+     * - 1 for male
+     * - 2 for female
+     * - Additional values may be used for other gender identities as needed.
+     *
+     * Note: It is important to clearly define the mapping of integers to gender identities in the relevant context.
+     */
     var gender = 0
+    /**
+     * Represents the rank of a user in a guild.
+     *
+     * This variable is used to track the rank of the user and propagate updates to the associated
+     * guild management component if one exists.
+     *
+     * When the value is modified, it is automatically synchronized with `mgc.guildRank`.
+     */
     var guildRank = 0
         set(value) {
             field = value
             mgc?.guildRank = value
         }
+    /**
+     * Represents the automatic health points assigned to a pet.
+     * This variable determines the default or starting health points of a pet in a system
+     * or game where pets have health attributes.
+     *
+     * The value is an integer that can be updated to change the health points dynamically.
+     */
     var petAutoHp = 0
+    /**
+     * Represents a variable that tracks or stores the automatic MP (Magic Points)
+     * value associated with a pet in a specific context.
+     *
+     * This variable is initialized with a default value of 0. The purpose and
+     * behavior of `petAutoMp` may vary depending on the program's implementation
+     * or logic.
+     */
     var petAutoMp = 0
+    /**
+     * Indicates whether the current state or object should be cloned or duplicated.
+     * The default value is false, signifying no cloning operation is to be performed.
+     */
     var clone = false
+    /**
+     * Represents the team ID related to the event.
+     * This variable is used to store or track the specific team associated with an event.
+     */
     var eventTeam = 0
+    /**
+     * Represents the numerical value of a face, potentially corresponding
+     * to a specific state or identifier in the application logic.
+     *
+     * This variable can be used to define or modify the state,
+     * appearance, or classification tied to the concept of a "face."
+     *
+     * The default value is 0.
+     */
     var face = 0
+    /**
+     * A private variable representing the counter or control point.
+     * It is initialized to 0 and can be modified within the class scope.
+     */
     private var cp = 0
+    /**
+     * Represents the obtained CP (Combat Power) of an entity, typically used
+     * in gaming or similar computational contexts to track a quantitative score or power level.
+     * Initial value is set to 0.
+     */
     var obtainedCp = 0
+    /**
+     * A variable representing the delay duration, likely used in operations involving a "portal".
+     * The delay is measured in milliseconds.
+     */
     var portalDelay = 0L
 
+    /**
+     * Manages the automatic banning functionality within the system.
+     *
+     * The `autoban` variable holds an instance of `AutobanManager` that is
+     * responsible for handling operations related to automated banning
+     * processes. It is initialized with a reference to the current instance,
+     * allowing it to interact with the necessary components.
+     */
     var autoban = AutobanManager(this)
+    /**
+     * Represents an optional instance of `CashShop` which may be null.
+     * This variable can be used to manage or access the associated `CashShop` object.
+     */
     var cashShop: CashShop? = null
+    /**
+     * A variable of type `AtomicInteger` that can be used for atomic operations.
+     * This ensures thread-safe, lock-free updates to its value.
+     */
     var exp = AtomicInteger()
+    /**
+     * Represents the fitness level or status of an entity.
+     * This variable can store an instance of the `Fitness` class or be null.
+     * The `Fitness` instance may contain information related to health,
+     * physical performance, or other fitness-related metrics.
+     */
     var fitness: Fitness? = null
+    /**
+     * Represents the experience points gained by a user in a gacha-style system.
+     * This variable is managed as an atomic integer to ensure thread-safe operations
+     * when incrementing, decrementing, or modifying its value in a concurrent environment.
+     */
     var gachaExp = AtomicInteger()
+    /**
+     * An atomic integer variable used for thread-safe operations. The value of this variable
+     * can be updated atomically without the need for explicit synchronization, making it
+     * suitable for use in concurrent programming.
+     */
     var meso = AtomicInteger()
+    /**
+     * Holds an instance of the EventInstanceManager.
+     *
+     * This variable is nullable and may represent the current state or instance
+     * of the event management system within the application. It can be set or updated
+     * to manage or interact with event-related functionalities.
+     */
     var eventInstance: EventInstanceManager? = null
+    /**
+     * Represents an instance of a hired merchant, typically used to manage
+     * marketplace or vendor interactions within the application. This variable
+     * holds a reference to the currently hired merchant, or null if no merchant
+     * is hired at the moment.
+     */
     var hiredMerchant: HiredMerchant? = null
+    /**
+     * A nullable variable that holds an instance of the Messenger class.
+     * This can be used to send messages or communicate between components.
+     * The value of this variable can be null if no Messenger instance is assigned.
+     */
     var messenger: Messenger? = null
+    /**
+     * Represents a mutable variable that holds an object of type `GuildCharacter` or null.
+     * This variable can be used to store and manage an instance of a character associated with a guild.
+     *
+     * The value of `mgc` can be changed during runtime, and it defaults to `null`*/
     var mgc: GuildCharacter? = null
+    /**
+     * Represents the main party character in a role-playing game context.
+     * This variable holds an optional reference to a `PartyCharacter` object.
+     * If `null`, it indicates that there is currently no main party character assigned.
+     */
     var mpc: PartyCharacter? = null
+    /**
+     * A variable representing an instance of a mini-game.
+     * This can be used to hold the current mini-game being played or interacted with.
+     * It is nullable, meaning it can hold a `null` value if no mini-game is active or set.
+     */
     var miniGame: MiniGame? = null
+    /**
+     * Represents an instance of a `Mount`. This variable is nullable and can hold
+     * either a `Mount` object or null. It is typically used to reference a mount
+     * configuration or a mounted entity in the application.
+     */
     var mount: Mount? = null
+    /**
+     * Represents a party involved in the current context. This property can be nullable, indicating the absence
+     * of a party. Setting this property to null will also set the associated `mpc` property to null.
+     *
+     * It is mutable and includes custom logic for additional assignments related to the `mpc`.
+     */
     var party: Party? = null
         set(value) {
             if (value == null) mpc = null
             field = value
         }
+    /**
+     * Represents an optional PartyQuest associated with a specific logic or functionality.
+     *
+     * This variable can be null, indicating the absence of an active or assigned PartyQuest.
+     * It is used to hold the state or reference of a PartyQuest when applicable.
+     */
     var partyQuest: PartyQuest? = null
+    /**
+     * Represents a pet, which could be null if no pet is assigned.
+     * This variable holds an instance of the `Pet` class or null.
+     */
     var pet: Pet? = null
+    /**
+     * Represents the shop associated with a player, allowing them to manage and
+     * interact with shop-related functionalities. This variable can be null,
+     * indicating that the player does not currently have an associated shop.
+     */
     var playerShop: PlayerShop? = null
+    /**
+     * Represents a shop instance.
+     * This variable can hold a nullable instance of the Shop class.
+     * It is initialized as null by default and can be updated at runtime.
+     */
     var shop: Shop? = null
+    /**
+     * A nullable variable of type `Ola`.
+     * It can hold an instance of `Ola` or be null.
+     * Use this variable to manage and access the `Ola` instance in your program.
+     */
     var ola: Ola? = null
+    /**
+     * A variable representing the list of buddies in the application.
+     * This is an instance of the BuddyList class which manages the collection of buddy information.
+     * The initial size of the buddy list is specified during its creation.
+     */
     var buddyList: BuddyList = BuddyList(20)
+    /**
+     *
+     */
     val storage = Storage.loadOrCreateFromDb(accountId, world)
+    /**
+     * Represents the skin color state of an entity.
+     * The default value is set to SkinColor.NORMAL.
+     * Can be updated to represent different skin color states as required.
+     */
     var skinColor = SkinColor.NORMAL
+    /**
+     * Represents a trade object that may or may not be initialized.
+     *
+     * This variable holds an instance of the Trade class or null if no trade
+     * has been assigned. It can be used to track or manage trade-related data
+     * within the scope where it is declared.
+     */
     var trade: Trade? = null
+    /**
+     * Represents an instance of the `MonsterBook`, which typically contains
+     * details or records about various monsters.
+     *
+     * This variable is mutable and can be reassigned as needed. It may be
+     * used to store, manage, and retrieve information related to monsters
+     * within the application.
+     */
     var monsterBook = MonsterBook()
 
+    /**
+     * Stores an array of nullable Inventory objects, with a size corresponding to the total number of
+     * defined inventory types. The indices of this array align with the ordinal values of the
+     * InventoryType enum, ensuring that each inventory type can be mapped to a specific index
+     * within the array.
+     */
     private val inventories = arrayOfNulls<Inventory>(InventoryType.values().size)
+    /**
+     * An array used to store saved locations of type `SavedLocation`.
+     * The size of the array corresponds to the number of elements in the `SavedLocationType` enum.
+     * Each index in the array may store a `SavedLocation` object or be null.
+     */
     val savedLocations = arrayOfNulls<SavedLocation>(SavedLocationType.values().size)
+    /**
+     * An array of integer constants representing a predefined set of values.
+     * Each element in the array is initialized with the same large integer value.
+     */
     val trockMaps = arrayOf(999999999, 999999999, 999999999, 999999999, 999999999)
+    /**
+     * Represents an array of integer values all set to a predefined constant value `999999999`.
+     * This array may be used for storing or referencing specific values where a large constant
+     * integer is required, potentially representing placeholders, unique identifiers, or limits.
+     */
     val vipTrockMaps = arrayOf(
         999999999,
         999999999,
@@ -259,41 +861,229 @@ class Character(
         999999999
     )
 
+    /**
+     * A mutable map that associates area codes with their corresponding area names.
+     *
+     * The keys in the map are represented as [Short] values, which typically indicate
+     * area codes, and the values are [String] instances representing the names of the areas.
+     *
+     * This map can be modified to add, remove, or update area code-area name associations.
+     */
     val areaInfos = mutableMapOf<Short, String>()
+    /**
+     * A mutable list containing the names or identifiers of portals that are currently blocked.
+     * This list can be modified to add or remove portal entries dynamically as needed.
+     */
     val blockedPortals = mutableListOf<String>()
+    /**
+     * A mutable list that holds instances of `Ring`.
+     * This list represents a collection of rings that can be manipulated,
+     * added to, or modified during runtime.
+     */
     val crushRings = mutableListOf<Ring>()
+    /**
+     * A mutable list that holds instances of the `Door` class.
+     * Represents a collection of doors which can be dynamically modified.
+     */
     val doors = mutableListOf<Door>()
+    /**
+     * A mutable list of integers that keeps track of excluded items.
+     * This list is used to store values that should be omitted or skipped in a specific context.
+     */
     private val excluded = mutableListOf<Int>()
+    /**
+     * Represents a collection of friendship rings.
+     *
+     * This mutable list holds instances of the `Ring` class, which can be used to
+     * manage a dynamic set of friendship rings. Items in the list can be added,
+     * removed, or modified as needed.
+     */
     val friendshipRings = mutableListOf<Ring>()
+    /**
+     * Stores a mutable list of integers representing the IDs of Fame entries from the previous month.
+     * This list can be dynamically modified to add, remove, or update the ID values as needed.
+     */
     var lastMonthFameIds = mutableListOf<Int>()
+    /**
+     * A list to hold references to `Job` instances, typically representing coroutines.
+     * The `timers` list is used to manage and keep track of tasks or operations
+     * that need to be run asynchronously.
+     */
     private val timers = mutableListOf<Job>()
+    /**
+     * A mutable set that holds instances of `Monster` which are currently under control.
+     * This collection is used to manage and track monsters that are being manipulated or dominated in some way.
+     * Modifying this set allows for the addition or removal of `Monster` objects that fall under control during runtime.
+     */
     val controlledMonsters = mutableSetOf<Monster>()
+    /**
+     * A mutable set that holds the map objects currently visible on the map.
+     *
+     * This set can be used to manage and track all map objects,
+     * such as markers, polygons, or other drawable entities,
+     * that are visible in the map's current viewport or rendered area.
+     */
     val visibleMapObjects = mutableSetOf<MapObject>()
 
+    /**
+     * A mutable map that holds a collection of diseases and their corresponding value holders.
+     *
+     * The key in the map is a `Disease` object representing a specific disease,
+     * and the associated value is an `AllDiseaseValueHolder` object,
+     * which contains related data or metadata for the respective disease.
+     */
     val allDiseases = mutableMapOf<Disease, AllDiseaseValueHolder>()
+    /**
+     * A mutable map that associates an integer identifier with a corresponding `CoolDownValueHolder` object.
+     * This is designed to track and manage cooldown states for various entities or actions identified by their integer keys.
+     */
     private val coolDowns = mutableMapOf<Int, CoolDownValueHolder>()
+    /**
+     * A mutable map that stores custom key-value pairs where both keys and values are of type String.
+     * This can be used to hold configuration options, settings, or any custom data
+     * that requires dynamic key-value storage.
+     */
     private val customValues = mutableMapOf<String, String>()
+    /**
+     * A mutable map to store diseases and their associated value holders.
+     * The keys are instances of the `Disease` class,
+     * and the values are corresponding `DiseaseValueHolder` objects.
+     */
     private val diseases = mutableMapOf<Disease, DiseaseValueHolder>()
+    /**
+     * A mutable map that associates a [BuffStat] key with its corresponding [BuffStatValueHolder].
+     *
+     * This map is used to hold effects or buffs applied to entities, where each buff stat key
+     * corresponds to a value holder object that contains information about the buff's effects.
+     */
     private val effects = mutableMapOf<BuffStat, BuffStatValueHolder>()
+    /**
+     * A mutable map that associates integer keys with string values.
+     * This map can be used to store and manage key-value pairs,
+     * where keys are integers and values are corresponding string representations or data.
+     */
     val entered = mutableMapOf<Int, String>()
+    /**
+     * A mutable map that holds event-related data. The keys in the map are represented as Strings,
+     * which typically indicate the event name or identifier, while the values are instances of the `Events`
+     * class containing details or metadata associated with each event.
+     */
     var events = mutableMapOf<String, Events>()
+    /**
+     * A mutable map that associates integer keys with corresponding key binding objects.
+     *
+     * The keys in the map represent integer codes, often corresponding to specific keys
+     * or actions, while the values are instances of [KeyBinding] that define the behavior
+     * or functionality bound to these keys.
+     *
+     * This map allows dynamic modification, enabling the addition, removal, or mapping of
+     * key codes to custom binding logic at runtime.
+     */
     val keymap = mutableMapOf<Int, KeyBinding>()
+    /**
+     * A mutable map that holds `Quest` objects as keys and their corresponding `QuestStatus` as values.
+     *
+     * This map is used to track quests and their statuses within a game or application.
+     * Keys represent game quests, and their corresponding values indicate the current status of each quest.
+     */
     val quests = mutableMapOf<Quest, QuestStatus>()
+    /**
+     * Represents a mapping of skills to their respective skill entries.
+     * Each key in the map is a `Skill` object, and the corresponding value is a `SkillEntry` object containing details about the skill.
+     * This variable is designed to store and manage a collection of skills with associated information.
+     */
     val skills = mutableMapOf<Skill, SkillEntry>()
+    /**
+     * A mutable map that holds summons data, where the key is an integer representing the ID of a summon,
+     * and the value is a [Summon] object containing associated summon details.
+     */
     val summons = mutableMapOf<Int, Summon>()
 
+    /**
+     * A nullable Job instance representing the scheduled task for managing or maintaining
+     * the Beholder buff functionality. This variable is used to track and control the lifecycle
+     * of the scheduled job, allowing its initiation, cancellation, or rescheduling as needed.
+     */
     private var beholderBuffSchedule: Job? = null
+    /**
+     * Represents a cancellable coroutine job responsible for managing the healing schedule
+     * of a "beholder" entity in the application.
+     *
+     * This variable can be `null` when there's no active healing schedule.
+     * When set, it holds the reference to the currently active coroutine job.
+     */
     private var beholderHealingSchedule: Job? = null
+    /**
+     *
+     */
     private var berserkSchedule: Job? = null
+    /**
+     * Represents a scheduled job related to dragon blood tasks.
+     * This variable holds a reference to a Job instance that
+     * can be used to manage, cancel, or query the status of
+     * the currently active dragon blood-related task.
+     * If no task is currently scheduled, the value will be null.
+     */
     private var dragonBloodSchedule: Job? = null
+    /**
+     * A nullable coroutine `Job` representing a task associated with expiration logic.
+     *
+     * This variable is used to track and manage the state of an expiration-related asynchronous operation.
+     * It can be assigned a new `Job` instance to initiate the task or set to `null` to indicate no active task.
+     */
     private var expireTask: Job? = null
+    /**
+     * A nullable variable representing a scheduled job for monitoring or handling fullness-related tasks.
+     * This variable holds a reference to a coroutine `Job`, allowing control over its lifecycle,
+     * such as cancellation or completion status checking.
+     * Initialized with `null`, it indicates that no job is currently scheduled.
+     */
     private var fullnessSchedule: Job? = null
+    /**
+     * Represents a cancellable background task responsible for decreasing
+     * the hit points (HP) at a certain interval or condition.
+     *
+     * This variable holds a reference to a `Job` object that manages the task's lifecycle.
+     * If no task is currently active, it will be set to null.
+     */
     private var hpDecreaseTask: Job? = null
+    /**
+     * A nullable variable representing a coroutine Job associated with time-limited tasks
+     * on a map. This Job can be used to manage and control the execution of time-restricted
+     * operations within a coroutine scope.
+     */
     private var mapTimeLimitTask: Job? = null
+    /**
+     * A nullable Job variable representing the state or reference of a coroutine
+     * associated with the mob hack parser functionality. This can be used to manage
+     * the lifecycle of the related coroutine, allowing for cancellation or tracking
+     * the completion of the task.
+     */
     private var mobHackParser: Job? = null
+    /**
+     * Represents a coroutine job associated with a specific operation or task
+     * related to the "Pendant of Spirit". This variable may store a reference
+     * to a running coroutine or remain null if no operation is currently active.
+     *
+     * The job can be cancelled or updated as necessary during the application's lifecycle.
+     */
     private var pendantOfSpirit: Job? = null
+    /**
+     * A cancellable coroutine job representing the recovery process.
+     * Can be null if no recovery task is currently in progress.
+     */
     private var recoveryTask: Job? = null
+    /**
+     * Represents the current job or role associated with a game character.
+     * It is initialized to `GameJob.BEGINNER` by default, indicating the starting level or role.
+     * This variable can be updated to reflect progression or changes in the character's job status.
+     */
     var job = GameJob.BEGINNER
+    /**
+     * A DecimalFormat instance initialized with a pattern `#,###,###,###`.
+     * This format is used to represent numbers using a grouping separator (e.g., comma) for every three digits.
+     * It supports formatting numbers in a human-readable format where large numbers are divided into groups.
+     */
     val nf = DecimalFormat("#,###,###,###")
 
     init {
@@ -304,26 +1094,55 @@ class Character(
         position = Point(0, 0)
     }
 
+    /**
+     *
+     */
     fun addCoolDown(skillId: Int, startTime: Long, length: Long, timer: Job?) {
         if (coolDowns.containsKey(skillId)) coolDowns.remove(skillId)
         coolDowns[skillId] = CoolDownValueHolder(skillId, startTime, length, timer)
     }
 
+    /**
+     * Adds a given ring to the list of crush rings.
+     *
+     * @param r The ring to be added to the crush rings list.
+     */
     fun addCrushRing(r: Ring) = crushRings.add(r)
 
+    /**
+     * Adds a door to the collection of doors.
+     *
+     * @param door The door object to be added to the collection.
+     */
     fun addDoor(door: Door) = doors.add(door)
 
+    /**
+     * Adds the specified integer to the excluded collection.
+     *
+     * @param x The integer that needs to be added to the excluded collection.
+     */
     fun addExcluded(x: Int) = excluded.add(x)
 
+    /**
+     *
+     */
     fun addFame(x: Int) {
         fame += x
     }
 
+    /**
+     * Adds a specified amount to the character's current HP (Hit Points).
+     *
+     * @param delta The amount of HP to add. Can be positive or negative.
+     */
     fun addHp(delta: Int) {
         setHpNormal(hp + delta)
         updateSingleStat(CharacterStat.HP, hp)
     }
 
+    /**
+     *
+     */
     fun addMerchantMesos(add: Int) {
         try {
             Characters.update({ Characters.id eq this@Character.id }) {
@@ -335,11 +1154,23 @@ class Character(
         merchantMeso += add
     }
 
+    /**
+     * Adds the specified delta value to the character's MP (Mana Points)
+     * and updates the corresponding character stat.
+     *
+     * @param delta The value to add to the current MP.
+     */
     fun addMp(delta: Int) {
         setMpNormal(mp + delta)
         updateSingleStat(CharacterStat.MP, mp)
     }
 
+    /**
+     * Adjusts the HP (Health Points) and MP (Magic Points) of a character by the specified differences.
+     *
+     * @param hpDiff The amount to modify the character's HP. A positive value increases HP, while a negative value decreases it.
+     * @param mpDiff The amount to modify the character's MP. A positive value increases MP, while a negative value decreases it.
+     */
     fun addMpHp(hpDiff: Int, mpDiff: Int) {
         setHpNormal(hp + hpDiff)
         setMpNormal(mp + mpDiff)
@@ -347,10 +1178,16 @@ class Character(
         updateSingleStat(CharacterStat.MP, mp)
     }
 
+    /**
+     *
+     */
     fun addMesosTraded(gain: Int) {
         mesosTraded += gain
     }
 
+    /**
+     *
+     */
     fun addStat(type: Int, up: Int) {
         when (type) {
             1 -> {
@@ -377,24 +1214,53 @@ class Character(
         }
     }
 
+    /**
+     * Adds a summon to the collection with the specified ID.
+     *
+     * @param id The unique identifier for the summon.
+     * @param summon The Summon object to be added to the collection.
+     */
     fun addSummon(id: Int, summon: Summon) = summons.put(id, summon)
 
+    /**
+     *
+     */
     fun addTrockMap() {
         if (getTrockSize() <= 4) {
             trockMaps[getTrockSize()] = mapId
         }
     }
 
+    /**
+     *
+     */
     fun addVipTrockMap() {
         if (getVipTrockSize() <= 9) {
             vipTrockMaps[getVipTrockSize()] = mapId
         }
     }
 
+    /**
+     * Adds a map object to the collection of visible map objects.
+     *
+     * @param mo The map object to be added to the visible map objects list.
+     */
     fun addVisibleMapObject(mo: MapObject) = visibleMapObjects.add(mo)
 
+    /**
+     * Announces the provided packet over the client connection.
+     *
+     * @param packet The byte array representing the data to be announced.
+     */
     fun announce(packet: ByteArray) = client.announce(packet)
 
+    /**
+     * Updates the ban information for an account, including the reason, temporary ban timestamp,
+     * and a specific game-related reason identifier.
+     *
+     * @param reason The textual description explaining why the player was banned.
+     * @param gReason An integer representing a specific game-related reason for the ban.
+     */
     fun autoban(reason: String, gReason: Int) {
         val cal = Calendar.getInstance()
         cal[cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH], cal[Calendar.HOUR_OF_DAY]] =
@@ -411,6 +1277,11 @@ class Character(
         }
     }
 
+    /**
+     * Bans the account by updating the database with the ban reason.
+     *
+     * @param reason The reason for banning the account.
+     */
     fun ban(reason: String) {
         try {
             Accounts.update({ Accounts.id eq accountId }) {
@@ -422,6 +1293,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun block(reason: Int, days: Int, desc: String) {
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, days)
@@ -437,6 +1311,15 @@ class Character(
         }
     }
 
+    /**
+     * Calculates the maximum base damage based on the weapon attack value and character stats.
+     *
+     * This method takes into account the character's equipped weapon, corresponding weapon type, and relevant stats
+     * to determine the maximum possible base damage the character can deal.
+     *
+     * @param watk The weapon attack value, which influences the base damage calculation.
+     * @return The calculated maximum base damage as an integer. Returns 0 if no weapon is equipped.
+     */
     fun calculateMaxBaseDamage(watk: Int): Int {
         var maxBasedDamage = 1
         if (watk != 0) {
@@ -458,6 +1341,12 @@ class Character(
         return maxBasedDamage
     }
 
+    /**
+     * Calculates the maximum base damage for a magic-based attack.
+     *
+     * @param matk The magic attack stat of the character.
+     * @return The maximum base damage that can be dealt with a magic-based attack.
+     */
     fun calculateMaxBaseDamageMagic(matk: Int): Int {
         var maxBasedDamage = 1
         if (magic != 0) {
@@ -475,6 +1364,12 @@ class Character(
         return maxBasedDamage
     }
 
+    /**
+     * Cancels all active buffs currently applied to the entity.
+     *
+     * @param disconnect A boolean flag indicating whether to disconnect the entity.
+     *                   If true, all effects are cleared directly. If false, each effect is individually canceled.
+     */
     fun cancelAllBuffs(disconnect: Boolean) {
         if (disconnect) effects.clear()
         else {
@@ -484,19 +1379,37 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun cancelBuffStats(stat: BuffStat) {
         val buffStatList = listOf(stat)
         deregisterBuffStats(buffStatList)
         cancelPlayerBuffs(buffStatList)
     }
 
+    /**
+     *
+     */
     fun cancelBuffEffects() {
         effects.values.forEach { it.schedule.cancel() }
         effects.clear()
     }
 
+    /**
+     * Cancels the effect associated with the given item ID.
+     *
+     * @param itemId The unique identifier of the item whose effect is to be canceled.
+     */
     fun cancelEffect(itemId: Int) = cancelEffect(ItemInformationProvider.getItemEffect(itemId), false, -1)
 
+    /**
+     * Cancels the specified effect and performs necessary cleanup or updates.
+     *
+     * @param effect The effect to be cancelled. If null, the method returns immediately without performing any operations.
+     * @param overwrite A boolean indicating whether to overwrite the existing buff stats. If true, existing stats are replaced.
+     * @param startTime The start time of the effect, used to determine the appropriate buff stats to cancel if overwrite is false.
+     */
     fun cancelEffect(effect: StatEffect?, overwrite: Boolean, startTime: Long) {
         if (effect == null) return
         val buffStats = if (!overwrite) getBuffStats(effect, startTime).toMutableList() else mutableListOf()
@@ -535,19 +1448,40 @@ class Character(
         if (!overwrite) cancelPlayerBuffs(buffStats)
     }
 
+    /**
+     *
+     */
     fun cancelEffectFromBuffStat(stat: BuffStat) {
         val effect = effects[stat]
         effect?.let { cancelEffect(it.effect, false, -1) }
     }
 
+    /**
+     * Cancels all active magic door effects.
+     *
+     * This method iterates over the current active effects and identifies those classified
+     * as magic door effects. It then cancels each such effect without removing it entirely,
+     * preserving its start time for potential future use.
+     */
     fun cancelMagicDoor() {
         effects.values.forEach {
             if (it.effect.isMagicDoor()) cancelEffect(it.effect, false, it.startTime)
         }
     }
 
+    /**
+     * Cancels the currently scheduled map time limit task, if it exists.
+     *
+     * This method checks if the `mapTimeLimitTask` is not null and invokes its `cancel()`
+     * method, stopping any ongoing task that was assigned to enforce the time limit logic.
+     *
+     * It has no effect if `mapTimeLimitTask` is null.
+     */
     fun cancelMapTimeLimitTask() = mapTimeLimitTask?.cancel()
 
+    /**
+     *
+     */
     private fun cancelPlayerBuffs(buffStats: List<BuffStat>) {
         if (client.getChannelServer().players.getCharacterById(id) != null) {
             recalcLocalStats()
@@ -559,6 +1493,15 @@ class Character(
         }
     }
 
+    /**
+     * Determines if the given character can give fame to the current character.
+     *
+     * @param from The character attempting to give fame.
+     * @return A FameStats value indicating the result of the fame-giving attempt:
+     * - OK if fame can be given.
+     * - NOT_TODAY if fame was already given within the last 24 hours.
+     * - NOT_THIS_MONTH if fame was already given in the current month.
+     */
     fun canGiveFame(from: Character): FameStats {
         return when {
             gmLevel > 0 -> FameStats.OK
@@ -568,6 +1511,11 @@ class Character(
         }
     }
 
+    /**
+     * Changes the job of the character to a new job and updates associated stats and data accordingly.
+     *
+     * @param job The new job to be assigned to the character. The `GameJob` object contains the job's identifier and related details.
+     */
     fun changeJob(job: GameJob) {
         this.job = job
         this.remainingSp++
@@ -613,6 +1561,14 @@ class Character(
         map.broadcastMessage(this, CharacterPacket.showForeignEffect(id, 8), false)
     }
 
+    /**
+     * Modifies the key binding for a given key. If the binding type is not 0,
+     * the specified key will be associated with the provided binding. If the
+     * binding type is 0, the key will be removed from the keymap.
+     *
+     * @param key The integer representation of the key whose binding is to be changed.
+     * @param binding The KeyBinding object that specifies the new binding for the key.
+     */
     fun changeKeyBinding(key: Int, binding: KeyBinding) {
         if (binding.type != 0) {
             keymap[key] = binding
@@ -621,36 +1577,67 @@ class Character(
         }
     }
 
+    /**
+     * Changes the map for the client to the specified map and portal.
+     *
+     * @param mapId The ID of the map to which the client should be moved.
+     * @param portal The ID of the portal within the target map. Defaults to 0 if not specified.
+     */
     fun changeMap(mapId: Int, portal: Int = 0) {
         val map = client.getChannelServer().mapFactory.getMap(mapId)
         changeMap(map, map.getPortal(portal) ?: return)
     }
 
+    /**
+     * Changes the current map of the client to the specified map and portal.
+     *
+     * @param mapId The ID of the map to which the client will be moved.
+     * @param portal The name of the portal to be used within the target map.
+     */
     fun changeMap(mapId: Int, portal: String) {
         val map = client.getChannelServer().mapFactory.getMap(mapId)
         changeMap(map, map.getPortal(portal) ?: return)
     }
 
+    /**
+     *
+     */
     fun changeMap(mapId: Int, portal: Portal) {
         val map = client.getChannelServer().mapFactory.getMap(mapId)
         changeMap(map, portal)
     }
 
+    /**
+     *
+     */
     fun changeMap(to: GameMap, pto: Portal? = to.getPortal(0)) {
         if (pto == null) return
         pto.position?.let { changeMapInternal(to, it, PacketCreator.getWarpToMap(to, pto.id, this)) }
     }
 
+    /**
+     *
+     */
     fun changeMap(to: GameMap, pos: Point) {
         changeMapInternal(to, pos, PacketCreator.getWarpToMap(to, 0x80, this))
     }
 
+    /**
+     * Changes the player's map to the specified map and portal while displaying a provided message.
+     *
+     * @param mapId The ID of the map to change to.
+     * @param portal The name of the portal to use in the target map.
+     * @param message The message to display to the player.
+     */
     fun changeMapBanish(mapId: Int, portal: String, message: String) {
         dropMessage(5, message)
         val map = client.getChannelServer().mapFactory.getMap(mapId)
         changeMap(map, map.getPortal(portal))
     }
 
+    /**
+     *
+     */
     private fun changeMapInternal(to: GameMap, pos: Point, warpPacket: ByteArray) {
         client.announce(warpPacket)
         map.removePlayer(this)
@@ -670,6 +1657,14 @@ class Character(
         }
     }
 
+    /**
+     * Changes the skill level, master level, and expiration of a specified skill.
+     *
+     * @param skill The skill to update or remove.
+     * @param newLevel The new level of the skill. If set to a value less than 0, the skill will be removed.
+     * @param newMasterLevel The new master level of the skill, indicating the maximum possible level the skill can reach.
+     * @param expiration The expiration time of the skill in milliseconds since epoch.
+     */
     fun changeSkillLevel(skill: Skill, newLevel: Byte, newMasterLevel: Int, expiration: Long) {
         if (newLevel > -1) {
             skills[skill] = SkillEntry(newLevel, newMasterLevel, expiration.toLong())
@@ -687,8 +1682,16 @@ class Character(
         }
     }
 
+    /**
+     * Cancels the ongoing operation or connection associated with `mobHackParser`, if any.
+     * This method is used to cleanly terminate or halt the process managed by `mobHackParser`.
+     * It is a no-operation if `mobHackParser` is null.
+     */
     fun disconnected() = mobHackParser?.cancel()
 
+    /**
+     *
+     */
     private fun checkMobPosition() {
         val x = super.position.x
         var count = 0
@@ -703,6 +1706,16 @@ class Character(
         }
     }
 
+    /**
+     * Checks and manages the Berserk status for the character, specifically for the Dark Knight job.
+     *
+     * Functionality:
+     * - Cancels any existing scheduled Berserk tasks.
+     * - Validates if the character's job is `GameJob.DARKKNIGHT`.
+     * - Retrieves and evaluates the Berserk skill level and its effects.
+     * - Calculates whether the character is in a Berserk state based on their current HP ratio.
+     * - Schedules a repeating task to notify and broadcast the Berserk status to the client and map.
+     */
     fun checkBerserk() {
         berserkSchedule?.cancel()
         val chr = this
@@ -719,12 +1732,24 @@ class Character(
         }
     }
 
+    /**
+     * Checks the status of the messenger and processes its updates.
+     *
+     * This function verifies if the `messenger` object is not null and whether its position
+     * (`messengerPosition`) is within the valid range of 0 to 3. If both conditions are met,
+     * it updates the messenger's information on the server by invoking the `updateMessenger` method.
+     */
     fun checkMessenger() {
         if (messenger != null && messengerPosition in 0..3) {
             messenger?.let { Server.getWorld(world).updateMessenger(it.id, name, client.channel) }
         }
     }
 
+    /**
+     * Checks and updates the aggro status of a given monster towards this controller.
+     *
+     * @param monster The monster whose aggro status needs to be checked and possibly updated.
+     */
     fun checkMonsterAggro(monster: Monster) {
         if (!monster.controllerHasAggro) {
             if ((monster.controller?.get() ?: return) == this) {
@@ -735,18 +1760,39 @@ class Character(
         }
     }
 
+    /**
+     * Clears all the entries in the `doors` collection.
+     * This method removes all elements from the `doors` list, leaving it empty.
+     */
     private fun clearDoors() = doors.clear()
 
+    /**
+     * Clears the saved location for the specified type by setting it to null.
+     *
+     * @param type the type of saved location to clear.
+     */
     fun clearSavedLocation(type: SavedLocationType) = savedLocations.set(type.ordinal, null)
 
+    /**
+     *
+     */
     fun controlMonster(monster: Monster, aggro: Boolean) {
         monster.controller = WeakReference(this)
         controlledMonsters.add(monster)
         client.announce(GameplayPacket.controlMonster(monster, false, aggro))
     }
 
+    /**
+     * Counts the total number of a specific item in the inventory.
+     *
+     * @param itemId The unique identifier of the item to count.
+     * @return The total count of the item across the applicable inventory, or 0 if the item is not found.
+     */
     fun countItem(itemId: Int) = inventories[getInventoryType(itemId).ordinal]?.countById(itemId) ?: 0
 
+    /**
+     *
+     */
     fun decreaseBattleshipHp(d: Int) {
         battleshipHp -= d
         if (battleshipHp <= 0) {
@@ -765,8 +1811,16 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun decreaseReports() = possibleReports--
 
+    /**
+     * Replaces all occurrences of the specified map integer in the `trockMaps` list with a predefined value.
+     *
+     * @param map The integer value to be replaced in the `trockMaps` list.
+     */
     fun deleteFromTrockMaps(map: Int) {
         trockMaps.forEachIndexed { index, v ->
             if (v == map) {
@@ -775,6 +1829,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun deleteFromVipTrockMaps(map: Int) {
         vipTrockMaps.forEachIndexed { index, v ->
             if (v == map) {
@@ -783,6 +1840,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun deleteGuild(guildId: Int) {
         try {
             Characters.update({ Characters.guildId eq guildId }) {
@@ -795,6 +1855,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     @Throws(SQLException::class)
     fun deleteWhereCharacterId(con: Connection, sql: String) {
         val ps = con.prepareStatement(sql)
@@ -802,6 +1865,9 @@ class Character(
         ps.executeUpdate()
     }
 
+    /**
+     *
+     */
     private fun deregisterBuffStats(stats: List<BuffStat>) {
         synchronized(stats) {
             val effectsToCancel = mutableListOf<BuffStatValueHolder>()
@@ -848,17 +1914,30 @@ class Character(
         }
     }
 
+    /**
+     * Disables the door by setting the `canDoor` flag to false.
+     * Automatically re-enables the door after a delay of 5 seconds.
+     * Uses the `CoroutineManager` to handle the delayed re-enabling logic.
+     */
     fun disableDoor() {
         canDoor = false
         CoroutineManager.schedule({ canDoor = true }, 5000)
     }
 
+    /**
+     *
+     */
     fun dispel() {
         effects.values.forEach {
             if (it.effect.skill) cancelEffect(it.effect, false, it.startTime)
         }
     }
 
+    /**
+     * Removes the effects of a specified skill or dispels specific skill effects based on the given skillId.
+     *
+     * @param skillId The ID of the skill to dispel. If 0, dispels all applicable skill effects based on certain conditions.
+     */
     fun dispelSkill(skillId: Int) {
         effects.values.forEach {
             if (skillId == 0) {
@@ -871,6 +1950,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     private fun dispelSkills(skillId: Int): Boolean {
         return when (skillId) {
             DarkKnight.BEHOLDER, FPArchMage.ELQUINES, ILArchMage.IFRIT,
@@ -881,6 +1963,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     private fun doHurtHp() {
         if (map.hpDecProtect.let { getInventory(InventoryType.EQUIPPED)?.findById(it) } != null) {
             return
@@ -891,8 +1976,21 @@ class Character(
         }, 10000)
     }
 
+    /**
+     * Sends a server notice message to the client.
+     *
+     * @param type An integer representing the type of the server notice. Defaults to 0 if not specified.
+     * @param message A string containing the message to be sent to the client.
+     */
     fun dropMessage(type: Int = 0, message: String) = client.announce(InteractPacket.serverNotice(type, message))
 
+    /**
+     * Ensures that the character's HP and MP do not exceed their respective maximum limits.
+     *
+     * If the current HP or MP exceeds the local maximum limits (`localMaxHp` and `localMaxMp`),
+     * this method adjusts the values to their respective limits and updates the client with the new stats.
+     * The client is notified only when changes are made to the HP or MP values.
+     */
     private fun enforceMaxHpMp() {
         val stats = mutableListOf<Pair<CharacterStat, Int>>()
         if (mp > localMaxMp) {
@@ -908,6 +2006,12 @@ class Character(
         }
     }
 
+    /**
+     * Empties and cancels various tasks, schedules, and resources associated with the current instance.
+     * Depending on the `remove` parameter, it may also clear specific member properties.
+     *
+     * @param remove Boolean flag indicating whether additional resources and properties should be removed.
+     */
     fun empty(remove: Boolean) {
         dragonBloodSchedule?.cancel()
         hpDecreaseTask?.cancel()
@@ -927,8 +2031,20 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun enteredScript(script: String, mapId: Int) = entered.putIfAbsent(mapId, script)
 
+    /**
+     * Handles changes in character equipment and updates related information.
+     *
+     * This method performs the following actions:
+     * - Broadcasts a message to update the character's appearance to nearby players.
+     * - Recalculates the character's local stats based on the new equipment.
+     * - Ensures the character's HP and MP do not exceed their maximum limits.
+     * - Updates the character's messenger information if they are part of a messenger group.
+     */
     fun equipChanged() {
         map.broadcastMessage(this, CharacterPacket.updateCharLook(this), false)
         recalcLocalStats()
@@ -936,6 +2052,17 @@ class Character(
         messenger?.let { Server.getWorld(world).updateMessenger(it, name, client.channel) }
     }
 
+    /**
+     * Equips the Pendant of Spirit for the player and automatically manages its effect over time.
+     * This method registers a coroutine that periodically increases the effect of the pendant
+     * and notifies the player of the bonus experience percentage. The effect lasts up to 3 hours,
+     * after which it cancels itself.
+     *
+     * Functionality:
+     * - Increases the pendant's experience bonus effect by 10% for each hour it is equipped.
+     * - Sends a message to the player informing them of the effect duration and bonus percentage.
+     * - Automatically stops the effect after 3 hours.
+     */
     fun equipPendantOfSpirit() {
         pendantOfSpirit = CoroutineManager.register({
             if (pendantExp < 3) {
@@ -947,11 +2074,29 @@ class Character(
         }, 3600000, 0)
     }
 
+    /**
+     *
+     */
     fun cancelExpirationTask() {
         expireTask?.cancel()
         expireTask = null
     }
 
+    /**
+     * Executes a recurring task to handle expiration logic for in-game items and skills.
+     *
+     * This method checks for expired skills and items and performs necessary actions
+     * such as updating skill levels, removing expired items, or modifying item properties.
+     * The task is scheduled to run at regular intervals using a coroutine manager.
+     *
+     * Functional details include:
+     * - Iterating through skills to identify and handle expired entries.
+     * - Scanning player inventories for expired items, updating their state, or removing them.
+     * - Notifying the client when items expire and invoking related packet handling.
+     * - Ensuring proper updates to the item's flags, expiration times, and quantities as needed.
+     *
+     * The task runs every 60 seconds and uses a thread-safe approach for modification of game state.
+     */
     fun expirationTask() {
         if (expireTask == null) {
             expireTask = CoroutineManager.register({
@@ -993,14 +2138,29 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun forceUpdateItem(item: Item) {
         val mods = mutableListOf(ModifyInventory(3, item))
         if (item.itemId / 10000 == 207 || item.quantity > 0) mods.add(ModifyInventory(0, item))
         client.announce(CharacterPacket.modifyInventory(true, mods.toList()))
     }
 
+    /**
+     *
+     */
     fun gainGachaExp(gain: Int) = updateSingleStat(CharacterStat.EXP, exp.addAndGet(gain))
 
+    /**
+     * Handles the experience gain logic for the character. It calculates the total experience gained
+     * including bonuses such as equipment and ensures the proper handling of experience overflow or level-up scenarios.
+     *
+     * @param gain The base amount of experience points to be gained.
+     * @param show Whether to display the experience gain to the player.
+     * @param inChat Whether to show the experience gain notification in the chat.
+     * @param white Indicates if the experience gain should be formatted as white text in notifications. Default is true.
+     */
     fun gainExp(gain: Int, show: Boolean, inChat: Boolean, white: Boolean = true) {
         val equip = (gain * expRate / 10) * pendantExp
         var total = gain + equip
@@ -1025,11 +2185,19 @@ class Character(
         }
     }
 
+    /**
+     * Updates the fame level of a character by a specified value.
+     *
+     * @param delta The amount by which the fame should be increased or decreased.
+     */
     fun gainFame(delta: Int) {
         fame += delta
         updateSingleStat(CharacterStat.FAME, fame)
     }
 
+    /**
+     *
+     */
     fun gainMeso(gain: Int, show: Boolean, enableActions: Boolean = false, inChat: Boolean = false) {
         if (meso.get() + gain < 0) {
             client.announce(PacketCreator.enableActions())
@@ -1039,11 +2207,20 @@ class Character(
         if (show) client.announce(CharacterPacket.getShowMesoGain(gain, inChat))
     }
 
+    /**
+     * Adds the specified amount of Maple Points to the current balance
+     * and displays a message indicating the earned points.
+     *
+     * @param quantity The amount of Maple Points to add.
+     */
     fun gainMPoint(quantity: Int) {
         mPoints += quantity
         dropMessage(5, "$quantity 메이플 포인트를 받으셨습니다.")
     }
 
+    /**
+     *
+     */
     fun gainSlots(type: Int, slots: Int, update: Boolean = true): Boolean {
         val slot = slots + (inventories[type]?.slotLimit ?: 0)
         if (slot <= 96) {
@@ -1055,18 +2232,34 @@ class Character(
         return false
     }
 
+    /**
+     * Retrieves a list of all active buffs for a player.
+     *
+     * @return A list of PlayerBuffValueHolder objects, each representing the details
+     *         of an active buff, including its start time and effect.
+     */
     fun getAllBuffs(): List<PlayerBuffValueHolder> {
         val ret = mutableListOf<PlayerBuffValueHolder>()
         effects.values.forEach { ret.add(PlayerBuffValueHolder(it.startTime, it.effect)) }
         return ret
     }
 
+    /**
+     *
+     */
     fun getAllCoolDowns(): List<PlayerCoolDownValueHolder> {
         val ret = mutableListOf<PlayerCoolDownValueHolder>()
         coolDowns.values.forEach { ret.add(PlayerCoolDownValueHolder(it.skillId, it.startTime, it.length)) }
         return ret
     }
 
+    /**
+     * Retrieves the current value of `cp`, reduces it by 10 if it is greater than or equal to 10,
+     * or sets it to 0 if it is less than 9.
+     * Returns the amount subtracted or the original value if less than 9.
+     *
+     * @return the value of `cp` before modification or the amount subtracted from `cp`
+     */
     fun getAndRemoveCp(): Int {
         var rCp = 10
         if (cp < 9) {
@@ -1078,22 +2271,62 @@ class Character(
         return rCp
     }
 
+    /**
+     * Retrieves the start time of the given buff effect if it exists.
+     *
+     * @param effect The buff effect for which the start time is to be retrieved.
+     * @return The start time of the specified buff effect, or null if the effect does not exist.
+     */
     fun getBuffedStartTime(effect: BuffStat) = effects[effect]?.startTime
 
+    /**
+     *
+     */
     fun getBuffedValue(effect: BuffStat) = effects[effect]?.value
 
+    /**
+     * Retrieves the source ID of the effect associated with the specified BuffStat.
+     *
+     * @param stat The BuffStat for which the source ID of the effect is to be retrieved.
+     * @return The source ID of the effect associated with the given BuffStat, or -1 if no effect exists.
+     */
     fun getBuffSource(stat: BuffStat) = effects[stat]?.effect?.sourceId ?: -1
 
+    /**
+     *
+     */
     private fun getBuffStats(effect: StatEffect, startTime: Long) = effects.filter {
         it.value.effect.sameSource(effect) && (startTime == -1L || startTime == it.value.startTime)
     }.keys.toList()
 
+    /**
+     * Retrieves a list of completed quests.
+     *
+     * This method filters all the available quests and returns only those
+     * whose status is marked as COMPLETED.
+     *
+     * @return A list of quests that have been completed.
+     */
     fun getCompletedQuests() = quests.values.filter { it.status == QuestStatus.Status.COMPLETED }
 
+    /**
+     * Sorts and returns a list of `crushRings` in ascending order.
+     *
+     * This function accesses the `crushRings` property, sorts it using its
+     * natural ordering, and returns the sorted list.
+     *
+     * @return A sorted list of `crushRings`.
+     */
     fun getCrushRingsSorted() = crushRings.sorted()
 
+    /**
+     *
+     */
     fun getGuild() = Server.getGuild(guildId)
 
+    /**
+     *
+     */
     fun getItemQuantity(itemId: Int, checkEquipped: Boolean): Int {
         var possesed = inventories[getInventoryType(itemId).ordinal]?.countById(itemId) ?: return 0
         if (checkEquipped) {
@@ -1102,14 +2335,35 @@ class Character(
         return possesed
     }
 
+    /**
+     * Determines the job type based on the job identifier.
+     *
+     * This function calculates and returns the job type by dividing
+     * the job's unique identifier by 1000. The result provides a categorized
+     * representation of the job type.
+     *
+     * @return The calculated job type as an integer.
+     */
     fun getJobType() = job.id / 1000
 
+    /**
+     *
+     */
     fun getKeyValue(key: String) = customValues[key]
 
+    /**
+     *
+     */
     fun getFh() = map.footholds?.findBelow(position)?.id ?: 0
 
+    /**
+     *
+     */
     fun getMasterLevel(skill: Skill) = skills[skill]?.masterLevel ?: 0
 
+    /**
+     *
+     */
     fun getMiniGamePoints(type: String, omok: Boolean): Int {
         if (omok) {
             when (type) {
@@ -1127,10 +2381,25 @@ class Character(
         return 0
     }
 
+    /**
+     * Retrieves the ID of the associated party.
+     *
+     * @return The ID of the party if it exists, or -1 if the party is null.
+     */
     fun getPartyId() = party?.id ?: -1
 
+    /**
+     *
+     */
     fun getQuestStatus(quest: Int) = quests.values.find { it.quest.id.toInt() == quest }?.status?.id ?: 0
 
+    /**
+     * Retrieves the custom quest status for a specific quest ID associated with the character.
+     * If the quest does not exist in the database for the character, it will be inserted with a default status of 0.
+     *
+     * @param questId the ID of the quest whose status is to be retrieved
+     * @return the status of the specified quest for the character, or 0 if the quest does not exist in the database
+     */
     fun getCustomQuestStatus(questId: Int): Int {
         var status = 0
         try {
@@ -1158,6 +2427,9 @@ class Character(
         return status
     }
 
+    /**
+     *
+     */
     fun setCustomQuestStatus(questId: Int, status: Int) {
         try {
             transaction {
@@ -1171,8 +2443,18 @@ class Character(
         }
     }
 
+    /**
+     * Retrieves the status of the specified quest. If the quest does not exist in the
+     * quest tracking map, it returns a default status of NOT_STARTED for the given quest.
+     *
+     * @param quest The quest whose status is to be retrieved.
+     * @return The status of the provided quest, or a default NOT_STARTED status if the quest is not found.
+     */
     fun getQuest(quest: Quest) = quests[quest] ?: QuestStatus(quest, QuestStatus.Status.NOT_STARTED)
 
+    /**
+     *
+     */
     fun needQuestItem(questId: Int, itemId: Int): Boolean {
         if (questId <= 0) return true
         val quest = Quest.getInstance(questId)
@@ -1180,28 +2462,87 @@ class Character(
             ?.let { it < quest.getItemAmountNeeded(itemId) } ?: false
     }
 
+    /**
+     * Retrieves the map ID of a saved location based on the specified location type.
+     *
+     * @param type A string representing the location type. It should match one of the enum values in SavedLocationType.
+     * @return The map ID of the saved location if found, otherwise null.
+     */
     fun getSavedLocationMapId(type: String) = savedLocations[SavedLocationType.valueOf(type).ordinal]?.mapId
 
+    /**
+     * Retrieves the skill level for a given skill ID.
+     *
+     * @param skill The identifier of the skill whose level is to be retrieved.
+     * @return The skill level corresponding to the provided skill ID, or 0 if the skill is not found.
+     */
     fun getSkillLevel(skill: Int) = skills[SkillFactory.getSkill(skill)]?.skillLevel ?: 0
 
+    /**
+     * Retrieves the skill level for the specified skill from the skills map.
+     * If the skill is not found, it returns 0.
+     *
+     * @param skill The skill whose level is to be retrieved.
+     * @return The level of the specified skill, or 0 if the skill is not present in the map.
+     */
     fun getSkillLevel(skill: Skill) = skills[skill]?.skillLevel ?: 0
 
+    /**
+     * Retrieves the expiration time for the specified skill.
+     *
+     * @param skill The identifier of the skill whose expiration time is to be fetched.
+     * @return The expiration time of the skill if available, or -1 if the skill has no expiration or does not exist.
+     */
     fun getSkillExpiration(skill: Int) = skills[SkillFactory.getSkill(skill)]?.expiration ?: -1
 
+    /**
+     *
+     */
     fun getSkillExpiration(skill: Skill) = skills[skill]?.expiration ?: -1
 
+    /**
+     *
+     */
     fun getStartedQuests() = quests.values.filter { it.status == QuestStatus.Status.STARTED }
 
+    /**
+     *
+     */
     fun getStartedQuestsSize() = getStartedQuests().size
 
+    /**
+     * Retrieves the statistical effect associated with a given BuffStat.
+     *
+     * @param effect The BuffStat for which the associated statistical effect should be retrieved.
+     * @return The statistical effect corresponding to the given BuffStat, or null if none is found.
+     */
     fun getStatForBuff(effect: BuffStat) = effects[effect]?.effect
 
+    /**
+     *
+     */
     fun getSlots(type: Int) = if (type == InventoryType.CASH.type.toInt()) 96 else inventories[type]?.slotLimit
 
+    /**
+     * Calculates and returns the size of the filtered `trockMaps` list.
+     *
+     * Filters the `trockMaps` list by excluding elements equal to `999999999`
+     * and returns the size of the resulting list.
+     *
+     * @return The size of the filtered `trockMaps` list as an integer.
+     */
     private fun getTrockSize() = trockMaps.filter { it != 999999999 }.size
 
+    /**
+     * Computes the size of the `vipTrockMaps` collection after filtering out elements with a value of 999999999.
+     *
+     * @return The size of the filtered `vipTrockMaps` collection.
+     */
     private fun getVipTrockSize() = vipTrockMaps.filter { it != 999999999 }.size
 
+    /**
+     *
+     */
     fun giveCoolDowns(skillId: Int, startTime: Long, length: Long) {
         if (skillId == 5221999) {
             battleshipHp = length.toInt()
@@ -1215,6 +2556,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun giveDebuff(disease: Disease, skill: MobSkill) {
         val debuff = listOf(Pair(disease, skill.x))
         if (!hasDisease(disease) && diseases.size < 2) {
@@ -1229,6 +2573,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     private fun guildUpdate() {
         if (guildId < 1) return
         mgc?.level = level.toInt()
@@ -1236,6 +2583,9 @@ class Character(
         mgc?.let { Server.getGuild(it)?.memberLevelJobUpdate(it) }
     }
 
+    /**
+     *
+     */
     fun handleEnergyChargeGain() {
         val energyCharge = SkillFactory.getSkill(Marauder.ENERGY_CHARGE) ?: return
         val cEffect = energyCharge.getEffect(getSkillLevel(energyCharge).toInt())
@@ -1261,6 +2611,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun handleOrbconsume() {
         val skillId = Crusader.COMBO
         val combo = SkillFactory.getSkill(skillId) ?: return
@@ -1277,8 +2630,20 @@ class Character(
         map.broadcastMessage(this, CharacterPacket.giveForeignBuff(id, stat), false)
     }
 
+    /**
+     *
+     */
     fun hasEntered(script: String, mapId: Int) = entered[mapId] == script
 
+    /**
+     * Records the action of giving fame to the specified character.
+     *
+     * This function updates the timestamp for the last fame action,
+     * adds the recipient's ID to a list of IDs given fame this month,
+     * and logs the fame action in the database.
+     *
+     * @param to The character to whom the fame is being given.
+     */
     fun hasGivenFame(to: Character) {
         lastFameTime = System.currentTimeMillis().toInt()
         lastMonthFameIds.add(to.id)
@@ -1295,24 +2660,64 @@ class Character(
         }
     }
 
+    /**
+     * Checks if there is at least one item with the specified ID in the inventory.
+     *
+     * @param itemId the unique identifier of the item to check
+     * @return true if the item exists in the inventory, false otherwise
+     */
     fun haveItem(itemId: Int) = getItemQuantity(itemId, false) > 0
 
+    /**
+     *
+     */
     fun haveItem(itemId: Int, qw: Int) = getItemQuantity(itemId, false) >= qw
 
+    /**
+     * Determines if there is an active buffed value for a given skill ID.
+     *
+     * @param skillId The unique identifier of the skill to check for an active buffed value.
+     * @return `true` if an active buffed value exists for the specified skill ID, `false` otherwise.
+     */
     fun isActiveBuffedValue(skillId: Int) =
         effects.values.find { it.effect.skill && it.effect.sourceId == skillId }?.let { true } ?: false
 
+    /**
+     *
+     */
     fun isAlive() = hp > 0
 
+    /**
+     *
+     */
     fun isBuffFrom(stat: BuffStat, skill: Skill): Boolean {
         val e = effects[stat] ?: return false
         return e.effect.skill && e.effect.sourceId == skill.id
     }
 
+    /**
+     *
+     */
     fun isBeginnerJob() = job.id == 0
 
+    /**
+     * Determines whether a given map object is visible.
+     *
+     * @param mo The map object to check for visibility.
+     * @return True if the map object is visible, otherwise false.
+     */
     fun isMapObjectVisible(mo: MapObject) = visibleMapObjects.contains(mo)
 
+    /**
+     * Exits the current map and resets relevant player state variables.
+     *
+     * This method performs the necessary cleanup when leaving a map by:
+     * - Resetting the player's shop to null.
+     * - Resetting the stance and conversation states to 0.
+     * - Clearing the lists of controlled monsters and visible map objects.
+     * - Resetting the chair value to 0 if it is not already 0.
+     * - Cancelling the `hpDecreaseTask` if it exists.
+     */
     fun leaveMap() {
         shop = null
         stance = 0
@@ -1323,6 +2728,13 @@ class Character(
         hpDecreaseTask?.cancel()
     }
 
+    /**
+     * Handles the process of leveling up a character by updating vital statistics,
+     * available skill and ability points, and broadcasting appropriate notifications.
+     *
+     * @param takeExp A flag indicating whether to deduct experience points required for leveling up.
+     *                If true, experience points will be deducted based on the current level's requirement.
+     */
     fun levelUp(takeExp: Boolean) {
         var improvingMaxHp: Skill? = null
         var improvingMaxMp: Skill? = null
@@ -1421,14 +2833,29 @@ class Character(
         guildUpdate()
     }
 
+    /**
+     * Logs the user off by setting the `loggedIn` status to false.
+     * This method updates the user's state to indicate they are no longer active in the system.
+     */
     fun logOff() {
         loggedIn = false
     }
 
+    /**
+     *
+     */
     fun message(m: String) = dropMessage(5, m)
 
+    /**
+     * Sends a yellow tip message to the user.
+     *
+     * @param m the message to be sent as a yellow tip
+     */
     fun yellowMessage(m: String) = announce(PacketCreator.sendYellowTip(m))
 
+    /**
+     *
+     */
     fun mobKilled(id: Int) {
         quests.values.forEach {
             if (it.status == QuestStatus.Status.COMPLETED || it.quest.canComplete(this, null))
@@ -1441,10 +2868,19 @@ class Character(
         }
     }
 
+    /**
+     * Initializes and assigns a Mount object using the provided id and skillId.
+     *
+     * @param id The unique identifier for the mount.
+     * @param skillId The unique identifier for the skill associated with the mount.
+     */
     fun mount(id: Int, skillId: Int) {
         mount = Mount(this, id, skillId)
     }
 
+    /**
+     *
+     */
     fun createPlayerNpc(v: Character, scriptId: Int) {
         try {
             transaction {
@@ -1501,6 +2937,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     private fun playerDead() {
         cancelAllBuffs(false)
         dispelDeBuffs()
@@ -1556,10 +2995,18 @@ class Character(
         client.announce(PacketCreator.enableActions())
     }
 
+    /**
+     * Sets a delay for portal activation by adding the specified delay to the current system time.
+     *
+     * @param delay The delay in milliseconds to be added to the current system time.
+     */
     fun portalDelay(delay: Int) {
         portalDelay = System.currentTimeMillis() + delay.toLong()
     }
 
+    /**
+     *
+     */
     private fun prepareDragonBlood(bloodEffect: StatEffect) {
         dragonBloodSchedule?.cancel()
         dragonBloodSchedule = CoroutineManager.register({
@@ -1570,6 +3017,9 @@ class Character(
         }, 4000, 4000)
     }
 
+    /**
+     *
+     */
     fun recalcLocalStats() {
         val oldMaxHp = localMaxHp
         localMaxHp = maxHp
@@ -1626,6 +3076,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun receivePartyMemberHp() {
         if (party != null) {
             val channel = client.channel
@@ -1639,6 +3092,13 @@ class Character(
         }
     }
 
+    /**
+     * Registers a given effect for the character and schedules its appropriate actions based on the effect type.
+     *
+     * @param effect The effect to be registered, which can have various associated actions, such as healing or buffing.
+     * @param startTime The timestamp indicating when the effect is applied.
+     * @param schedule The coroutine job associated with managing the effect's lifecycle.
+     */
     fun registerEffect(effect: StatEffect, startTime: Long, schedule: Job) {
         when {
             effect.isDragonBlood() -> prepareDragonBlood(effect)
@@ -1693,16 +3153,49 @@ class Character(
         }
     }
 
+    /**
+     * Removes all cooldowns from the collection except for the one corresponding to the specified skill ID.
+     *
+     * @param id The skill ID for which the cooldown should be retained in the collection.
+     */
     fun removeAllCoolDownsExcept(id: Int) {
         coolDowns.values.forEach {
             if (it.skillId != id) coolDowns.remove(it.skillId)
         }
     }
 
+    /**
+     * Removes the cooldown associated with a given skill ID.
+     *
+     * @param skillId The ID of the skill whose cooldown should be removed.
+     * @return The previous cooldown value associated with the skill ID,
+     *         or null if no cooldown was recorded for the given skill ID.
+     */
     fun removeCoolDown(skillId: Int) = coolDowns.remove(skillId)
 
+    /**
+     * Removes the specified map object from the list of visible map objects.
+     *
+     * @param mo The map object to be removed from the visible map objects.
+     */
     fun removeVisibleMapObject(mo: MapObject) = visibleMapObjects.remove(mo)
 
+    /**
+     * Resets the character's stats based on their job and level.
+     *
+     * This method recalculates and assigns base stats including strength (STR),
+     * dexterity (DEX), intelligence (INT), luck (LUK), available ability points (AP),
+     * and available skill points (SP) according to the character's job type, level,
+     * and predefined formulas.
+     *
+     * Specific adjustments for various job categories are applied:
+     * - Job 100: Focus on strength (STR).
+     * - Job 200: Focus on intelligence (INT).
+     * - Jobs 300 and 400: Focus on dexterity (DEX).
+     * - Job 500: Focus on dexterity (DEX) with unique scaling.
+     *
+     * Finally, it applies the stat changes and broadcasts the update to the client.
+     */
     fun resetStats() {
         var tap = 0
         var tsp = 1
@@ -1755,11 +3248,17 @@ class Character(
         announce(CharacterPacket.updatePlayerStats(statUp))
     }
 
+    /**
+     *
+     */
     fun resetBattleshipHp() {
         battleshipHp =
             4000 * (SkillFactory.getSkill(Corsair.BATTLE_SHIP)?.let { getSkillLevel(it) } ?: 0) + ((level - 120) * 2000)
     }
 
+    /**
+     *
+     */
     fun saveCoolDowns() {
         if (getAllCoolDowns().isNotEmpty()) {
             try {
@@ -1779,6 +3278,16 @@ class Character(
         }
     }
 
+    /**
+     * Saves the guild status of the character to the database.
+     *
+     * This method updates the character's guild-related information, such as guild ID and guild rank,
+     * in the database. The update operation is performed within a transactional context to ensure
+     * data integrity.
+     *
+     * If a `SQLException` occurs during the database operation, an error will be logged with the
+     * character's ID information.
+     */
     fun saveGuildStatus() {
         try {
             transaction {
@@ -1792,6 +3301,13 @@ class Character(
         }
     }
 
+    /**
+     * Inserts a new character into the database and initializes its related data, such as key mappings
+     * and inventory items. This method utilizes a transactional context to ensure atomic operations,
+     * where all changes are committed or rolled back together in case of an error.
+     *
+     * @return `true` if the character and its related data were successfully inserted; `false` otherwise.
+     */
     fun insertNewChar(): Boolean {
         var success = false
         try {
@@ -1844,6 +3360,14 @@ class Character(
         return false
     }
 
+    /**
+     * Saves key-value pairs associated with a character to the database.
+     *
+     * This method first deletes any existing key-value pairs for the current character
+     * from the `KeyValues` table and then inserts the new custom key-value pairs provided.
+     * The operation is performed within a database transaction to ensure atomicity.
+     * If any SQL exception occurs during the process, it is logged as an error.
+     */
     private fun saveKeyValues() {
         try {
             transaction {
@@ -1861,11 +3385,17 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun saveLocation(type: String) {
         val closestPortal = map.findClosestPortal(position)
         savedLocations[SavedLocationType.valueOf(type).ordinal] = SavedLocation(mapId, closestPortal?.id ?: 0)
     }
 
+    /**
+     *
+     */
     fun saveToDatabase() {
         try {
             transaction {
@@ -2038,8 +3568,18 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun sendKeymap() = client.announce(PacketCreator.getKeyMap(keymap))
 
+    /**
+     * Sends a note to the specified recipient and saves it to the database.
+     *
+     * @param to The recipient's name to whom the note is being sent.
+     * @param message The content of the note to be sent.
+     * @param fame The fame value associated with the note, represented as a byte.
+     */
     fun sendNote(to: String, message: String, fame: Byte) {
         try {
             transaction {
@@ -2056,10 +3596,32 @@ class Character(
         }
     }
 
+    /**
+     * Updates the value associated with the specified buff effect.
+     *
+     * @param effect The buff effect whose value is to be updated.
+     * @param value The new value to set for the specified buff effect.
+     */
     fun setBuffedValue(effect: BuffStat, value: Int) {
         effects[effect]?.value = value
     }
 
+    /**
+     * Sets the rate values for experience, drop, and meso rates based on specific conditions.
+     *
+     * This method calculates and updates the expRate, dropRate, and mesoRate values dynamically
+     * depending on the server's world configuration and the presence of specific items in the user's possession.
+     * It also factors in the current hour of the day and applies multipliers accordingly.
+     *
+     * The conditions for modifying the rates are based on the presence of certain item IDs
+     * and their corresponding time windows during which they are effective.
+     *
+     * - dropRate and mesoRate are doubled during specific hours if specific item IDs are present.
+     * - expRate is doubled during defined time windows when certain item IDs are present.
+     *
+     * The method retrieves the current hour using the GMT+9 timezone.
+     * Rates default to the world values when no conditions are met.
+     */
     fun setRates() {
         val cal = Calendar.getInstance()
         cal.timeZone = TimeZone.getTimeZone("GMT+9")
@@ -2094,6 +3656,9 @@ class Character(
             }
     }
 
+    /**
+     *
+     */
     fun setHpNormal(value: Int) {
         val oldHp = hp
         var thp = value
@@ -2105,17 +3670,28 @@ class Character(
     }
 
 
+    /**
+     *
+     */
     fun setHpSilent(delta: Int) {
         hp = delta
         updatePartyMemberHp()
     }
 
+    /**
+     *
+     */
     fun setMpNormal(value: Int) {
         var v = if (value < 0) 0 else value
         v = if (v > localMaxMp) localMaxMp else v
         mp = v
     }
 
+    /**
+     * Sets both HP (Health Points) and MP (Mana Points) to the specified value.
+     *
+     * @param x the value to which both HP and MP will be set
+     */
     fun setHpMp(x: Int) {
         setHpNormal(x)
         setMpNormal(x)
@@ -2123,14 +3699,30 @@ class Character(
         updateSingleStat(CharacterStat.MP, mp)
     }
 
+    /**
+     * Sets the inventory of a specific type.
+     *
+     * @param type The type of inventory to be set.
+     * @param inv The inventory instance to assign to the specified type.
+     */
     fun setInventory(type: InventoryType, inv: Inventory) = inventories.set(type.ordinal, inv)
 
+    /**
+     * Sets a key-value pair in the customValues map. If the key already exists, it removes the existing entry
+     * before adding the new value. Marks the key-value pair as changed.
+     *
+     * @param key the key to be added or updated in the customValues map
+     * @param values the value associated with the specified key
+     */
     fun setKeyValue(key: String, values: String) {
         customValues.remove(key)
         customValues[key] = values
         keyValueChanged = true
     }
 
+    /**
+     *
+     */
     fun setMiniGamePoints(visitor: Character, winnerSlot: Int, omok: Boolean) {
         if (omok) {
             when (winnerSlot) {
@@ -2169,6 +3761,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun showNote() {
         try {
             val list = mutableListOf<Note>()
@@ -2190,23 +3785,38 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     private fun silentEnforceMaxHpMp() {
         mp = mp
         setHpSilent(hp)
     }
 
+    /**
+     *
+     */
     fun silentGiveBuffs(buffs: List<PlayerBuffValueHolder>) {
         buffs.forEach { it.effect.silentApplyBuff(this, it.startTime) }
     }
 
+    /**
+     *
+     */
     fun silentPartyUpdate() = party?.let {
         mpc?.let { it1 ->
             Server.getWorld(world).updateParty(it.id, PartyOperation.SILENT_UPDATE, it1)
         }
     }
 
+    /**
+     *
+     */
     fun skillIsCooling(skillId: Int) = coolDowns.containsKey(skillId)
 
+    /**
+     *
+     */
     fun startFullnessSchedule(decrease: Int, pet: Pet) {
         val schedule = CoroutineManager.register({
             val newFullness = pet.fullness - decrease
@@ -2224,6 +3834,9 @@ class Character(
         fullnessSchedule = schedule
     }
 
+    /**
+     *
+     */
     fun startMapEffect(message: String, itemId: Int, duration: Int = 30000) {
         val mapEffect = MapEffect(message, itemId)
         client.announce(mapEffect.makeStartData())
@@ -2232,16 +3845,31 @@ class Character(
         }, duration.toLong())
     }
 
+    /**
+     * Sets a time limit using the provided number of seconds.
+     * It announces the time limit to the client, updates the internal time state,
+     * and triggers a clock delay.
+     *
+     * @param second The number of seconds to set as the time limit.
+     */
     fun timeLimit(second: Int) {
         client.announce(PacketCreator.getClock(second))
         timeSet = second
         clockDelay(second)
     }
 
+    /**
+     *
+     */
     fun toggleHidden() {
         hide(!hidden)
     }
 
+    /**
+     * Schedules a delay for clock-related events and transitions based on the provided time.
+     *
+     * @param time The initial time value in seconds used to set or update the countdown.
+     */
     private fun clockDelay(time: Int) {
         CoroutineManager.schedule({
             timeSet -= 1
@@ -2254,8 +3882,18 @@ class Character(
         }, 1000L)
     }
 
+    /**
+     * Stops controlling a specified monster by removing it from the controlled monsters list.
+     *
+     * @param monster The monster to stop controlling.
+     */
     fun stopControllingMonster(monster: Monster) = controlledMonsters.remove(monster)
 
+    /**
+     * Unequips the currently equipped pet, updating its state and handling associated actions.
+     *
+     * @param hunger Indicates whether the pet should be shown as hungry upon unequipping. Defaults to false.
+     */
     fun unEquipPet(hunger: Boolean = false) {
         pet?.summoned = false
         pet?.saveToDatabase()
@@ -2266,12 +3904,25 @@ class Character(
         //TODO: removePet()
     }
 
+    /**
+     *
+     */
     fun unEquipPendantOfSpirit() {
         pendantOfSpirit?.cancel()
         pendantOfSpirit = null
         pendantExp = 0
     }
 
+    /**
+     * Updates the HP (Health Points) of a party member in the player's party.
+     *
+     * This method checks the party members who are in the same map and channel as the player
+     * and updates their HP information. The information is then transmitted to the client of
+     * the other party members.
+     *
+     * The update is sent using the `InteractPacket.updatePartyMemberHp` packet for each eligible
+     * party member.
+     */
     fun updatePartyMemberHp() {
         party?.members?.filter { it.mapId == mapId && it.channel == client.channel }?.forEach {
             val other = it.name?.let { it1 ->
@@ -2281,6 +3932,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun updateQuest(quest: QuestStatus) {
         quests[quest.quest] = quest
         when (quest.status) {
@@ -2305,6 +3959,12 @@ class Character(
         }
     }
 
+    /**
+     * Sets a time limit for a quest, schedules its expiration, and informs relevant systems.
+     *
+     * @param quest The quest for which the time limit is being set.
+     * @param time The time limit in seconds before the quest expires.
+     */
     fun questTimeLimit(quest: Quest, time: Int) {
         val sf = CoroutineManager.schedule({
             announce(GameplayPacket.questExpire(quest.id))
@@ -2318,14 +3978,30 @@ class Character(
         }
     }
 
+    /**
+     * Updates a single character statistic with a new value and announces the change.
+     *
+     * @param stat The character statistic to be updated.
+     * @param newVal The new value to assign to the specified statistic.
+     */
     fun updateSingleStat(stat: CharacterStat, newVal: Int) {
         announce(CharacterPacket.updatePlayerStats(listOf(Pair(stat, newVal)), itemReaction = false))
     }
 
+    /**
+     * Updates a single character statistic and optionally triggers an item reaction.
+     *
+     * @param stat The character stat to update.
+     * @param newVal The new value to set for the specified stat.
+     * @param itemReaction Indicates whether the update should trigger an item reaction. Defaults to false.
+     */
     fun updateSingleStat(stat: CharacterStat, newVal: Int, itemReaction: Boolean = false) {
         announce(CharacterPacket.updatePlayerStats(listOf(Pair(stat, newVal)), itemReaction))
     }
 
+    /**
+     *
+     */
     fun dispelDeBuff(deBuff: Disease) {
         if (hasDisease(deBuff)) {
             if (deBuff == Disease.CURSE) client.player?.curse = false
@@ -2337,6 +4013,9 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun dispelDeBuffs() {
         dispelDeBuff(Disease.CURSE)
         dispelDeBuff(Disease.DARKNESS)
@@ -2345,10 +4024,29 @@ class Character(
         dispelDeBuff(Disease.WEAKEN)
     }
 
+    /**
+     * Removes all debuffs currently applied by clearing the list of diseases.
+     *
+     * This method is used to reset the state by removing all existing negative
+     * effects (debuffs) from the entity or system where it's applied.
+     */
     fun cancelAllDeBuffs() = diseases.clear()
 
+    /**
+     *
+     */
     private fun hasDisease(dis: Disease): Boolean = diseases.containsKey(dis)
 
+    /**
+     * Starts the MobHackParser, which periodically checks the position of mobs.
+     *
+     * This method cancels any previously running instance of the MobHackParser and
+     * initializes a new one using the CoroutineManager. The parser execution begins
+     * after an initial delay of 1500 milliseconds and continues to run at a fixed interval
+     * of 6000 milliseconds.
+     *
+     * The mob position check logic is specified within the `checkMobPosition()` method.
+     */
     fun startMobHackParser() {
         mobHackParser?.cancel()
         mobHackParser = CoroutineManager.register({
@@ -2356,6 +4054,9 @@ class Character(
         }, 1500L, 6000L)
     }
 
+    /**
+     *
+     */
     fun hide(hide: Boolean, login: Boolean = false) {
         if (isGM() && hide != hidden) {
             if (!hidden) {
@@ -2373,6 +4074,11 @@ class Character(
         }
     }
 
+    /**
+     * Initializes a new client by setting up their account and position in the game world.
+     *
+     * @param c the client to be initialized, which contains account and server information.
+     */
     fun newClient(c: Client) {
         loggedIn = true
         c.accountName = client.accountName
@@ -2383,15 +4089,31 @@ class Character(
         map = c.getChannelServer().mapFactory.getMap(map.mapId)
     }
 
+    /**
+     *
+     */
     fun getInventory(type: InventoryType) = inventories[type.ordinal]
 
+    /**
+     * Retrieves the text representation of a medal from the equipped inventory.
+     * If a medal item is found, its name is returned enclosed in angle brackets.
+     * If no medal is present, an empty string is returned.
+     *
+     * @return The name of the equipped medal enclosed in angle brackets, or an empty string if no medal is equipped.
+     */
     private fun getMedalText(): String {
         val medalItem = getInventory(InventoryType.EQUIPPED)?.getItem(-49)
         return medalItem?.let { "<${ItemInformationProvider.getName(it.itemId)}>" } ?: ""
     }
 
+    /**
+     *
+     */
     fun isGM() = gmLevel > 0
 
+    /**
+     *
+     */
     fun blockPortal(scriptName: String) {
         if (!blockedPortals.contains(scriptName)) {
             blockedPortals.add(scriptName)
@@ -2399,32 +4121,68 @@ class Character(
         }
     }
 
+    /**
+     *
+     */
     fun unblockPortal(scriptName: String) {
         if (!blockedPortals.contains(scriptName))
             blockedPortals.remove(scriptName)
     }
 
+    /**
+     * Checks if the given area contains the specified info.
+     *
+     * @param area The area identifier as an integer.
+     * @param info The information to check for in the specified area.
+     * @return `true` if the area contains the specified info, otherwise `false`.
+     */
     fun containsAreaInfo(area: Int, info: String) = areaInfos[area.toShort()]?.contains(info) ?: false
 
+    /**
+     *
+     */
     fun updateAreaInfo(area: Int, info: String) {
         areaInfos[area.toShort()] = info
         announce(PacketCreator.updateAreaInfo(area, info))
     }
 
+    /**
+     * Retrieves information about the specified area.
+     *
+     * @param area The identifier of the area for which information is to be retrieved.
+     * @return The information corresponding to the specified area, or null if no information is available.
+     */
     fun getAreaInfo(area: Int) = areaInfos[area.toShort()]
 
+    /**
+     * Represents the type of the map object.
+     * The value is set to `MapObjectType.PLAYER`, indicating that
+     * the object is specifically a player-type entity on the map.
+     */
     override val objectType = MapObjectType.PLAYER
 
+    /**
+     *
+     */
     override fun sendDestroyData(client: Client) {
         client.announce(GameplayPacket.removePlayerFromMap(objectId))
     }
 
+    /**
+     *
+     */
     override fun sendSpawnData(client: Client) {
         if (!hidden || (client.player?.gmLevel ?: 0) > 0) {
             client.announce(GameplayPacket.spawnPlayerMapObject(this))
         }
     }
 
+    /**
+     * Represents the ID of an object. This property overrides the default implementation.
+     * It provides a custom getter and setter to manage its value:
+     * - The getter returns the provided `id` if the current field value is `0`.
+     * - The setter updates the field with the provided value.
+     */
     override var objectId = id
         get() {
             return if (field == 0) id else field
@@ -2433,12 +4191,38 @@ class Character(
             field = value
         }
 
+    /**
+     * Represents different states of fame statistics.
+     */
     enum class FameStats {
-        OK, NOT_TODAY, NOT_THIS_MONTH
+        /**
+         *
+         */
+        OK, /**
+         * Represents the "NOT_TODAY" fame status, which likely signifies a state where a certain action or interaction
+         * is restricted or unavailable for the current day.
+         */
+        NOT_TODAY, /**
+         * Denotes a monthly fame status where the action or event is not applicable
+         * for the current month.
+         */
+        NOT_THIS_MONTH
     }
 
+    /**
+     * Companion object containing utility constants and functions for handling character and account operations.
+     */
     companion object : KLogging() {
+        /**
+         * A constant string template used to announce and celebrate a user reaching level 200.
+         *
+         * The string includes a placeholder (%s) for dynamically inserting the user's name.
+         * It is formatted to convey a congratulatory message when a user achieves this milestone.
+         */
         const val LEVEL_200 = "[축하] %s님이 레벨 200을 달성했습니다. 모두 축하해 주세요."
+        /**
+         *
+         */
         val DEFAULT_KEY = arrayOf(
             18,
             65,
@@ -2481,6 +4265,11 @@ class Character(
             41,
             39
         )
+        /**
+         * A predefined array of integers representing constant default values.
+         * These values may be used as a reference or configuration in specific contexts
+         * where a predefined pattern or set of defaults is needed.
+         */
         val DEFAULT_TYPE = arrayOf(
             4,
             6,
@@ -2523,6 +4312,9 @@ class Character(
             4,
             4
         )
+        /**
+         *
+         */
         val DEFAULT_ACTION = arrayOf(
             0,
             106,
@@ -2566,6 +4358,17 @@ class Character(
             27
         )
 
+        /**
+         * Bans a user or an IP address based on the provided identifier.
+         * The method will attempt to ban either an account or a character by updating the database.
+         * If the identifier matches the pattern of an IP address, the IP will be banned by inserting it into the IPBans table.
+         * Otherwise, the method identifies whether it's an account or character and updates the respective account with a ban status and reason in the database.
+         *
+         * @param id The identifier to ban. It can be an IP address, account name, or character name.
+         * @param reason The reason for the ban. This is stored in the database for record-keeping.
+         * @param accountId A boolean flag to indicate if the identifier refers to an account name. If false, the identifier is treated as a character name.
+         * @return Returns true if the ban operation was successful, false otherwise.
+         */
         fun ban(id: String, reason: String, accountId: Boolean): Boolean {
             var result = false
             try {
@@ -2598,8 +4401,18 @@ class Character(
             return result
         }
 
+        /**
+         *
+         */
         fun checkNameAvailable(name: String) = name.toByteArray().size in 3..13 || getIdByName(name) != -1
 
+        /**
+         * Retrieves character information from the database based on the provided name.
+         *
+         * @param name The name of the character to be retrieved from the database.
+         * @return An instance of SimpleCharacterInfo containing the character's details if found,
+         * or null if the character does not exist or if an error occurs during the database query.
+         */
         fun getCharacterFromDatabase(name: String): CashOperationHandler.Companion.SimpleCharacterInfo? {
             var character: CashOperationHandler.Companion.SimpleCharacterInfo? = null
             try {
@@ -2621,6 +4434,9 @@ class Character(
             return character
         }
 
+        /**
+         *
+         */
         fun getDefault(c: Client): Character {
             val ret = Character(c.world, c.accountId, map = c.getChannelServer().mapFactory.getMap(0), c)
             ret.getInventory(InventoryType.EQUIP)?.slotLimit = 24
@@ -2638,6 +4454,12 @@ class Character(
             return ret
         }
 
+        /**
+         * Retrieves the ID associated with a given name from the Characters database.
+         *
+         * @param name The name of the character to look up in the database.
+         * @return The ID of the character if found, 1 if the character exists but does not have an ID, or -1 if an error occurs or the character does not exist.
+         */
         fun getIdByName(name: String): Int {
             try {
                 var code: Int = -1
@@ -2653,6 +4475,9 @@ class Character(
             return -1
         }
 
+        /**
+         *
+         */
         fun loadCharFromDatabase(charId: Int, client: Client, channelServer: Boolean): Character? {
             try {
                 var char: Character? = null
@@ -2891,6 +4716,12 @@ class Character(
             return null
         }
 
+        /**
+         * Modifies the input string to enhance its readability by replacing specific character sequences.
+         *
+         * @param r the input string to be processed
+         * @return a new string with substitutions applied for improved readability
+         */
         fun makeReadable(r: String): String {
             var i = r.replace('I', 'i')
             i = i.replace('l', 'L')
@@ -2900,23 +4731,88 @@ class Character(
             return i
         }
 
+        /**
+         * Generates a random integer within the specified range [left, right].
+         *
+         * @param left The lower bound (inclusive) of the range.
+         * @param right The upper bound (inclusive) of the range.
+         * @return A random integer within the range [left, right].
+         */
         fun rand(left: Int, right: Int) = Random.nextInt((right - left + 1) + left)
 
+        /**
+         * Represents an action to cancel the cooldown of a specific skill for a character.
+         *
+         * This class implements the Runnable interface, allowing it to be executed as a task.
+         * When run, it removes the cooldown of the specified skill from the target character
+         * and notifies the client about the cooldown reset.
+         *
+         * @property target The character on which the cooldown cancellation is performed.
+         * @property skillId The ID of the skill whose cooldown is to be canceled.
+         */
         class CancelCoolDownAction(val target: Character, val skillId: Int) : Runnable {
+            /**
+             * Executes the run method to manage the cooldown removal for a specific skill of a target.
+             *
+             * This method performs the following:
+             * - Removes a cooldown associated with the specified skillId from the target.
+             * - Notifies the client's target about the skill cooldown removal through an announcement packet.
+             */
             override fun run() {
                 target.removeCoolDown(skillId)
                 target.client.announce(CharacterPacket.skillCoolDown(skillId, 0))
             }
         }
 
+        /**
+         * Data class representing a holder for buff statistics.
+         *
+         * @property effect The stat effect associated with the buff.
+         * @property startTime The start time of the buff in milliseconds.
+         * @property schedule The scheduled job associated with the buff.
+         * @property value The current value of the buff.
+         */
         data class BuffStatValueHolder(val effect: StatEffect, val startTime: Long, val schedule: Job, var value: Int)
 
+        /**
+         * A data class representing a holder for cooldown values associated with a specific skill.
+         *
+         * @property skillId The unique identifier for the skill.
+         * @property startTime The timestamp indicating when the cooldown started, in milliseconds since epoch.
+         * @property length The duration of the cooldown in milliseconds.
+         * @property timer An optional Job instance that can manage the cooldown's lifecycle.
+         */
         data class CoolDownValueHolder(val skillId: Int, val startTime: Long, val length: Long, val timer: Job?)
 
+        /**
+         * Represents an entry for a skill, including its level, master level, and expiration time.
+         *
+         * @property skillLevel The level of the skill as a Byte.
+         * @property masterLevel The master level of the skill as an Int.
+         * @property expiration The expiration time of the skill in milliseconds as a Long.
+         */
         data class SkillEntry(val skillLevel: Byte, val masterLevel: Int, val expiration: Long) {
+            /**
+             * Returns a string representation of the object.
+             *
+             * This method overrides the default `toString()` implementation
+             * to provide a string representation combining the skill level
+             * and master level properties in the format: "skillLevel:masterLevel".
+             *
+             * @return A string formatted as "skillLevel:masterLevel".
+             */
             override fun toString() = "$skillLevel:$masterLevel"
         }
 
+        /**
+         * Represents a Note object holding information about a message sent by a user.
+         *
+         * @property id Unique identifier for the note.
+         * @property from The name or identifier of the sender of the note.
+         * @property message The actual content of the note or message.
+         * @property timestamp The time at which the note was created or sent, represented as a UNIX timestamp.
+         * @property fame A custom value representing some characteristic or importance level of the note.
+         */
         data class Note(val id: Int, val from: String, val message: String, val timestamp: Long, val fame: Byte)
     }
 }

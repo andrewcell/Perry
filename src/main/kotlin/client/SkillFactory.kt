@@ -13,13 +13,49 @@ import tools.StringXmlParser
 import java.io.File
 import kotlin.collections.first as first1
 
+/**
+ * The `SkillFactory` class provides functionality for managing and retrieving skills in the system.
+ * It acts as a central repository for skill data and includes several methods for accessing skill information.
+ */
 class SkillFactory {
+    /**
+     * Companion object for the `SkillFactory` class, responsible for managing and providing access to skills.
+     * It includes methods for retrieving skill data, skill names, loading skills, and more.
+     * This object utilizes a data source to load skill information dynamically.
+     */
     companion object : KLogging() {
+        /**
+         * A mutable map that associates an integer key with a corresponding [Skill] object.
+         * This map is used to manage a collection of skills that can be accessed or modified
+         * using their associated integer identifiers.
+         *
+         * Represents:
+         * - Key: An integer identifier for the skill.
+         * - Value: A [Skill] object associated with the identifier.
+         */
         val skills = mutableMapOf<Int, Skill>()
+        /**
+         * Represents the data source for retrieving skill-related data.
+         * Initialized using a factory method that provides access to the "Skill.wz" file located
+         * within the specified directory structure.
+         * Utilizes `DataProvider` to facilitate data management and retrieval.
+         */
         private val dataSource: DataProvider = DataProviderFactory.getDataProvider(DataProviderFactory.fileInWzPath("Skill.wz"))
 
+        /**
+         * Retrieves a Skill object based on the provided identifier.
+         *
+         * @param id The identifier of the skill to retrieve. Can be null.
+         * @return The Skill object associated with the given identifier, or null if no such skill exists.
+         */
         fun getSkill(id: Int?): Skill? = skills[id]
 
+        /**
+         * Retrieves the name of a skill based on its unique identifier.
+         *
+         * @param id The unique identifier for the skill.
+         * @return The name of the skill as a String, or null if not found.
+         */
         fun getSkillName(id: Int): String? {
             val data = DataProviderFactory.getDataProvider(File("${ServerJSON.settings.wzPath}/String.wz")).getData("Skill.img")
             val skill = StringBuilder()
@@ -37,6 +73,13 @@ class SkillFactory {
             return null
         }
 
+        /**
+         * Loads a `Skill` instance from the provided data source.
+         *
+         * @param id The unique identifier of the skill being loaded.
+         * @param data The data source to load the skill information from.
+         * @return The constructed `Skill` instance with its properties and effects populated from the data.
+         */
         private fun loadFromData(id: Int, data: Data): Skill {
             val ret = Skill(id)
             var isBuff = false
@@ -83,11 +126,30 @@ class SkillFactory {
             return ret
         }
 
+        /**
+         * Retrieves skill data associated with a given job ID.
+         *
+         * @param jobId The unique identifier for the job whose skill data is to be retrieved.
+         * @return A Data object containing the skill data for the specified job ID, or null if no matching data is found.
+         */
         fun getSkillDataByJobId(jobId: Int): Data? {
             val file = dataSource.root.files.first1 { it.name == "$jobId.img" }
             return dataSource.getData(file.name)
         }
 
+        /**
+         * Loads all skills from the data source and populates them into the skills map.
+         * This function iterates over the provided root data structure, extracts skill-related data, and processes it
+         * using helper functions to create and initialize skill objects. The skill names are also parsed and added to
+         * a skill entry list for reference.
+         *
+         * The process involves:
+         * - Navigating through the directory structure retrieved from the data source.
+         * - Filtering and processing only the relevant directories and files containing skill data.
+         * - Parsing skill data to create `Skill` objects and populating their details.
+         * - Logging trace information for progress monitoring.
+         * - Populating a mapping of skill IDs to `Skill` objects and skill names for further usage in the system.
+         */
         fun loadAllSkills() {
             val root = dataSource.root
             var skillId: Int
