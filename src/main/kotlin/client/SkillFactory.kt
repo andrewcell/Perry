@@ -97,14 +97,14 @@ class SkillFactory {
                     dataSource.getData(topDir.name)?.forEach { data ->
                         if (data.name == "skill") {
                             data.forEach { data2 ->
-                                if (data2 != null) {
-                                    skillId = data2.name.toInt()
-                                    val skill = loadFromData(skillId, data2)
-                                    val skillName = getSkillName(skill.id) ?: "Unknown"
-                                    StringXmlParser.addSkillEntry(skillId, skillName)
-                                    logger.trace { "Skill: ${skill.id} - $skillName" }
-                                    skills[skillId] = skill
-                                }
+                                skillId = data2.name.toInt()
+                                val skill = loadFromData(skillId, data2)
+                                val skillName = getSkillName(skill.id) ?: "Unknown"
+                                StringXmlParser.addSkillEntry(skillId, skillName)
+                                logger.trace {
+
+                                    "Skill: ${skill.id} - $skillName" }
+                                skills[skillId] = skill
                             }
                         }
                     }
