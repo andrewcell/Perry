@@ -37,6 +37,12 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.*
 
+/**
+ * Represents a request to register a new user account.
+ *
+ * Contains the necessary information for account creation, including authentication credentials,
+ * personal details (birthday and gender), and official identification data.
+ */
 @Serializable
 data class RegisterRequest(
     val email: String,
@@ -46,6 +52,12 @@ data class RegisterRequest(
     val socialNumber: Int
 )
 
+/**
+ * Represents a request to authenticate a user.
+ *
+ * Contains the necessary credentials (email and password) for login,
+ * along with an optional request token used in specific authentication flows.
+ */
 @Serializable
 data class LoginRequest(
     val email: String,
@@ -53,6 +65,25 @@ data class LoginRequest(
     val requestToken: String? = null
 )
 
+/**
+ * Represents detailed information about an account.
+ *
+ * Contains core account metadata and status-related fields,
+ * including login activity, ban state, registration details, and associated identifiers.
+ *
+ * All fields except [name] are optional, allowing partial representation of account data.
+ *
+ * @property name The unique display name of the account holder.
+ * @property nxCredit Optional balance of NX credit associated with the account.
+ * @property mPoint Optional balance of M Point currency.
+ * @property lastLogin Optional Unix timestamp (milliseconds) of the last login attempt; null if never logged in.
+ * @property createdAt Optional Unix timestamp (milliseconds) when the account was created; null if unknown.
+ * @property banned Optional indication of whether the account is currently banned.
+ * @property banReason Optional human-readable reason for the current ban status, if applicable.
+ * @property female Optional gender indicator: true for female, false for male, null if unspecified or unknown.
+ * @property socialNumber Optional integer identifier used for social/external reference purposes.
+ * @property registeredIP Optional IP address string recorded at account registration time.
+ */
 @Serializable
 data class AccountInfo(
     val name: String,
@@ -67,6 +98,12 @@ data class AccountInfo(
     val registeredIP: String?
 )
 
+/**
+ * Represents a request to change an authenticated user's password.
+ *
+ * The request must include the user's current credentials and the new desired password,
+ * with explicit confirmation of the new password. All fields are required for validation.
+ */
 @Serializable
 data class ChangePasswordRequest(
     val name: String,
@@ -75,8 +112,25 @@ data class ChangePasswordRequest(
     val newPasswordCheck: String,
 )
 
-
 private val logger = KotlinLogging.logger {  }
+
+/**
+ * Registers a Ktor [Route] for account-related operations under the "/account" path.
+ *
+ * This route group includes:
+ * - `/register`: POST endpoint to register a new account, validating uniqueness of email and IP,
+ *   parsing birthday, and invoking [AutoRegister.registerAccount].
+ * - `/login`: POST endpoint to authenticate users by comparing hashed password with stored salt,
+ *   returning a JWT token upon success.
+ * - Sub-routes under authentication:
+ *   - `/info`: GET endpoint to retrieve detailed account information for the authenticated user.
+ *   - `/info`: PUT endpoint to update the authenticated user's gender and social number.
+ *   - `/delete`: DELETE endpoint to disconnect all active sessions associated with the user’s account ID
+ *     before account deletion (implementation truncated in snippet).
+ *
+ * All responses use [ApiResponse] structured with status messages from [ResponseMessage],
+ * appropriate HTTP status codes, and optional payload data when needed.
+ */
 fun Route.account() {
     route("/account") {
         post("/register") {
