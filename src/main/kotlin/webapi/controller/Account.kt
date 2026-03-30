@@ -178,54 +178,73 @@ fun Route.account() {
             var gm: Int? = null
             try {
                 transaction {
+                    // Retrieve the salt value for the given email
                     val account = Accounts.select(Accounts.salt).where { Accounts.name eq user.email }
+                    // If no account exists with this email, exit early
                     if (account.empty()) return@transaction
+
+                    // Query for account details by matching email and hashed password
                     val row = Accounts.select(Accounts.name, Accounts.id, Accounts.gm).where {
                         (Accounts.name eq user.email) and (Accounts.password eq PasswordHash.generate(
                             user.password,
                             Hex.decode(account.first()[Accounts.salt] ?: "")
                         ))
                     }
+
+                    // Check if the password match was successful
                     if (row.empty()) {
+                        // No matching record - authentication failed
                         return@transaction
                     } else {
+                        // Extract account information from the result
                         val acc = row.first()
                         login = acc[Accounts.name]
                         id = acc[Accounts.id]
+                        // Set GM level if the account has admin privileges
                         if (acc[Accounts.gm] >= 1)
                             gm = acc[Accounts.gm]
                     }
                 }
                 if (login == null) {
+                    // Authentication failed - respond with unauthorized status
                     call.respond(
                         HttpStatusCode.Unauthorized,
                         ApiResponse(false, ResponseMessage.INCORRECT_EMAIL_PASSWORD)
                     )
                 } else {
+                    // Authentication successful - create JWT token
                     val token = JWT.create()
-                        .withAudience(JWTVariables.audience)
-                        .withIssuer(JWTVariables.issuer)
-                        .withClaim("name", login)
-                        .withClaim("id", id)
-                        .withClaim("gm", gm)
-                        .withExpiresAt(Date(System.currentTimeMillis() + 60000))
-                        .sign(Algorithm.HMAC256(JWTVariables.secret))
+                        .withAudience(JWTVariables.audience)  // Set token audience
+                        .withIssuer(JWTVariables.issuer)      // Set token issuer
+                        .withClaim("name", login)              // Embed username in token
+                        .withClaim("id", id)                   // Embed user ID in token
+                        .withClaim("gm", gm)                   // Embed GM level in token (if applicable)
+                        .withExpiresAt(Date(System.currentTimeMillis() + 60000))  // Token expires in 60 seconds
+                        .sign(Algorithm.HMAC256(JWTVariables.secret))  // Sign token with HMAC256
+
+                    // Return success response with the generated token
                     call.respond(ApiResponse(true, ResponseMessage.SUCCESS, Json.encodeToJsonElement(mapOf("token" to token))))
                 }
             } catch (e: Exception) {
+                // Log the exception and return an internal server error
                 logger.error(e) { e.message }
                 call.respond(HttpStatusCode.InternalServerError, ApiResponse.internalError)
             }
         }
         authenticate("auth") { // Require token
             get("/info") {
+                // Extract JWT principal from the authenticated request
                 val principal = call.principal<JWTPrincipal>() ?: return@get
                 val id = principal.payload.getClaim("id").asInt()
                 val name = principal.payload.getClaim("name").asString()
+
+                // Initialize response variables
                 var message = ResponseMessage.SUCCESS
                 var statusCode = HttpStatusCode.OK
                 var data: AccountInfo? = null
+
                 transaction {
+                    // Query account information from a database
                     val row = Accounts
                         .select(
                             Accounts.name, Accounts.nxCredit, Accounts.mPoint,
@@ -235,10 +254,13 @@ fun Route.account() {
                         .where((Accounts.id eq id) eq (Accounts.name eq name))
                         .limit(1)
                         .firstOrNull()
+
                     if (row == null) {
+                        // Account isn't found - set error response
                         message = ResponseMessage.INTERNAL_ERROR
                         statusCode = HttpStatusCode.InternalServerError
                     } else {
+                        // Map database row to AccountInfo data class
                         data = AccountInfo(
                             name = row[Accounts.name],
                             nxCredit = row[Accounts.nxCredit] ?: 0,
@@ -247,12 +269,14 @@ fun Route.account() {
                             createdAt = row[Accounts.createdAt].toEpochMilli(),
                             banned = row[Accounts.banned],
                             banReason = row[Accounts.banReason] ?: "",
-                            female = row[Accounts.gender] == 1,
+                            female = row[Accounts.gender] == 1,  // Convert gender code to boolean
                             socialNumber = row[Accounts.socialNumber],
                             registeredIP = row[Accounts.sessionIp]
                         )
                     }
                 }
+
+                // Respond with account info or error
                 call.respond(statusCode, ApiResponse(message == ResponseMessage.SUCCESS, message, Json.encodeToJsonElement(data)))
             }
             put("/info") {
