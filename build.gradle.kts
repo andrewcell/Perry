@@ -26,7 +26,7 @@ val exposedVersion: String by project
 val ktorVersion: String by project
 
 dependencies {
-    implementation("io.netty:netty-all:4.2.9.Final")
+    implementation("io.netty:netty-all:4.2.12.Final")
     implementation("com.mysql", "mysql-connector-j", "9.5.0")
     implementation("org.graalvm.js", "js-scriptengine", "25.0.1")
     implementation("org.graalvm.js", "js", "25.0.1")
@@ -34,9 +34,9 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-java-time", exposedVersion)
-    implementation("io.github.microutils", "kotlin-logging", "3.0.5")
+    implementation("io.github.oshai:kotlin-logging:8.0.01")
     //implementation("org.slf4j:slf4j-simple:1.7.26")
-    implementation("com.microsoft.sqlserver:mssql-jdbc:13.3.0.jre11-preview")
+    implementation("com.microsoft.sqlserver:mssql-jdbc:13.4.0.jre11")
     implementation("org.postgresql:postgresql:42.7.9")
     implementation("org.xerial:sqlite-jdbc:3.51.1.0")
     implementation("com.h2database:h2:2.4.240")
@@ -60,6 +60,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.14.2")
     // https://mvnrepository.com/artifact/io.github.oshai/kotlin-logging-jvm
     //runtimeOnly("io.github.oshai:kotlin-logging:6.0.3")
+    implementation(kotlin("test"))
 }
 
 tasks.test {

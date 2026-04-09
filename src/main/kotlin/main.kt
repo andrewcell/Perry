@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
     }
     System.setProperty("polyglot.js.nashorn-compat", "true")
     System.setProperty("polyglot.engine.WarnInterpreterOnly", "false")
-    System.getProperty("kotlin-logging.logStartupMessage", "false")
+    System.setProperty("kotlin-logging.logStartupMessage", "false")
     System.setProperty("configPath", args.firstOrNull() ?: "./settings.json")
     //val lc = LoggerFactory.getILoggerFactory() as LoggerContext
     System.setProperty("log.location", ServerJSON.settings.logging.directory)
