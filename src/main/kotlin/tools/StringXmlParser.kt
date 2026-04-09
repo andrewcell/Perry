@@ -1,6 +1,6 @@
 package tools
 
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import provider.DataProviderFactory
 import provider.DataTool
 import server.life.LifeFactory
@@ -16,8 +16,8 @@ import java.io.File
  * @see webapi.controller.adminSearch
  * @author Seungyeon Choi
  */
-object StringXmlParser : KLoggable {
-    override val logger = logger()
+object StringXmlParser {
+    private val logger = KotlinLogging.logger {  }
 
     val itemData = mutableMapOf<Int, String>()
     val mapData = getMapEntry()

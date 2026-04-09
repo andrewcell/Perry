@@ -3,6 +3,9 @@ package gm.server
 import gm.GMPacketCreator
 import gm.GMServerHandler
 import gm.netty.GMPacketDecoder
+import io.github.oshai.kotlinlogging.KLoggable
+import io.github.oshai.kotlinlogging.KLogger
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelInitializer
@@ -10,11 +13,10 @@ import io.netty.channel.ChannelOption
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
-import mu.KLoggable
 import net.server.Server
 
-object GMServer : KLoggable {
-    override val logger = logger()
+object GMServer {
+    private val logger = KotlinLogging.logger {  }
     private val bootstrap = ServerBootstrap()
     val outGame = mutableMapOf<String, Channel>()
     val inGame = mutableMapOf<String, Channel>()

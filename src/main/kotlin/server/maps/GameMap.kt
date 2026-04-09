@@ -10,8 +10,8 @@ import client.inventory.PetDataFactory
 import client.status.MonsterStatus
 import client.status.MonsterStatusEffect
 import constants.ItemConstants
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Job
-import mu.KLogging
 import net.server.Server
 import scripting.map.MapScriptManager
 import server.InventoryManipulator
@@ -38,6 +38,7 @@ import kotlin.math.round
 import kotlin.random.Random
 
 class GameMap(val mapId: Int, val world: Int, val channel: Int, val returnMapId: Int, monsterRateFloat: Float) {
+    private val logger = KotlinLogging.logger {  }
     private val charactersLock = ReentrantReadWriteLock()
     val mapObjects = mutableMapOf<Int, MapObject>()
     private val monsterSpawn = mutableListOf<SpawnPoint>()
@@ -1548,7 +1549,7 @@ class GameMap(val mapId: Int, val world: Int, val channel: Int, val returnMapId:
         }
     }
 
-    companion object : KLogging() {
+    companion object {
         val rangedMapObjectTypes = listOf(MapObjectType.SHOP, MapObjectType.ITEM, MapObjectType.NPC, MapObjectType.MONSTER, MapObjectType.DOOR, MapObjectType.SUMMON, MapObjectType.REACTOR)
     }
 }

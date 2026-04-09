@@ -1,12 +1,13 @@
 package tools.data.input
 
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
+
 
 /**
  * Provides an abstract accessor to a generic Little Endian byte stream. This accessor is seekable.
  */
-class GenericSeekableLittleEndianAccessor(override val bs: SeekableInputStreamByteStream) : GenericLittleEndianAccessor(bs), SeekableLittleEndianAccessor, KLoggable {
-    override val logger = logger()
+class GenericSeekableLittleEndianAccessor(override val bs: SeekableInputStreamByteStream) : GenericLittleEndianAccessor(bs), SeekableLittleEndianAccessor {
+    private val logger = KotlinLogging.logger {  }
 
     /**
      * Seek the pointer to <code>offset</code>

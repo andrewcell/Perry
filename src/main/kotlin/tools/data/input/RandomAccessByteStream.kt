@@ -1,6 +1,6 @@
 package tools.data.input
 
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import java.io.IOException
 import java.io.RandomAccessFile
 
@@ -12,7 +12,7 @@ import java.io.RandomAccessFile
  * @constructor Initializes the byte stream with the given `RandomAccessFile`.
  * @param raf The `RandomAccessFile` instance serving as the data source for the stream.
  */
-class RandomAccessByteStream(val raf: RandomAccessFile) : SeekableInputStreamByteStream, KLoggable {
+class RandomAccessByteStream(val raf: RandomAccessFile) : SeekableInputStreamByteStream {
     /**
      * Logger instance for this class, used for logging debug, informational, warning, and error messages.
      *
@@ -20,7 +20,7 @@ class RandomAccessByteStream(val raf: RandomAccessFile) : SeekableInputStreamByt
      * to access a logger specific to the class. It can be used to record runtime events, errors, and other
      * diagnostic information for debugging and operational monitoring.
      */
-    override val logger = logger()
+    private val logger = KotlinLogging.logger {  }
 
     /**
      * Tracks the total number of bytes read from the stream.

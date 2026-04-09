@@ -1,7 +1,7 @@
 package scripting.event
 
 import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.server.channel.Channel
 import scripting.AbstractScriptManager
 import javax.script.Invocable
@@ -9,6 +9,8 @@ import javax.script.ScriptContext.ENGINE_SCOPE
 import javax.script.ScriptEngineManager
 
 class EventScriptManager(channelServer: Channel, scripts: Array<String>) : AbstractScriptManager() {
+    private val logger = KotlinLogging.logger {  }
+
     data class EventEntry(val iv: Invocable, val em: EventManager)
 
     val events = mutableMapOf<String, EventEntry>()
@@ -47,6 +49,4 @@ class EventScriptManager(channelServer: Channel, scripts: Array<String>) : Abstr
     }
 
     fun cancel() = events.values.forEach { it.em.cancel() }
-
-    companion object : KLogging()
 }

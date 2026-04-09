@@ -6,7 +6,7 @@ import client.inventory.InventoryType
 import client.inventory.Pet
 import client.inventory.PetDataFactory
 import database.Pets
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
@@ -20,8 +20,8 @@ import tools.packet.CashPacket
 import java.io.File
 import java.sql.SQLException
 
-class SpawnPetHandler : AbstractPacketHandler(), KLoggable {
-    override val logger = logger()
+class SpawnPetHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
 
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val chr = c.player ?: return

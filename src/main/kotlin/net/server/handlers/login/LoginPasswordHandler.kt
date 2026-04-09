@@ -2,7 +2,7 @@ package net.server.handlers.login
 
 import client.Client
 import constants.ServerConstants
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.PacketHandler
 import net.server.Server
 import tools.CoroutineManager
@@ -12,8 +12,8 @@ import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.InteractPacket
 import tools.packet.LoginPacket
 
-class LoginPasswordHandler : PacketHandler, KLoggable {
-    override val logger = logger()
+class LoginPasswordHandler : PacketHandler {
+    private val logger = KotlinLogging.logger {  }
 
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         /*

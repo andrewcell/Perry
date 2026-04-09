@@ -1,7 +1,7 @@
 package client.inventory
 
 import database.Pets
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
@@ -60,7 +60,8 @@ class Pet(id: Int, position: Byte, val uniqueId: Int) : Item(id, position, 1) {
         }
     }
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         fun createPet(itemId: Int): Int {
             try {
                 var id = -1

@@ -3,7 +3,7 @@ package client.inventory
 import client.inventory.ItemFactory.*
 import database.InventoryEquipment
 import database.InventoryItems
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.andWhere
@@ -35,6 +35,7 @@ enum class ItemFactory(val value: Int, val account: Boolean) {
     CASH_EXPLORER(3, true),
     MERCHANT(6, false);
 
+    private val logger = KotlinLogging.logger {  }
     /**
      * Function to load items from the database.
      *
@@ -192,6 +193,4 @@ enum class ItemFactory(val value: Int, val account: Boolean) {
             logger.error(e) { "Failed to save items to database. Id: $id" }
         }
     }
-
-    companion object : KLogging()
 }

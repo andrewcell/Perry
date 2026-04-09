@@ -1,6 +1,6 @@
 package tools
 
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import tools.ResourceFile.logger
 import java.net.URL
 
@@ -13,8 +13,8 @@ import java.net.URL
  * @author A. S. Choe
  * @since 1.0.0
  */
-object ResourceFile : KLoggable {
-    override val logger = logger()
+object ResourceFile {
+    private val logger = KotlinLogging.logger {  }
 
     /**
      * Return path of the file

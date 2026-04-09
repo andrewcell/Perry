@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import database.Accounts
 import database.Characters
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -16,7 +17,6 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
-import mu.KotlinLogging
 import net.server.Server
 import net.server.handlers.login.AutoRegister
 import org.bouncycastle.util.encoders.Hex
@@ -334,29 +334,42 @@ fun Route.account() {
                 }
             }
             put("/password") {
+                // Extract request body and initialize response variables
                 val body = call.receive<ChangePasswordRequest>()
                 var statusCode = HttpStatusCode.OK
                 var message = ResponseMessage.SUCCESS
+                
+                // Get user identity from JWT token
                 val principal = call.principal<JWTPrincipal>() ?: return@put
                 val id = principal.payload.getClaim("id").asInt()
                 val name = principal.payload.getClaim("name").asString()
+                
+                // Validate that new password and confirmation match
                 if (body.newPassword != body.newPasswordCheck) {
                     call.respond(HttpStatusCode.BadRequest, ApiResponse(false, ResponseMessage.PASSWORD_CHECK_MISMATCH))
                     return@put
                 }
+                
                 try {
                     transaction {
+                        // Retrieve the current password hash and salt from database
                         val row = Accounts.select(Accounts.password, Accounts.salt).where((Accounts.id eq id) and (Accounts.name eq name)).firstOrNull()
+                        
                         if (row == null) {
+                            // Account isn't found in a database
                             statusCode = HttpStatusCode.InternalServerError
                             message = ResponseMessage.INTERNAL_ERROR
                         } else {
+                            // Verify the old password provided matches the stored hash
                             val oldMatch = row[Accounts.password] == PasswordHash.generate(row[Accounts.password], Hex.decode(row[Accounts.salt]))
                             if (!oldMatch) {
+                                // Old password doesn't match - authentication failure
                                 statusCode = HttpStatusCode.BadRequest
                                 message = ResponseMessage.INCORRECT_OLD_PASSWORD
                                 return@transaction
                             }
+                            
+                            // Generate new salt and update the password in database
                             Accounts.update({ Accounts.id eq id }) {
                                 val newSalt = PasswordHash.generateSalt()
                                 it[password] = PasswordHash.generate(body.newPassword, newSalt)
@@ -365,10 +378,12 @@ fun Route.account() {
                         }
                     }
                 } catch (e: Exception) {
+                    // Log any unexpected errors and return internal server error
                     logger.error(e) { e.message }
                     statusCode = HttpStatusCode.InternalServerError
                     message = ResponseMessage.INTERNAL_ERROR
                 } finally {
+                    // Send a final response with status code and success/error message
                     call.respond(statusCode, ApiResponse(message == ResponseMessage.SUCCESS, message))
                 }
             }

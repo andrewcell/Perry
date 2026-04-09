@@ -1,7 +1,7 @@
 package tools
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.*
-import mu.KLoggable
 
 /**
  * Schedule or Make a background job using Coroutines from Kotlin.
@@ -9,8 +9,8 @@ import mu.KLoggable
  * @author A. S. Choe
  * @since 1.0.0
  */
-object CoroutineManager : KLoggable {
-    override val logger = logger()
+object CoroutineManager {
+    private val logger = KotlinLogging.logger {  }
 
     /**
      * Schedule the Job.

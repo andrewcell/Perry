@@ -4,7 +4,7 @@ import client.Client
 import database.Characters
 import database.Guilds
 import database.Notes
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.server.Server
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
@@ -20,6 +20,7 @@ import java.sql.SQLException
 import java.time.Instant
 
 class Guild(creator: GuildCharacter) {
+    private val logger = KotlinLogging.logger {  }
     val members = mutableListOf<GuildCharacter>()
     private val rankTitles = arrayOf("길드마스터", "부마스터", "길드원", "길드원", "길드원")
     val world = creator.world
@@ -314,7 +315,8 @@ class Guild(creator: GuildCharacter) {
         NONE, DISBAND, EMBLEMCHANGE
     }
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         const val CREATE_GUILD_COST = 1500000
         const val CHANGE_EMBLEM_COST = 5000000
 

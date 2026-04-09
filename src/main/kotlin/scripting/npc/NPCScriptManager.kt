@@ -2,14 +2,14 @@ package scripting.npc
 
 import client.Character
 import client.Client
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import scripting.AbstractScriptManager
 import javax.script.Invocable
 import javax.script.ScriptContext
 import javax.script.ScriptEngineManager
 
-object NPCScriptManager : AbstractScriptManager(), KLoggable {
-    override val logger = logger()
+object NPCScriptManager : AbstractScriptManager() {
+    private val logger = KotlinLogging.logger {  }
     private val cms = mutableMapOf<Client, NPCConversationManager>()
     private val scripts = mutableMapOf<Client, Invocable>()
 

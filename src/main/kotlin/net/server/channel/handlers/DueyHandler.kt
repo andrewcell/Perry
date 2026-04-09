@@ -8,7 +8,7 @@ import client.inventory.Item
 import constants.ItemConstants
 import database.Characters
 import database.DueyItems
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
@@ -252,7 +252,9 @@ class DueyHandler : AbstractPacketHandler() {
         TOCLIENT_PACKAGE_MSG(0x1B); // Ending byte; 4 if recieved. 3 if delete.
     }
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
+
         fun getAccIdFromCname(name: String, accountId: Boolean): Int {
             var result = -1
             try {

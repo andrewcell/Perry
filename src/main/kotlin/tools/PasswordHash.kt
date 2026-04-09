@@ -1,6 +1,6 @@
 package tools
 
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.bouncycastle.crypto.digests.SHA3Digest
 import org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator
 import org.bouncycastle.crypto.params.KeyParameter
@@ -20,7 +20,9 @@ import javax.crypto.spec.PBEKeySpec
  * @since 1.0.0
  */
 class PasswordHash {
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
+
         /**
          * Generate hash using algorithm defined in settings file
          *

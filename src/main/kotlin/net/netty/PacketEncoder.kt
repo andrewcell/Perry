@@ -1,13 +1,15 @@
 package net.netty
 
 import client.Client
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
-import mu.KLogging
 import tools.ServerJSON
 
 class PacketEncoder : MessageToByteEncoder<ByteArray>() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun encode(ctx: ChannelHandlerContext?, msg: ByteArray, out: ByteBuf) {
         val client = ctx?.channel()?.attr(Client.CLIENT_KEY)?.get()
         if (client != null) {
@@ -42,6 +44,4 @@ class PacketEncoder : MessageToByteEncoder<ByteArray>() {
             out.writeBytes(msg)
         }
     }
-
-    companion object : KLogging()
 }

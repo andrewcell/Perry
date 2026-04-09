@@ -1,12 +1,12 @@
 package net.server.handlers.login
 
 import client.Client
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import tools.data.input.SeekableLittleEndianAccessor
 
-class CharListRequestHandler : AbstractPacketHandler(), KLoggable {
-    override val logger = logger()
+class CharListRequestHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
 
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         slea.readByte()

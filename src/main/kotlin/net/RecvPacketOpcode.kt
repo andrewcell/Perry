@@ -1,6 +1,6 @@
 package net
 
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import tools.OpcodeProperties
 
 enum class RecvPacketOpcode {
@@ -178,7 +178,8 @@ enum class RecvPacketOpcode {
     var value = -2
     val checkState = true
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         var loaded = false
 
         init { loadOpcode() }

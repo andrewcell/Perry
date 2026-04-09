@@ -7,7 +7,7 @@ import client.inventory.InventoryType
 import client.inventory.Item
 import client.inventory.ModifyInventory
 import constants.ItemConstants
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import tools.PacketCreator
 import tools.packet.CharacterPacket
 import tools.packet.ItemPacket
@@ -16,7 +16,9 @@ import kotlin.math.ceil
 import server.ItemInformationProvider as ii
 
 class InventoryManipulator {
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
+
         fun addById(c: Client, itemId: Int, quantity: Short) = addById(c, itemId, quantity, null, -1, -1)
 
         fun addById(c: Client, itemId: Int, quantity: Short, expiration: Long) = addById(c, itemId, quantity, null, -1, 0, expiration)

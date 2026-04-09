@@ -1,6 +1,6 @@
 package net
 
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import tools.OpcodeProperties
 
 enum class SendPacketOpcode {
@@ -319,7 +319,8 @@ enum class SendPacketOpcode {
 
     var value = -2
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         private var loaded = false
 
         init { loadOpcode() }

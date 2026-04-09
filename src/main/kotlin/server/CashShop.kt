@@ -6,7 +6,7 @@ import database.Accounts
 import database.Gifts
 import database.SpecialCashItems
 import database.Wishlists
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
 import org.jetbrains.exposed.v1.jdbc.insert
@@ -23,6 +23,8 @@ import kotlin.random.Random
 import server.ItemInformationProvider as ii
 
 class CashShop(val accountId: Int, val characterId: Int) {
+    private val logger = KotlinLogging.logger {  }
+
     data class CashItem(val sn: Int, val itemId: Int, val price: Int, val period: Long, val count: Short, val onSale: Boolean) {
         fun toItem(): Item {
             val petId = if (ItemConstants.isPet(itemId)) Pet.createPet(itemId) else -1
@@ -42,7 +44,8 @@ class CashShop(val accountId: Int, val characterId: Int) {
     data class SpecialCashItem(val sn: Int, val modifier: Int, val info: Byte)
 
     class CashItemFactory {
-        companion object : KLogging() {
+        companion object {
+            private val logger = KotlinLogging.logger {  }
             val items = mutableMapOf<Int, CashItem>()
             private val packages = mutableMapOf<Int, List<Int>>()
             private val specialCashItems = mutableListOf<SpecialCashItem>()
@@ -246,6 +249,4 @@ class CashShop(val accountId: Int, val characterId: Int) {
             }
         }
     }
-
-    companion object : KLogging()
 }

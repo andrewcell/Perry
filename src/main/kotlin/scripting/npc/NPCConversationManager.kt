@@ -8,14 +8,13 @@ import client.inventory.SkinColor
 import constants.ExpTable
 import constants.ItemConstants
 import database.Characters
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.server.Server
 import net.server.guild.Guild
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.greaterEq
 import org.jetbrains.exposed.v1.core.less
-import org.jetbrains.exposed.v1.jdbc.select
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import provider.DataProviderFactory
@@ -308,7 +307,9 @@ open class NPCConversationManager(c: Client, val npc: Int) : AbstractPlayerInter
         pendingDisposal = true
     }
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
+
         fun ranking(rk: Boolean): ResultRow? {
             var rs: ResultRow? = null
             try {

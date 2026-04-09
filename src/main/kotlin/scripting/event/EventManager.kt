@@ -1,7 +1,7 @@
 package scripting.event
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Job
-import mu.KLoggable
 import net.server.channel.Channel
 import net.server.world.Party
 import server.maps.GameMap
@@ -11,8 +11,8 @@ import java.util.*
 import java.util.concurrent.CancellationException
 import javax.script.Invocable
 
-class EventManager(val channelServer: Channel, val iv: Invocable, val name: String) : KLoggable {
-    override val logger = logger()
+class EventManager(val channelServer: Channel, val iv: Invocable, val name: String) {
+    private val logger = KotlinLogging.logger {  }
     var schedule: Job? = null
     var shuffleReactors = false
     val props = Properties()

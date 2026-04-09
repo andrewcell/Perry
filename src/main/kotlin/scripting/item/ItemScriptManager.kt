@@ -1,7 +1,7 @@
 package scripting.item
 
 import client.Client
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import tools.PacketCreator
 import java.io.File
 import java.io.FileReader
@@ -9,8 +9,8 @@ import javax.script.Compilable
 import javax.script.Invocable
 import javax.script.ScriptEngineManager
 
-object ItemScriptManager : KLoggable {
-    override val logger = logger()
+object ItemScriptManager {
+    private val logger = KotlinLogging.logger {  }
     private val scripts = mutableMapOf<String, Invocable>()
     private val sef = ScriptEngineManager().getEngineByName("graal.js").factory
 

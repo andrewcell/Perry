@@ -2,11 +2,11 @@ package client
 
 import database.*
 import gm.server.GMServer
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.netty.channel.Channel
 import io.netty.channel.ChannelFuture
 import io.netty.util.AttributeKey
 import kotlinx.coroutines.Job
-import mu.KLogging
 import net.RecvPacketOpcode
 import net.server.Server
 import net.server.guild.GuildCharacter
@@ -72,6 +72,11 @@ import javax.script.ScriptEngine
  * @property timesCounter A counter used for tracking repeated interactions.
  */
 class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncryption, val session: Channel) {
+    /**
+     * Logger instance using Kotlin Logging, configured with the default logger name derived from the enclosing class.
+     */
+    private val logger = KotlinLogging.logger {  }
+
     /**
      * Represents the unique identifier for an account associated with the client.
      * This is used to distinguish different accounts in the system and is set to
@@ -982,7 +987,12 @@ class Client(val sendCrypto: PacketEncryption, val receiveCrypto: PacketEncrypti
      * Companion object providing constants, functions, and logging for managing login states, clients,
      * and character-related operations.
      */
-    companion object : KLogging() {
+    companion object {
+        /**
+         * Logger instance for recording application events and diagnostics.
+         */
+        private val logger = KotlinLogging.logger {  }
+
         /**
          * Represents the state of a client when it is not logged in.
          * This value indicates that the client has not successfully authenticated,

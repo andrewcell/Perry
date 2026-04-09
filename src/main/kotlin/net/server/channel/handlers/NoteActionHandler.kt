@@ -2,7 +2,7 @@ package net.server.channel.handlers
 
 import client.Client
 import database.Notes
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
@@ -15,6 +15,8 @@ import tools.packet.InteractPacket
 import java.sql.SQLException
 
 class NoteActionHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val action = slea.readByte().toInt()
         c.player?.let { player ->
@@ -57,6 +59,4 @@ class NoteActionHandler : AbstractPacketHandler() {
             }
         }
     }
-
-    companion object : KLogging()
 }

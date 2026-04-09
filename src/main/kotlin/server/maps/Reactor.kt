@@ -1,7 +1,7 @@
 package server.maps
 
 import client.Client
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import scripting.reactor.ReactorScriptManager
 import tools.CoroutineManager
 import tools.packet.GameplayPacket
@@ -9,8 +9,8 @@ import java.awt.Point
 import java.awt.Rectangle
 
 class Reactor(val stats: ReactorStats, val rid: Int, val delay: Int, var state: Byte, val name: String,
-              pos: Point) : AbstractMapObject(), KLoggable {
-    override val logger = logger()
+              pos: Point) : AbstractMapObject() {
+    private val logger = KotlinLogging.logger {  }
     var alive = true
     var timerActive = false
     var map: GameMap? = null

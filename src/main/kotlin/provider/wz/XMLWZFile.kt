@@ -1,14 +1,14 @@
 package provider.wz
 
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import provider.Data
 import provider.DataProvider
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 
-class XMLWZFile(private val rootFile: File) : DataProvider, KLoggable {
-    override val logger = logger()
+class XMLWZFile(private val rootFile: File) : DataProvider {
+    private val logger = KotlinLogging.logger {  }
     override val root = WZDirectoryEntry(rootFile.name, 0, 0, null)
 
     init {

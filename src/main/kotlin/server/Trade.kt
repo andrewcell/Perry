@@ -4,13 +4,13 @@ import client.Character
 import client.inventory.InventoryType
 import client.inventory.Item
 import constants.ItemConstants
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import tools.PacketCreator
 import tools.packet.InteractPacket
 import kotlin.math.roundToInt
 
-class Trade(val number: Byte, val chr: Character) : KLoggable {
-    override val logger = logger()
+class Trade(val number: Byte, val chr: Character) {
+    private val logger = KotlinLogging.logger {  }
     var locked = false
     var partner: Trade? = null
         set(value) {

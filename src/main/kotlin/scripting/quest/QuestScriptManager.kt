@@ -2,14 +2,14 @@ package scripting.quest
 
 import client.Client
 import client.QuestStatus
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import scripting.AbstractScriptManager
 import server.quest.Quest
 import javax.script.Invocable
 import javax.script.ScriptEngineManager
 
-object QuestScriptManager : AbstractScriptManager(), KLoggable {
-    override val logger = logger()
+object QuestScriptManager : AbstractScriptManager() {
+    private val logger = KotlinLogging.logger {  }
     private val qms = mutableMapOf<Client, QuestActionManager>()
     private val scripts = mutableMapOf<Client, Invocable>()
     private val sem = ScriptEngineManager()

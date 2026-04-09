@@ -1,13 +1,13 @@
 package server.life
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
-import mu.KLoggable
 import tools.ResourceFile
 import tools.settings.DropData
 import tools.settings.DropDataGlobal
 
-object MonsterInformationProvider : KLoggable {
-    override val logger = logger()
+object MonsterInformationProvider {
+    private val logger = KotlinLogging.logger {  }
     private val drops: Map<Int, List<MonsterDropEntry>>
     val globalDrops = mutableListOf<MonsterGlobalDropEntry>()
 

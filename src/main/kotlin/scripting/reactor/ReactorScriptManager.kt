@@ -1,8 +1,8 @@
 package scripting.reactor
 
 import client.Client
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
-import mu.KLoggable
 import scripting.AbstractScriptManager
 import server.maps.Reactor
 import server.maps.ReactorDropEntry
@@ -11,8 +11,8 @@ import tools.settings.ReactorDropDatabase
 import javax.script.Invocable
 import javax.script.ScriptEngineManager
 
-object ReactorScriptManager : AbstractScriptManager(), KLoggable {
-    override val logger = logger()
+object ReactorScriptManager : AbstractScriptManager() {
+    private val logger = KotlinLogging.logger {  }
     val drops = mutableMapOf<Int, List<ReactorDropEntry>>()
 
     fun act(c: Client, reactor: Reactor) {

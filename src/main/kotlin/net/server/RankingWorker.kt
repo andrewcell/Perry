@@ -3,8 +3,8 @@ package net.server
 import client.GameJob
 import database.Accounts
 import database.Characters
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Runnable
-import mu.KLoggable
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.div
 import org.jetbrains.exposed.v1.core.eq
@@ -14,8 +14,8 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.jetbrains.exposed.v1.jdbc.update
 import java.sql.SQLException
 
-class RankingWorker : Runnable, KLoggable {
-    override val logger = logger()
+class RankingWorker : Runnable {
+    private val logger = KotlinLogging.logger {  }
     private var lastUpdate = System.currentTimeMillis()
 
     @Throws(SQLException::class)

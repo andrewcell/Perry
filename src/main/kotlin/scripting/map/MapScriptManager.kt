@@ -1,7 +1,7 @@
 package scripting.map
 
 import client.Client
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import java.io.File
 import java.io.FileReader
 import javax.script.Compilable
@@ -16,7 +16,7 @@ import javax.script.ScriptEngineManager
  * scripts and checking for their existence in specific directories. The scripts are invoked dynamically
  * based on specific map-related events, such as a user entering a map.
  */
-object MapScriptManager : KLoggable {
+object MapScriptManager {
     /**
      * Logger instance used for logging messages, errors, or other information
      * within the context of the script execution and handling processes.
@@ -25,7 +25,7 @@ object MapScriptManager : KLoggable {
      * debugging information, and status updates during the lifecycle of map
      * script handling, ensuring better traceability and maintainability.
      */
-    override val logger = logger()
+    private val logger = KotlinLogging.logger {  }
     /**
      * A mutable map storing script names mapped to their respective invocable instances.
      *

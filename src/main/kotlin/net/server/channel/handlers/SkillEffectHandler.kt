@@ -2,13 +2,13 @@ package net.server.channel.handlers
 
 import client.Client
 import constants.skills.*
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.CharacterPacket
 
-class SkillEffectHandler : AbstractPacketHandler(), KLoggable {
-    override val logger = logger()
+class SkillEffectHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
 
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val skillId = slea.readInt()

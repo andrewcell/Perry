@@ -4,6 +4,7 @@ import client.*
 import client.inventory.InventoryType
 import client.inventory.Item
 import client.inventory.ModifyInventory
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.SendPacketOpcode
 import server.ItemInformationProvider
 import server.life.MobSkill
@@ -15,6 +16,8 @@ import kotlin.random.Random
 //Packet for characters, inventory, skill, other personal things...
 class CharacterPacket {
     companion object {
+        private val logger = KotlinLogging.logger {  }
+
         private fun addAttackBody(
             lew: LittleEndianWriter,
             chr: Character,
@@ -110,7 +113,7 @@ class CharacterPacket {
         fun addCharEquips(lew: PacketLittleEndianWriter, chr: Character) {
             val equip = chr.getInventory(InventoryType.EQUIPPED)
             if (equip == null) {
-                PacketCreator.logger.error { "chr.getInventory EQUIPPED is null. something gone wrong." }
+                logger.error { "chr.getInventory EQUIPPED is null. something gone wrong." }
                 return
             }
             val ii = ItemInformationProvider.canWearEquipment(chr, equip.list())

@@ -1,6 +1,6 @@
 package tools
 
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -15,6 +15,7 @@ import kotlin.system.exitProcess
  * @constructor Creates an OpcodeProperties object and attempts to load the opcode properties from the specified file.
  */
 class OpcodeProperties(fileName: String) {
+    private val logger = KotlinLogging.logger {  }
     val prop = Properties()
 
     /**
@@ -40,6 +41,4 @@ class OpcodeProperties(fileName: String) {
      * @return The value of the specified key, or null if the key does not exist in the properties.
      */
     fun getString(key: String) = if (!prop.containsKey(key)) null else prop.getProperty(key)
-
-    companion object : KLogging()
 }

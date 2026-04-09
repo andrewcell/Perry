@@ -14,7 +14,7 @@ import client.status.MonsterStatus
 import client.status.MonsterStatusEffect
 import constants.ItemConstants
 import constants.skills.*
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import server.ItemInformationProvider
 import server.StatEffect
@@ -35,6 +35,8 @@ import kotlin.math.min
 import kotlin.random.Random
 
 abstract class AbstractDealDamageHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     @Synchronized protected fun applyAttack(attack: AttackInfo, player: Character, attackCount: Int) {
         var theSkill: Skill? = null
         var attackEffect: StatEffect? = null
@@ -372,7 +374,7 @@ abstract class AbstractDealDamageHandler : AbstractPacketHandler() {
         return ret
     }
 
-    companion object : KLogging() {
+    companion object {
         class AttackInfo {
             var numAttacked = 0
             var numDamage = 0

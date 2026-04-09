@@ -7,8 +7,8 @@ import client.inventory.Item
 import client.inventory.ItemFactory
 import constants.ItemConstants
 import database.Characters
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Job
-import mu.KLoggable
 import net.server.Server
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.select
@@ -23,8 +23,8 @@ import tools.packet.CashPacket
 import java.awt.Point
 import java.sql.SQLException
 
-class HiredMerchant(owner: Character, val itemId: Int, val description: String) : AbstractMapObject(), KLoggable {
-    override val logger = logger()
+class HiredMerchant(owner: Character, val itemId: Int, val description: String) : AbstractMapObject() {
+    private val logger = KotlinLogging.logger {  }
     override var position: Point = owner.position
     val start = System.currentTimeMillis()
     val ownerId = owner.id

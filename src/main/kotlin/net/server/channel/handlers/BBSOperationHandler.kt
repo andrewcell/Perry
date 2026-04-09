@@ -4,7 +4,7 @@ import client.Client
 import database.BBSReplies
 import database.BBSThreads
 import database.BBSThreads.replyCount
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.*
 import org.jetbrains.exposed.v1.core.ResultRow
@@ -85,7 +85,9 @@ class BBSOperationHandler : AbstractPacketHandler() {
         }
     }
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
+
         fun deleteBBSReply(client: Client, replyId: Int) {
             val mc = client.player ?: return
             if (mc.guildId <= 0) return

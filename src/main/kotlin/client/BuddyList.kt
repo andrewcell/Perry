@@ -2,7 +2,9 @@ package client
 
 import database.Buddies
 import database.Characters
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KLogger
+import io.github.oshai.kotlinlogging.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
@@ -11,12 +13,18 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import tools.packet.InteractPacket
 import java.sql.SQLException
 
+
 /**
  * Manages the buddy list for a character, including active buddies and pending requests.
  *
  * @param capacity The maximum number of buddies allowed in the list.
  */
 class BuddyList(var capacity: Int) {
+    /**
+     * Logger instance used for logging messages specific to the [BuddyList] class.
+     */
+    private val logger = KotlinLogging.logger {  }
+
     /**
      * Map of buddy entries indexed by their character ID.
      */
@@ -165,5 +173,4 @@ class BuddyList(var capacity: Int) {
         BUDDYLIST_FULL, ALREADY_ON_LIST, OK
     }
 
-    companion object : KLogging()
 }

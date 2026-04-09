@@ -1,7 +1,7 @@
 package net
 
 import client.DCHandler
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.RecvPacketOpcode.*
 import net.server.channel.handlers.*
 import net.server.handlers.CustomPacketHandler
@@ -164,7 +164,7 @@ class PacketProcessor {
         }
     }
 
-    companion object : KLogging() {
+    companion object {
         private val instances = mutableMapOf<String, PacketProcessor>()
 
         @Synchronized fun getProcessor(world: Int, channel: Int): PacketProcessor {

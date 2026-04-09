@@ -1,17 +1,17 @@
 package webapi.controller
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import mu.KotlinLogging
 import tools.ServerJSON
 import webapi.tools.ApiResponse
 import webapi.tools.ResponseMessage
 import kotlin.system.exitProcess
 
-private val logger = KotlinLogging.logger { }
+private val logger = KotlinLogging.logger {  }
 
 fun Route.adminServer() {
     authenticate("auth") {

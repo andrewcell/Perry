@@ -5,9 +5,9 @@ import database.Accounts
 import gm.GMPacketCreator
 import gm.GMPacketHandler
 import gm.server.GMServer
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.netty.channel.ChannelHandlerContext
 import io.netty.util.AttributeKey
-import mu.KLogging
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.greaterEq
@@ -17,6 +17,8 @@ import tools.data.input.SeekableLittleEndianAccessor
 import java.sql.SQLException
 
 class LoginHandler : GMPacketHandler {
+    private val logger = KotlinLogging.logger {  }
+
     override fun handlePacket(slea: SeekableLittleEndianAccessor, session: ChannelHandlerContext?) {
         if (GMServer.KEYWORD != slea.readGameASCIIString()) {
             session?.write(GMPacketCreator.sendLoginResponse(-1, ""))
@@ -57,6 +59,4 @@ class LoginHandler : GMPacketHandler {
             logger.error(e) { "Failed to handle login packet. LoginId: $login" }
         }
     }
-
-    companion object : KLogging()
 }

@@ -2,7 +2,7 @@ package net.server.handlers.login
 
 import client.Client
 import database.Accounts
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.bouncycastle.util.encoders.Hex
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.insert
@@ -14,7 +14,8 @@ import java.sql.SQLException
 import java.time.LocalDate
 
 class AutoRegister {
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         private const val ENABLE_IP_COUNT = 10
 
         fun checkAccount(c: Client, name: String, password: String): Int {

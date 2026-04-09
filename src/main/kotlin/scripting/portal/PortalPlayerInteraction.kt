@@ -2,7 +2,7 @@ package scripting.portal
 
 import client.Client
 import database.Characters
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.select
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
@@ -11,8 +11,8 @@ import server.Portal
 import tools.packet.GameplayPacket
 import java.sql.SQLException
 
-class PortalPlayerInteraction(c: Client, val portal: Portal) : AbstractPlayerInteraction(c), KLoggable {
-    override val logger = logger()
+class PortalPlayerInteraction(c: Client, val portal: Portal) : AbstractPlayerInteraction(c) {
+    private val logger = KotlinLogging.logger {  }
 
     fun hasLevel30Character(): Boolean {
         try {

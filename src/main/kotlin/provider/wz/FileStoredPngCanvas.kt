@@ -1,13 +1,13 @@
 package provider.wz
 
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import provider.Canvas
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class FileStoredPngCanvas(override var width: Int, override var height: Int, val file: File) : Canvas, KLoggable {
-    override val logger = logger()
+class FileStoredPngCanvas(override var width: Int, override var height: Int, val file: File) : Canvas {
+    private val logger = KotlinLogging.logger {  }
 
     override var image: BufferedImage? = null
         get() {

@@ -9,8 +9,8 @@ import client.inventory.InventoryType
 import client.inventory.Item
 import client.inventory.WeaponType
 import constants.ItemConstants
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
-import mu.KLoggable
 import provider.Data
 import provider.DataProviderFactory
 import provider.DataTool
@@ -24,8 +24,8 @@ import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.random.Random
 
-object ItemInformationProvider : KLoggable {
-    override val logger = logger()
+object ItemInformationProvider {
+    private val logger = KotlinLogging.logger {  }
     private val itemData = DataProviderFactory.getDataProvider(File(settings.wzPath + "/Item.wz"))
     private val equipData = DataProviderFactory.getDataProvider(File(settings.wzPath + "/Character.wz"))
     private val stringData = DataProviderFactory.getDataProvider(File(settings.wzPath + "/String.wz"))

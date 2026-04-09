@@ -1,7 +1,7 @@
 package client
 
 import constants.skills.*
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import provider.Data
 import provider.DataProvider
 import provider.DataProviderFactory
@@ -23,7 +23,9 @@ class SkillFactory {
      * It includes methods for retrieving skill data, skill names, loading skills, and more.
      * This object utilizes a data source to load skill information dynamically.
      */
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
+
         /**
          * A mutable map that associates an integer key with a corresponding [Skill] object.
          * This map is used to manage a collection of skills that can be accessed or modified

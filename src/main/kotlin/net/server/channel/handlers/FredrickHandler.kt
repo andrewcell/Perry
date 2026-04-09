@@ -6,7 +6,7 @@ import client.inventory.InventoryType
 import client.inventory.Item
 import client.inventory.ItemFactory
 import database.InventoryItems
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
@@ -48,7 +48,9 @@ class FredrickHandler : AbstractPacketHandler() {
         }
     }
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
+
         private fun checkFredrick(chr: Character, items: List<Pair<Item, InventoryType>>): Boolean {
             if (chr.meso.get() + chr.merchantMeso < 0) return false
             items.forEach { (item, _) ->

@@ -1,8 +1,8 @@
 package server.maps
 
 import database.PlayerNpcs
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
-import mu.KLogging
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.select
 import org.jetbrains.exposed.v1.jdbc.selectAll
@@ -221,7 +221,8 @@ class MapFactory(val source: DataProvider, stringSource: DataProvider, val world
 
     fun isMapLoaded(mapId: Int) = maps.containsKey(mapId)
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         val customLife = mutableMapOf<Int, List<AbstractLoadedLife>>()
 
         private fun loadLife(id: Int, f: Int, hide: Boolean, fh: Int, cy: Int, rx0: Int, rx1: Int, x: Int, y: Int, type: String, mTime: Int): AbstractLoadedLife? {

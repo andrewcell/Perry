@@ -6,7 +6,7 @@ import client.CharacterNameAndId
 import client.Client
 import database.Buddies
 import database.Characters
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
@@ -19,6 +19,8 @@ import tools.packet.InteractPacket
 import java.sql.SQLException
 
 class BuddyListModifyHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     private fun getCharacterIdAndNameFromDatabase(name: String): CharacterIdNameBuddyCapacity? {
         var ret: CharacterIdNameBuddyCapacity? = null
         try {
@@ -164,7 +166,7 @@ class BuddyListModifyHandler : AbstractPacketHandler() {
         }
     }
 
-    companion object : KLogging() {
+    companion object {
         class CharacterIdNameBuddyCapacity(id: Int, name: String, val buddyCapacity: Int) : CharacterNameAndId(id, name)
     }
 }

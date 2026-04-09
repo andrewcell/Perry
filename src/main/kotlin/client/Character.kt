@@ -8,8 +8,8 @@ import constants.ItemConstants
 import constants.ServerConstants
 import constants.skills.*
 import database.*
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Job
-import mu.KLogging
 import net.server.PlayerBuffValueHolder
 import net.server.PlayerCoolDownValueHolder
 import net.server.Server
@@ -77,7 +77,14 @@ class Character(
     var client: Client,
 ) : AbstractAnimatedMapObject() {
     /**
-     *
+     * Logger instance for the current class, using [KotlinLogging].
+     * Provides structured logging capabilities with support for dynamic log levels and contextual information.
+     */
+    private val logger = KotlinLogging.logger {  }
+
+    /**
+     * Indicates whether the user is currently logged in to the game.
+     * This property is initially `false` and should be updated when authentication state changes.
      */
     var loggedIn = false
     /**
@@ -91,35 +98,48 @@ class Character(
      * or asset with a book.
      */
     var bookCover = 0
+
     /**
-     *
+     * The ID of the currently marked monster in the game world.
+     * Used to track which monster the character has targeted or is interacting with.
+     * A value of 0 indicates no monster is currently marked.
      */
     var markedMonster = 0
+
     /**
+     *
      * Represents the hit points (HP) of a battleship in the game.
      * This variable tracks the current health status of the battleship.
      * A value of 0 indicates the battleship has been destroyed.
      */
     var battleshipHp = 0
+
     /**
-     *
+     * The current text displayed on the character's chalkboard in the game world.
+     * Used for player communication through a visual message board feature.
      */
     var chalkBoard = ""
+
     /**
      * Represents the amount of mesos that have been traded during a transaction or series of transactions.
      * This variable is used to track and store the total mesos exchanged.
      */
     var mesosTraded = 0
+
     /**
-     *
+     * The multiplier applied to experience gain during gameplay.
+     * A value of 2 means players earn double the base experience points.
      */
     var expRate = 2
+
     /**
      * Represents the meso rate value used within the application.
      * This variable holds a numerical value assigned by default to 1,
      * and can be modified where necessary to adjust the meso rate.
      */
+
     var mesoRate = 1
+
     /**
      * The drop rate represents a factor or percentage used to determine
      * the probability or frequency of items or events being dropped
@@ -129,23 +149,27 @@ class Character(
      * or systems where controlled randomness is required.
      */
     var dropRate = 1
+
     /**
      * Represents the total number of possible reports that can be generated or handled.
      * This variable acts as a limit or reference point for report-related functionalities.
      */
     var possibleReports = 10
+
     /**
      * Represents the initial spawn point in the application or game.
      * This variable is typically used to define the starting location
      * or position for an entity or player.
      */
     var initialSpawnPoint = 0
+
     /**
      * Represents the identifier or timestamp of the most recently used cash item.
      * This variable can be used to track the last utilized cash item in a system
      * where cash-related transactions or items are managed.
      */
     var lastUsedCashItem = 0L
+
     /**
      *
      */
@@ -4212,7 +4236,12 @@ class Character(
     /**
      * Companion object containing utility constants and functions for handling character and account operations.
      */
-    companion object : KLogging() {
+    companion object {
+        /**
+         * A logger instance using the [KotlinLogging] library, configured with default settings.
+         */
+        private val logger = KotlinLogging.logger {  }
+
         /**
          * A constant string template used to announce and celebrate a user reaching level 200.
          *
@@ -4220,142 +4249,21 @@ class Character(
          * It is formatted to convey a congratulatory message when a user achieves this milestone.
          */
         const val LEVEL_200 = "[축하] %s님이 레벨 200을 달성했습니다. 모두 축하해 주세요."
-        /**
-         *
-         */
+
         val DEFAULT_KEY = arrayOf(
-            18,
-            65,
-            2,
-            23,
-            3,
-            4,
-            5,
-            6,
-            16,
-            17,
-            19,
-            25,
-            26,
-            27,
-            31,
-            34,
-            35,
-            37,
-            38,
-            40,
-            43,
-            44,
-            45,
-            46,
-            50,
-            56,
-            59,
-            60,
-            61,
-            62,
-            63,
-            64,
-            57,
-            48,
-            29,
-            7,
-            24,
-            33,
-            41,
-            39
+            18, 65, 2, 23, 3, 4, 5, 6, 16, 17, 19, 25, 26, 27, 31, 34,
+            35, 37, 38, 40, 43, 44, 45, 46, 50, 56, 59, 60, 61, 62,
+            63, 64, 57, 48, 29, 7, 24, 33, 41, 39
         )
-        /**
-         * A predefined array of integers representing constant default values.
-         * These values may be used as a reference or configuration in specific contexts
-         * where a predefined pattern or set of defaults is needed.
-         */
+
         val DEFAULT_TYPE = arrayOf(
-            4,
-            6,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            5,
-            5,
-            4,
-            4,
-            5,
-            6,
-            6,
-            6,
-            6,
-            6,
-            6,
-            5,
-            4,
-            5,
-            4,
-            4,
-            4,
-            4,
-            4
+            4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+            4, 4, 4, 4, 5, 5, 4, 4, 5, 6, 6, 6, 6, 6, 6, 5, 4, 5, 4, 4, 4, 4, 4
         )
-        /**
-         *
-         */
-        val DEFAULT_ACTION = arrayOf(
-            0,
-            106,
-            10,
-            1,
-            12,
-            13,
-            18,
-            24,
-            8,
-            5,
-            4,
-            19,
-            14,
-            15,
-            2,
-            17,
-            11,
-            3,
-            20,
-            16,
-            9,
-            50,
-            51,
-            6,
-            7,
-            53,
-            100,
-            101,
-            102,
-            103,
-            104,
-            105,
-            54,
-            22,
-            52,
-            21,
-            25,
-            26,
-            23,
-            27
+
+        val DEFAULT_ACTION = arrayOf(0, 106, 10, 1, 12, 13, 18,
+            24, 8, 5, 4, 19, 14, 15, 2, 17, 11, 3, 20, 16, 9, 50, 51, 6, 7,
+            53, 100, 101, 102, 103, 104, 105, 54, 22, 52, 21, 25, 26, 23, 27
         )
 
         /**
@@ -4402,7 +4310,9 @@ class Character(
         }
 
         /**
-         *
+         * Checks if the given [name] is available based on length constraints or existing ID lookup.
+         * @param name The string to validate for availability.
+         * @return true if the byte size of [name] is between 3 and 13 (inclusive), or if [getIdByName] returns a valid ID; false otherwise.
          */
         fun checkNameAvailable(name: String) = name.toByteArray().size in 3..13 || getIdByName(name) != -1
 
@@ -4476,7 +4386,13 @@ class Character(
         }
 
         /**
+         * Loads a character's data from the database using the provided identifier and initializes its state.
          *
+         * @param charId The unique identifier of the character to load.
+         * @param client The [Client] instance associated with the character, used for server context and world/channel information.
+         * @param channelServer A flag indicating whether this method is invoked in a channel server context; affects initialization logic such as map assignment and party membership.
+         *
+         * @return The loaded [Character] instance if found and initialized successfully, or null otherwise.
          */
         fun loadCharFromDatabase(charId: Int, client: Client, channelServer: Boolean): Character? {
             try {

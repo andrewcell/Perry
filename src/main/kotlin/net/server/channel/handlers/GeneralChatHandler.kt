@@ -3,12 +3,14 @@ package net.server.channel.handlers
 //import client.command.Commands
 import client.Client
 import client.command.Commands
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.InteractPacket
 
 class GeneralChatHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val chatSize = slea.readShort()
         val s = slea.readASCIIString(chatSize.toInt())
@@ -78,6 +80,4 @@ class GeneralChatHandler : AbstractPacketHandler() {
             logger.error(e) { "Error caused handle general chat." }
         }
     }
-
-    companion object : KLogging()
 }

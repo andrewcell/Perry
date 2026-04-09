@@ -5,7 +5,7 @@ import client.inventory.InventoryType
 import client.inventory.Item
 import client.inventory.ItemFactory
 import database.Storages
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.insert
@@ -16,6 +16,7 @@ import tools.packet.CharacterPacket
 import java.sql.SQLException
 
 class Storage(val id: Int, var slots: Byte, var meso: Int) {
+    private val logger = KotlinLogging.logger {  }
     val items = mutableListOf<Item>()
     private val typeItems = mutableMapOf<InventoryType, List<Item>>()
 
@@ -115,7 +116,9 @@ class Storage(val id: Int, var slots: Byte, var meso: Int) {
 
     fun close() = typeItems.clear()
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
+
         fun loadOrCreateFromDb(id: Int, world: Int): Storage? {
             var storeId: Int
             var ret: Storage? = null

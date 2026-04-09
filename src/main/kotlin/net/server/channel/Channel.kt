@@ -1,6 +1,7 @@
 package net.server.channel
 
 import client.Character
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.ChannelOption
@@ -8,8 +9,6 @@ import io.netty.channel.EventLoopGroup
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
-import mu.KLoggable
-import mu.KLogging
 import net.ServerHandler
 import net.netty.PacketDecoder
 import net.netty.PacketEncoder
@@ -27,8 +26,8 @@ import tools.packet.InteractPacket
 import java.io.File
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
-class Channel(val world: Int, val channelId: Int) : KLoggable {
-    override val logger = logger()
+class Channel(val world: Int, val channelId: Int) {
+    private val logger = KotlinLogging.logger {  }
     var port = 7575
     val players = PlayerStorage()
     var ip = ""
@@ -146,6 +145,4 @@ class Channel(val world: Int, val channelId: Int) : KLoggable {
             mapFactory.maps.values.forEach { it.respawn() }
         }
     }
-
-    companion object : KLogging()
 }

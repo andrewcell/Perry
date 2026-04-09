@@ -2,7 +2,7 @@ package net.server.channel.handlers
 
 import client.Client
 import database.NXCodes
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.selectAll
@@ -19,8 +19,8 @@ import java.sql.SQLException
  * 2 : M. Point
  * 4 : Actual item
  */
-class CouponCodeHandler : AbstractPacketHandler(), KLoggable {
-    override val logger = logger()
+class CouponCodeHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
 
     fun getNXCode(code: String, type: String): Int {
         var item = -1

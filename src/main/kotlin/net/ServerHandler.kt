@@ -2,10 +2,10 @@ package net
 
 import client.Client
 import constants.ServerConstants
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import kotlinx.coroutines.runBlocking
-import mu.KLogging
 import net.server.Server
 import tools.*
 import tools.data.input.ByteArrayByteStream
@@ -17,6 +17,7 @@ import java.util.*
 import kotlin.random.Random
 
 class ServerHandler(val world: Int = -1, val channel: Int = -1) : SimpleChannelInboundHandler<SeekableLittleEndianAccessor>() {
+    private val logger = KotlinLogging.logger {  }
     private val processor = PacketProcessor.getProcessor(world, channel)
 
     override fun exceptionCaught(ctx: ChannelHandlerContext?, cause: Throwable?) {
@@ -104,7 +105,7 @@ class ServerHandler(val world: Int = -1, val channel: Int = -1) : SimpleChannelI
         }
     }
 
-    companion object : KLogging() {
+    companion object {
         fun initiate() {
             val blocked = EnumSet.noneOf(RecvPacketOpcode::class.java)
             val sBlocked = EnumSet.noneOf(RecvPacketOpcode::class.java)

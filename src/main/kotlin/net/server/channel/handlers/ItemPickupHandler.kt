@@ -2,7 +2,6 @@ package net.server.channel.handlers
 
 import client.Client
 import client.autoban.AutobanFactory
-import mu.KLogging
 import net.AbstractPacketHandler
 import server.InventoryManipulator.Companion.addFromDrop
 import server.maps.MapItem
@@ -96,6 +95,4 @@ class ItemPickupHandler : AbstractPacketHandler() {
             }
         }
     }
-
-    companion object : KLogging()
 }

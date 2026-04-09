@@ -2,7 +2,7 @@ package scripting.event
 
 import client.Character
 import database.EventStats
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.server.world.Party
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
@@ -15,8 +15,8 @@ import tools.ServerJSON
 import java.io.File
 import java.util.*
 
-class EventInstanceManager(private val em: EventManager, val name: String) : KLoggable {
-    override val logger = logger()
+class EventInstanceManager(private val em: EventManager, val name: String) {
+    private val logger = KotlinLogging.logger {  }
     private val chars = mutableListOf<Character>()
     val mobs = mutableListOf<Monster>()
     private val killCount = mutableMapOf<Character, Int>()

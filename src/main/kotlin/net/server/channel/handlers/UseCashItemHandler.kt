@@ -5,7 +5,7 @@ import client.inventory.InventoryType
 import client.inventory.Item
 import constants.ExpTable
 import constants.ItemConstants
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import net.server.Server
 import scripting.npc.NPCScriptManager
@@ -17,8 +17,8 @@ import tools.PacketCreator
 import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.*
 
-class UseCashItemHandler : AbstractPacketHandler(), KLoggable {
-    override val logger = logger()
+class UseCashItemHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
 
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val player = c.player ?: return

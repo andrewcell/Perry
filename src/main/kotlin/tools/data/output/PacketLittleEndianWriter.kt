@@ -1,6 +1,6 @@
 package tools.data.output
 
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.SendPacketOpcode
 import tools.HexTool
 import tools.ServerJSON
@@ -14,6 +14,8 @@ import java.io.ByteArrayOutputStream
  * @param size The initial size of the underlying byte array buffer. Defaults to 32.
  */
 class PacketLittleEndianWriter(val size: Int = 32) : GenericLittleEndianWriter() {
+    private val logger = KotlinLogging.logger {  }
+
     /**
      * A `ByteArrayOutputStream` instance used as an underlying buffer for
      * constructing packets in little-endian format. The buffer size is initialized
@@ -55,16 +57,4 @@ class PacketLittleEndianWriter(val size: Int = 32) : GenericLittleEndianWriter()
         }
         return baos.toByteArray()
     }
-
-    /**
-     * Companion object for the `PacketLittleEndianWriter` class.
-     *
-     * Implements logging functionality by inheriting from `KLogging`.
-     * This allows the use of the logger to record information, debug messages,
-     * and other logging capabilities specific to the `PacketLittleEndianWriter` context.
-     *
-     * The logger is used within the class primarily to log data being sent
-     * when constructing and retrieving a packet in `getPacket()`.
-     */
-    companion object : KLogging()
 }

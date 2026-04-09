@@ -3,8 +3,8 @@ package tools
 import client.*
 import client.inventory.*
 import client.status.MonsterStatus
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.utils.io.*
-import mu.KLogging
 import net.SendPacketOpcode
 import server.*
 import server.maps.*
@@ -18,7 +18,8 @@ import java.util.*
 import kotlin.random.Random
 
 class PacketCreator {
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         val EMPTY_STATUPDATE = emptyList<Pair<CharacterStat, Int>>()
         private const val FT_UT_OFFSET = 116444592000000000L // EDT
         private const val DEFAULT_TIME = 150842304000000000L //00 80 05 BB 46 E6 17 02

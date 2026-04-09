@@ -1,6 +1,6 @@
 package provider.wz
 
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import provider.Data
 import provider.DataDirectoryEntry
 import provider.DataProvider
@@ -8,6 +8,7 @@ import tools.data.input.*
 import java.io.*
 
 class WZFile(private val wzFile: File, private val provideImages: Boolean) : DataProvider {
+    private val logger = KotlinLogging.logger {  }
     private val lea = GenericLittleEndianAccessor(InputStreamByteStream(BufferedInputStream(FileInputStream(wzFile))))
     val slea: SeekableLittleEndianAccessor
     override val root: WZDirectoryEntry
@@ -97,7 +98,7 @@ class WZFile(private val wzFile: File, private val provideImages: Boolean) : Dat
         return null
     }
 
-    companion object : KLogging() {
+    companion object {
         init {
             ListWZFile.init()
         }

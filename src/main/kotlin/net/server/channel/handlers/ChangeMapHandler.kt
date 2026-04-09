@@ -2,7 +2,7 @@ package net.server.channel.handlers
 
 import client.Client
 import client.inventory.InventoryType
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import server.InventoryManipulator
 import tools.PacketCreator
@@ -12,6 +12,8 @@ import tools.packet.LoginPacket
 import java.net.InetAddress
 
 class ChangeMapHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         c.player?.let { chr ->
             if (chr.banned) return
@@ -92,6 +94,4 @@ class ChangeMapHandler : AbstractPacketHandler() {
             }
         }
     }
-
-    companion object : KLogging()
 }

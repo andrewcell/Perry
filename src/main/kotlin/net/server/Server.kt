@@ -5,6 +5,7 @@ import constants.ServerConstants
 import database.*
 import gm.GMPacketCreator
 import gm.server.GMServer
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.ChannelOption
@@ -14,7 +15,6 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.timeout.IdleStateHandler
 import kotlinx.coroutines.Runnable
-import mu.KLoggable
 import net.ServerHandler
 import net.netty.PacketDecoder
 import net.netty.PacketEncoder
@@ -39,8 +39,8 @@ import webapi.WebApiApplication
 import java.util.*
 import kotlin.system.exitProcess
 
-object Server : Runnable, KLoggable {
-    override val logger = logger()
+object Server : Runnable {
+    private val logger = KotlinLogging.logger {  }
     val channels = mutableListOf<MutableMap<Int, String>>()
     val worlds = mutableListOf<World>()
     private val worldRecommendedList = mutableListOf<Pair<Int, Boolean>>()

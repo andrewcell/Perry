@@ -2,7 +2,7 @@ package server.maps
 
 import client.Client
 import database.PlayerNpcsEquip
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.select
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
@@ -24,8 +24,8 @@ class PlayerNPCs(
     val rx0: Int,
     val rx1: Int,
     x: Int
-) : AbstractMapObject(), KLoggable {
-    override val logger = logger()
+) : AbstractMapObject() {
+    private val logger = KotlinLogging.logger {  }
     val equips = mutableMapOf<Byte, Int>()
 
     init {

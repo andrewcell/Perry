@@ -4,7 +4,7 @@ import client.BuddyList
 import client.BuddyListEntry
 import client.Character
 import database.Characters
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.server.PlayerStorage
 import net.server.Server
 import net.server.channel.Channel
@@ -23,6 +23,7 @@ import java.sql.SQLException
 import java.util.concurrent.atomic.AtomicInteger
 
 class World(val id: Int, var flag: Int, var eventMessage: String, var expRate: Int, var dropRate: Int, var mesoRate: Int, val bossDropRate: Int) {
+    private val logger = KotlinLogging.logger {  }
     val channels = mutableListOf<Channel>()
     private val parties = mutableMapOf<Int, Party>()
     private val runningPartyId = AtomicInteger()
@@ -376,6 +377,4 @@ class World(val id: Int, var flag: Int, var eventMessage: String, var expRate: I
         }
         return true
     }
-
-    companion object : KLogging()
 }

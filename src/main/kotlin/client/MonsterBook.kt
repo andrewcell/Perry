@@ -1,7 +1,7 @@
 package client
 
 import database.MonsterBooks
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
@@ -14,6 +14,8 @@ import kotlin.math.max
 import kotlin.math.sqrt
 
 class MonsterBook {
+    private val logger = KotlinLogging.logger {  }
+
     private var specialCard = 0
     private var normalCard = 0
     private var bookLevel = 1
@@ -85,6 +87,4 @@ class MonsterBook {
             logger.error(e) { "Failed to save monster cards to database." }
         }
     }
-
-    companion object : KLogging()
 }

@@ -1,13 +1,13 @@
 package tools.data.input
 
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import java.io.InputStream
 
 /**
  * Provides an abstract wrapper to a stream of bytes.
  */
-class InputStreamByteStream(val stream: InputStream) : ByteInputStream, KLoggable {
-    override val logger = logger()
+class InputStreamByteStream(val stream: InputStream) : ByteInputStream {
+    private val logger = KotlinLogging.logger {  }
     override var bytesRead = 0L
 
     /**

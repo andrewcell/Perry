@@ -3,7 +3,7 @@ package net.server.channel.handlers
 import client.Character
 import client.Client
 import client.inventory.InventoryType
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import server.CashShop
 import server.InventoryManipulator
@@ -13,6 +13,8 @@ import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.CashPacket
 
 class CashOperationHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val chr = c.player ?: return
         val cs = chr.cashShop
@@ -149,7 +151,7 @@ class CashOperationHandler : AbstractPacketHandler() {
         }
     }
 
-    companion object : KLogging() {
+    companion object {
         fun canBuy(item: CashShop.CashItem?, cash: Int) = item != null && item.onSale && item.price <= cash
 
         data class SimpleCharacterInfo(var id: Int, var accountId: Int, var name: String)

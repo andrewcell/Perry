@@ -5,7 +5,7 @@ import client.Client
 import client.SkillFactory
 import client.inventory.InventoryType
 import database.DueyPackages
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import net.server.Server
 import net.server.world.PartyOperation
@@ -20,6 +20,8 @@ import tools.packet.*
 import java.sql.SQLException
 
 class PlayerLoggedInHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun validateState(c: Client) = !c.loggedIn
 
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
@@ -130,6 +132,4 @@ class PlayerLoggedInHandler : AbstractPacketHandler() {
             logger.info { "Account(${c.accountName}), User(${player.name}) is entered game. World: ${world.id}, Channel: ${chServ.channelId}" }
         }
     }
-
-    companion object : KLogging()
 }

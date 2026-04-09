@@ -4,8 +4,8 @@ import client.Client
 import client.inventory.InventoryType
 import client.inventory.Pet
 import constants.ItemConstants
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
-import mu.KLogging
 import tools.PacketCreator
 import tools.ResourceFile
 import tools.packet.InteractPacket
@@ -19,6 +19,7 @@ class Shop(val id: Int, val npcId: Int) {
     private val items = mutableListOf<ShopItem>()
     private val token = 4000313
     private val tokenValue = 1000000000
+    private val logger = KotlinLogging.logger {  }
 
     fun addItem(item: ShopItem) = items.add(item)
 
@@ -148,7 +149,8 @@ class Shop(val id: Int, val npcId: Int) {
         }
     }
 
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         private val rechargeableItems = mutableSetOf<Int>()
 
         init {

@@ -1,7 +1,7 @@
 package net.server.channel.handlers
 
 import client.Client
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import net.server.Server.buffStorage
 import tools.PacketCreator
@@ -9,6 +9,8 @@ import tools.data.input.SeekableLittleEndianAccessor
 import tools.packet.CashPacket
 
 class EnterCashShopHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val mc = c.player ?: return
         try {
@@ -36,6 +38,4 @@ class EnterCashShopHandler : AbstractPacketHandler() {
             logger.error(e) { "Error caused when handling EnterCashShop. Player: ${mc.name}" }
         }
     }
-
-    companion object : KLogging()
 }

@@ -2,7 +2,7 @@ package net.server.channel.handlers
 
 import client.Character
 import client.Client
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import net.server.Server
 import net.server.guild.Guild
@@ -12,6 +12,7 @@ import tools.packet.GuildPacket
 import tools.packet.InteractPacket
 
 class GuildOperationHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
     private val invited = mutableListOf<Invited>()
     private var nextPruneTime = System.currentTimeMillis() + 20 * 60 * 1000
 
@@ -181,6 +182,4 @@ class GuildOperationHandler : AbstractPacketHandler() {
             }
         }
     }
-
-    companion object : KLogging()
 }

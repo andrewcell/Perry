@@ -4,7 +4,6 @@ import client.Character
 import client.CharacterStat
 import client.Client
 import client.GameJob
-import mu.KLogging
 import net.AbstractPacketHandler
 import tools.PacketCreator
 import tools.data.input.SeekableLittleEndianAccessor
@@ -25,7 +24,7 @@ class DistributeAPHandler : AbstractPacketHandler() {
         }
     }
 
-    companion object : KLogging() {
+    companion object {
         const val max = 999
 
         fun addStat(c: Client, id: Int): Boolean {

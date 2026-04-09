@@ -1,7 +1,7 @@
 package net.server.handlers.login
 
 import client.Client
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import net.server.Server
 import tools.data.input.SeekableLittleEndianAccessor
@@ -9,8 +9,9 @@ import tools.packet.LoginPacket
 import java.net.InetAddress
 import java.net.UnknownHostException
 
-class CharSelectedHandler : AbstractPacketHandler(), KLoggable {
-    override val logger = logger()
+class CharSelectedHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val charId = slea.readInt()
         c.idleTask?.cancel()

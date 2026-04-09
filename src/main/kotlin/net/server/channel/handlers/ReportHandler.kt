@@ -3,7 +3,7 @@ package net.server.channel.handlers
 import client.Character
 import client.Client
 import database.Reports
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.AbstractPacketHandler
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
@@ -13,6 +13,8 @@ import tools.packet.InteractPacket
 import java.sql.SQLException
 
 class ReportHandler : AbstractPacketHandler() {
+    private val logger = KotlinLogging.logger {  }
+
     override fun handlePacket(slea: SeekableLittleEndianAccessor, c: Client) {
         val type = slea.readByte() // 01 = Conversation claim, 00 = illegal program
         val victim = slea.readGameASCIIString()
@@ -72,6 +74,4 @@ class ReportHandler : AbstractPacketHandler() {
             logger.error(e) { "Failed to add report to database." }
         }
     }
-
-    companion object : KLogging()
 }

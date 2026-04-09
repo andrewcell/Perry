@@ -1,6 +1,6 @@
 package provider.wz
 
-import mu.KLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import tools.data.input.LittleEndianAccessor
 import tools.data.input.SeekableLittleEndianAccessor
 import javax.crypto.Cipher
@@ -8,7 +8,8 @@ import javax.crypto.spec.SecretKeySpec
 import kotlin.experimental.xor
 
 class WZTool {
-    companion object : KLogging() {
+    companion object {
+        private val logger = KotlinLogging.logger {  }
         val encKey: ByteArray
 
         init {

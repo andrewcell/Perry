@@ -1,6 +1,6 @@
 package provider.wz
 
-import mu.KLoggable
+import io.github.oshai.kotlinlogging.KotlinLogging
 import tools.data.input.GenericSeekableLittleEndianAccessor
 import tools.data.input.RandomAccessByteStream
 import tools.data.input.SeekableLittleEndianAccessor
@@ -10,8 +10,8 @@ import java.io.File
 import java.io.OutputStream
 import java.io.RandomAccessFile
 
-class WZIMGFile(wzFile: File, val file: WZFileEntry, val provideImages: Boolean, val modernImg: Boolean) : KLoggable {
-    override val logger = logger()
+class WZIMGFile(wzFile: File, val file: WZFileEntry, val provideImages: Boolean, val modernImg: Boolean) {
+    private val logger = KotlinLogging.logger {  }
     val root = file.parent?.let { WZIMGEntry(it, file.name, DataType.EXTENDED) }
 
     init {
