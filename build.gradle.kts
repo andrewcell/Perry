@@ -42,7 +42,7 @@ dependencies {
     implementation("com.h2database:h2:2.4.240")
     implementation("ch.qos.logback:logback-classic:1.5.25")
     implementation("org.bouncycastle:bcprov-jdk18on:1.83")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.7")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.8")
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-server-auth:$ktorVersion")
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
