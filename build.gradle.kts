@@ -6,7 +6,7 @@ import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.3.0"
+    kotlin("jvm") version "2.3.20"
     id("org.jetbrains.dokka") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.3.0"
     id("idea")
