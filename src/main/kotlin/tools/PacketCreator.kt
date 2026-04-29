@@ -1,20 +1,19 @@
 package tools
 
 import client.*
-import client.inventory.*
 import client.status.MonsterStatus
 import io.github.oshai.kotlinlogging.KotlinLogging
-import io.ktor.utils.io.*
 import net.SendPacketOpcode
-import server.*
-import server.maps.*
+import server.DueyPackages
+import server.MiniGame
+import server.PlayerShop
+import server.maps.GameMap
 import tools.HexTool.Companion.getByteArrayFromHexString
 import tools.data.output.PacketLittleEndianWriter
 import tools.packet.CharacterPacket
 import tools.packet.ItemPacket.Companion.addItemInfo
 import java.lang.Double.doubleToLongBits
 import java.sql.SQLException
-import java.util.*
 import kotlin.random.Random
 
 class PacketCreator {
@@ -26,6 +25,14 @@ class PacketCreator {
         const val ZERO_TIME = 94354848000000000L //00 40 E0 FD 3B 37 4F 01
         private const val PERMANENT = 150841440000000000L // 00 C0 9B 90 7D E5 17 02
 
+        /**
+         * Creates a packet using a DSL-style builder pattern.
+         *
+         * @param code The SendPacketOpcode to use for this packet (optional)
+         * @param size Initial size of the packet buffer (default: 32 bytes)
+         * @param lew Lambda function that builds the packet content
+         * @return The constructed packet as a ByteArray
+         */
         fun packetWriter(code: SendPacketOpcode? = null, size: Int = 32, lew: PacketLittleEndianWriter.() -> Unit): ByteArray {
             return PacketLittleEndianWriter(size).apply {
                 code?.let { opcode(it) }
@@ -33,6 +40,17 @@ class PacketCreator {
             }.getPacket()
         }
 
+        /**
+         * Adds an announcement box for a mini-game.
+         *
+         * @param game The MiniGame to announce (null will create an empty packet)
+         * @param gameType The type of game
+         * @param locker The locker number (optional)
+         * @param type The announcement type
+         * @param amMount The amount value
+         * @param joinable Whether the game is joinable
+         * @return The announcement box packet as a ByteArray
+         */
         fun addAnnounceBox(
             game: MiniGame?,
             gameType: Int,
@@ -53,11 +71,11 @@ class PacketCreator {
         }
 
         /**
-         * Adds a announcement box to an existing PacketLittleEndianWriter.
+         * Adds an announcement box for a player shop to an existing PacketLittleEndianWriter.
          *
-         * @param lew The PacketLittleEndianWriter to add an announcement box
-         * to.
-         * @param shop The shop to announce.
+         * @param lew The PacketLittleEndianWriter to add an announcement box to
+         * @param shop The shop to announce (returns early if null)
+         * @param availability The availability status of the shop
          */
         fun addAnnounceBox(lew: PacketLittleEndianWriter, shop: PlayerShop?, availability: Int) {
             if (shop == null) return
@@ -219,6 +237,15 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Creates a keymap packet containing the player's key bindings.
+         *
+         * Iterates through all 90 key positions (0-89) and writes the binding type and action
+         * for each key. If a key has no binding, writes zeros for both type and action.
+         *
+         * @param keybindings Map of key positions (0-89) to their corresponding KeyBinding objects
+         * @return The keymap packet as a ByteArray containing all key bindings
+         */
         fun getKeyMap(keybindings: Map<Int, KeyBinding>): ByteArray {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.KEYMAP.value)
@@ -236,6 +263,13 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Calculates a long mask from a list of Disease status updates.
+         *
+         * @param E Generic type parameter
+         * @param statUps List of Disease and value pairs
+         * @return The calculated long mask value
+         */
         fun <E> getLongMaskD(statUps: List<Pair<Disease, Int>>): Long {
             var mask: Long = 0
             for ((first) in statUps) {
@@ -256,7 +290,18 @@ class PacketCreator {
             return lew.getPacket()
         }
 
-
+        /**
+         * Converts a real-world timestamp to the game's time format.
+         *
+         * Special values:
+         * - `-1L`: Returns DEFAULT_TIME
+         * - `-2L`: Returns ZERO_TIME
+         * - `-3L`: Returns PERMANENT
+         * - Otherwise: Converts the timestamp using FT_UT_OFFSET
+         *
+         * @param realTimestamp The timestamp in milliseconds, or a special value (-1, -2, -3)
+         * @return The converted time value for the game
+         */
         fun getTime(realTimestamp: Long): Long {
             return when (realTimestamp) {
                 -1L -> DEFAULT_TIME
@@ -288,6 +333,12 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Creates a guide hint packet.
+         *
+         * @param hint The hint ID to display
+         * @return The guide hint packet as a ByteArray
+         */
         fun guideHint(hint: Int): ByteArray {
             val lew = PacketLittleEndianWriter(11)
             lew.byte(SendPacketOpcode.TALK_GUIDE.value)
@@ -297,12 +348,23 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Creates a left knockback packet.
+         *
+         * @return The left knockback packet as a ByteArray
+         */
         fun leftKnockBack(): ByteArray {
             val lew = PacketLittleEndianWriter(2)
             lew.byte(SendPacketOpcode.LEFT_KNOCK_BACK.value)
             return lew.getPacket()
         }
 
+        /**
+         * Creates a packet to lock or unlock the UI.
+         *
+         * @param enable Whether to lock (true) or unlock (false) the UI
+         * @return The lock UI packet as a ByteArray
+         */
         fun lockUI(enable: Boolean): ByteArray {
             val lew = PacketLittleEndianWriter(3)
             lew.byte(SendPacketOpcode.LOCK_UI.value)
@@ -330,6 +392,12 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Creates a packet for remote channel change.
+         *
+         * @param ch The channel number to change to
+         * @return The remote channel change packet as a ByteArray
+         */
         fun remoteChannelChange(ch: Byte): ByteArray {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.ENTRUSTED_SHOP_CHECK_RESULT.value) // header.
@@ -371,12 +439,22 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Creates a packet to reset forced stats.
+         *
+         * @return The reset forced stats packet as a ByteArray
+         */
         fun resetForcedStats(): ByteArray {
             val lew = PacketLittleEndianWriter(2)
             lew.byte(SendPacketOpcode.FORCED_STAT_RESET.value)
             return lew.getPacket()
         }
 
+        /**
+         * Creates a packet to retrieve the first message.
+         *
+         * @return The retrieve first message packet as a ByteArray
+         */
         fun retrieveFirstMessage(): ByteArray {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.ENTRUSTED_SHOP_CHECK_RESULT.value) // header.
@@ -384,6 +462,13 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Creates a Duey parcel packet.
+         *
+         * @param operation The operation code (8 for sending packages)
+         * @param packages Optional list of DueyPackages to include in the packet
+         * @return The Duey packet as a ByteArray
+         */
         fun sendDuey(operation: Byte, packages: List<DueyPackages>? = null): ByteArray {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.PARCEL.value)
@@ -448,6 +533,12 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Creates a packet to notify about meso trading limits.
+         * Players under level 15 can only trade 1m per day.
+         *
+         * @return The meso limit packet as a ByteArray
+         */
         fun sendMesoLimit(): ByteArray {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.TRADE_MONEY_LIMIT.value) //Players under level 15 can only trade 1m per day
@@ -489,6 +580,12 @@ class PacketCreator {
             return lew.getPacket()
         }
 
+        /**
+         * Creates a yellow tip message packet.
+         *
+         * @param tip The tip message to display
+         * @return The yellow tip packet as a ByteArray
+         */
         fun sendYellowTip(tip: String): ByteArray {
             val lew = PacketLittleEndianWriter()
             lew.byte(SendPacketOpcode.SET_WEEK_EVENT_MESSAGE.value)
