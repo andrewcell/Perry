@@ -38,7 +38,7 @@ dependencies {
     //implementation("org.slf4j:slf4j-simple:1.7.26")
     implementation("com.microsoft.sqlserver:mssql-jdbc:13.4.0.jre11")
     implementation("org.postgresql:postgresql:42.7.9")
-    implementation("org.xerial:sqlite-jdbc:3.51.1.0")
+    implementation("org.xerial:sqlite-jdbc:3.51.3.0")
     implementation("com.h2database:h2:2.4.240")
     implementation("ch.qos.logback:logback-classic:1.5.25")
     implementation("org.bouncycastle:bcprov-jdk18on:1.83")
