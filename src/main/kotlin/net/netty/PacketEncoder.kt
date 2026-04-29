@@ -7,9 +7,31 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 import tools.ServerJSON
 
+/**
+ * Netty encoder that transforms outgoing byte array packets into encrypted network data.
+ *
+ * This encoder handles the encryption and framing of outgoing packets before they are
+ * sent to the game client. It supports both standard and modified client encryption modes
+ * based on server configuration.
+ *
+ * The encoding process includes:
+ * - Generating a packet header with size information
+ * - Encrypting the packet payload using the client's send cipher
+ * - Writing the complete framed packet to the output buffer
+ *
+ * If no client is associated with the channel (e.g., during initial handshake),
+ * the raw bytes are written directly without encryption.
+ */
 class PacketEncoder : MessageToByteEncoder<ByteArray>() {
     private val logger = KotlinLogging.logger {  }
 
+    /**
+     * Encodes an outgoing packet by encrypting it and adding the appropriate header.
+     *
+     * @param ctx The channel handler context, used to retrieve the associated client
+     * @param msg The raw packet data to be encoded and sent
+     * @param out The output buffer where the encoded packet will be written
+     */
     override fun encode(ctx: ChannelHandlerContext?, msg: ByteArray, out: ByteBuf) {
         val client = ctx?.channel()?.attr(Client.CLIENT_KEY)?.get()
         if (client != null) {

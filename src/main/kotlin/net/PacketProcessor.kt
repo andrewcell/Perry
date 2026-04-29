@@ -9,14 +9,40 @@ import net.server.handlers.KeepAliveHandler
 import net.server.handlers.LoginRequiringNoOpHandler
 import net.server.handlers.login.*
 
+/**
+ * Manages the registration and retrieval of packet handlers for processing incoming client packets.
+ *
+ * This class maintains an array of [PacketHandler] instances indexed by packet opcode,
+ * allowing efficient lookup of the appropriate handler for each incoming packet type.
+ * Different handlers are registered depending on whether the processor is used for
+ * the login server or a game channel server.
+ */
 class PacketProcessor {
+    /**
+     * Array of packet handlers indexed by packet opcode value.
+     * Each index corresponds to a [RecvPacketOpcode] value, and the element
+     * at that index is the handler responsible for processing that packet type.
+     */
     val handlers = arrayOfNulls<PacketHandler>(RecvPacketOpcode.values().maxOf { it.value } + 1)
 
+    /**
+     * Retrieves the packet handler for the specified packet opcode.
+     *
+     * @param packetId The opcode of the packet to find a handler for
+     * @return The [PacketHandler] registered for the given opcode, or `null` if
+     *         no handler is registered or the opcode is out of bounds
+     */
     fun getHandler(packetId: Short): PacketHandler? {
         if (packetId > handlers.size) return null
         return handlers[packetId.toInt()]
     }
 
+    /**
+     * Registers a packet handler for a specific opcode.
+     *
+     * @param code The receive packet opcode to register the handler for
+     * @param handler The handler that will process packets with the given opcode
+     */
     private fun registerHandler(code: RecvPacketOpcode, handler: PacketHandler) {
         try {
             handlers[code.value] = handler
@@ -25,6 +51,18 @@ class PacketProcessor {
         }
     }
 
+    /**
+     * Initializes and registers all packet handlers based on the channel type.
+     *
+     * For login servers (channel < 0), registers handlers for authentication,
+     * character selection, and character creation packets.
+     *
+     * For game channel servers (channel >= 0), registers handlers for gameplay
+     * packets including movement, combat, items, social features, and more.
+     *
+     * @param channel The channel number. A negative value indicates a login server,
+     *                while zero or positive values indicate a game channel server.
+     */
     fun reset(channel: Int) {
         registerHandler(PONG, KeepAliveHandler())
         registerHandler(CUSTOM_PACKET, CustomPacketHandler())
@@ -167,6 +205,17 @@ class PacketProcessor {
     companion object {
         private val instances = mutableMapOf<String, PacketProcessor>()
 
+        /**
+         * Retrieves or creates a [PacketProcessor] instance for the specified world and channel.
+         *
+         * Processor instances are cached and reused based on the world-channel combination.
+         * If no processor exists for the given combination, a new one is created and initialized
+         * with the appropriate handlers for that channel type.
+         *
+         * @param world The world ID
+         * @param channel The channel ID. A negative value indicates a login server.
+         * @return The [PacketProcessor] instance for the specified world and channel
+         */
         @Synchronized fun getProcessor(world: Int, channel: Int): PacketProcessor {
             val worldChannelPair = "$world$channel"
             var processor = instances[worldChannelPair]
